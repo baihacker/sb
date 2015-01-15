@@ -113,8 +113,13 @@ def generate_compile_cmd(compiler, instruction, files, output, is_debug):
   elif not is_debug and 'release_flags' in instruction:
     variables['EXTRA_COMPILE_ARGS'] = ' '.join(instruction['release_flags'])
 
-  cmd = ' '.join(expand_variable(y, variables) for y in instruction['compile_cmd'])
-  run = ' '.join(expand_variable(y, variables) for y in instruction['running_cmd'])
+  cmds = ['"'+instruction['compile_binary']+'"']
+  cmds.extend(instruction['compile_args'])
+  cmd = ' '.join(expand_variable(y, variables) for y in cmds)
+  
+  runs = ['"'+instruction['running_binary']+'"']
+  runs.extend(instruction['running_args'])
+  run = ' '.join(expand_variable(y, variables) for y in runs)
 
   return cmd, run, clean_files
 
