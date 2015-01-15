@@ -35,9 +35,6 @@ def load_compilers():
   return compilers
 
 def find_compiler(compilers, kv):
-  if not 'language' in kv:
-    raise 'must have language'
-
   language = kv['language']
   name = kv.get('name', '').lower()
   type = kv.get('type', '').lower()
@@ -89,7 +86,6 @@ def set_up_environment(compiler):
       os.environ[k] = realv
 
 def generate_compile_cmd(compiler, instruction, files, output, is_debug):
-
   variables = dict(compiler.get('variables', {}))
 
   clean_files = (os.path.splitext(x)[0]+'.obj' for x in files)
@@ -122,8 +118,25 @@ def generate_compile_cmd(compiler, instruction, files, output, is_debug):
 
   return cmd, run, clean_files
 
-def main(argv):
+def compile(files, output, language, is_debug):
+  # prepare compiler
+  compilers = load_compilers();
+  compiler,instruction = find_compiler(compilers, {'language': language})
   
+  if compiler == None:
+    raise Exception, 'no suitable compiler'
+  
+  cmd,run,clean_files = generate_compile_cmd(compiler, instruction, files, output, is_debug)
+  
+  # compile
+  set_up_environment(compiler)
+  print(cmd)
+  subprocess.call(cmd)
+  for x in clean_files:
+    if os.path.exists(x):
+      os.remove(x)
+      
+def main(argv):
   # parse cmdline
   output = ''
   files = []
@@ -143,7 +156,7 @@ def main(argv):
       is_debug = False
       i += 1
     elif argv[i].lower() == '-l':
-      language = argv[i+1]
+      language = argv[i+1].lower()
       i += 2
     else:
       files.append(argv[i])
@@ -155,20 +168,9 @@ def main(argv):
     if ext in ext2language:
       language = ext2language[ext]
     else:
-      raise 'unknown language'
+      raise Exception, 'unknown language'
 
-  # prepare compiler
-  compilers = load_compilers();
-  compiler,instruction = find_compiler(compilers, {'language': language})
-  cmd,run,clean_files = generate_compile_cmd(compiler, instruction, files, output, is_debug)
-  
-  # compile
-  set_up_environment(compiler)
-  print(cmd)
-  subprocess.call(cmd)
-  for x in clean_files:
-    if os.path.exists(x):
-      os.remove(x)
+  compile(files, output, language, is_debug)
   #print('Run:')
   #print(run)
   #subprocess.call(run)
