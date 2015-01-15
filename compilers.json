@@ -1,0 +1,47 @@
+[
+{
+"name" : "vc",
+"type" : "compiler",
+"arch" : "x86",
+"version" : "12.0",
+"variables" : {
+"VC_DIR": "D:\\DevSoft\\win_toolchain_2013e\\vs2013_files\\VC",
+"SDK_DIR": "D:\\DevSoft\\win_toolchain_2013e\\vs2013_files\\win8sdk",
+"RUN_TIME_DIR": "D:\\DevSoft\\win_toolchain_2013e\\vs2013_files\\sys32",
+},
+"env_var_keep" : {},
+"env_var_merge" :
+  {
+  "PATH" :
+        "$(VC_DIR)\\BIN;$(VC_DIR)\\VCPackages;$(RUN_TIME_DIR);",
+  "LIB" :
+        "$(VC_DIR)\\LIB;$(SDK_DIR)\\Lib\\win8\\um\\x86;",
+  "LIBPATH" :
+        "$(VC_DIR)\\LIB;",
+  "INCLUDE" :
+        "$(VC_DIR)\\INCLUDE;$(SDK_DIR)\\Include\\shared;$(SDK_DIR)\\Include\\um;D:\\baihacker\\usr\\include\\;"
+  },
+"env_var_replace" : {},
+"language_detail" : [
+  {
+    "language" : "c",
+    "compile_binary" : "$(VC_DIR)\\bin\\cl.exe",
+    "compile_args" : ["$(SOURCE_FILES)", "/Fe$(OUTPUT_FILE)", "/TC", "/Fo\"$(SOURCE_FILE_PATH_NO_EXT).obj\"", "$(EXTRA_COMPILE_ARGS)"],
+    "default_output_file" : "a.exe",
+    "running_binary" : "$(OUTPUT_FILE)",
+    "running_args" : [],
+    "debug_flags" : ['/Od /EHsc /openmp /Zi'],
+    "release_flags" : ['/Ox /arch:SSE2 /EHsc /openmp'],
+  },
+  {
+    "language" : "cpp",
+    "compile_binary" : "$(VC_DIR)\\bin\\cl.exe",
+    "compile_args" : ["$(SOURCE_FILES)", "/Fe\"$(OUTPUT_FILE)\"", "/TP", "/Fo\"$(SOURCE_FILE_PATH_NO_EXT).obj\"", "$(EXTRA_COMPILE_ARGS)"],
+    "default_output_file" : "a.exe",
+    "running_binary" : "$(OUTPUT_FILE)",
+    "running_args" : [],
+    "debug_flags" : ['/Od /EHsc /openmp /Zi'],
+    "release_flags" : ['/Ox /arch:SSE2 /EHsc /openmp'],
+  },],
+}
+]
