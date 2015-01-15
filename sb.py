@@ -13,7 +13,8 @@ CurrentDirectory = os.path.dirname(os.path.realpath(__file__))
 def find_config_file():
   compiler_file_name = 'compilers.json'
 
-  dirs = [CurrentDirectory, os.environ['APPDATA']]
+  dcfpe_dir = os.path.join(os.path.dirname(os.environ['APPDATA']), 'LocalLow\\dcfpe')
+  dirs = [CurrentDirectory, dcfpe_dir, os.environ['APPDATA']]
   dirs.extend(os.environ['PATH'].split(';'))
 
   for dir in dirs:
@@ -45,13 +46,13 @@ def find_compiler(compilers, kv):
     version = int(versions[0])
 
   for c in compilers:
-    if len(name) > 0 and kv['name'].lower() != name:
+    if len(name) > 0 and c['name'].lower() != name:
       continue
-    if len(type) > 0 and kv['type'].lower() != type:
+    if len(type) > 0 and c['type'].lower() != type:
       continue
-    if len(arch) > 0 and kv['arch'].lower() != arch:
+    if len(arch) > 0 and c['arch'].lower() != arch:
       continue
-    if version >= 0 and int(kv['version'].split('.')[0]) != version:
+    if version >= 0 and int(c['version'].split('.')[0]) != version:
       continue
     for instruction in c['language_detail']:
       if language in instruction['language'].split(','):
@@ -141,9 +142,13 @@ def compile(files, output, kv, is_debug):
     if os.path.exists(x):
       os.remove(x)
 
-def ext2language(ext):
+def detect_language(files):
   ext2language = {'.c':'c','.cpp':'cpp'}
-  return ext2language.get(ext, '')
+  for f in files:
+    ext = os.path.splitext(f)[1]
+    if ext in ext2language:
+      return ext2language[ext]
+  return ''
 
 def main(argv):
   # parse cmdline
@@ -172,7 +177,7 @@ def main(argv):
       i += 1
 
   if len(language) == 0:
-    language = ext2language(os.path.splitext(files[0])[1])
+    language = detect_language(files)
   if len(language) == 0:
     raise Exception, 'unknown language'
 

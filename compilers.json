@@ -1,5 +1,145 @@
 [
 {
+"name" : "mingw",
+"type" : "compiler",
+"arch" : "x64",
+"version" : "4.8.1",
+"variables" : {
+"ROOT_DIR": "D:\\DevSoft\\MinGW-w64_4.9.2\\mingw64",
+},
+"env_var_keep" : {},
+"env_var_merge" : {},
+"env_var_replace" : {},
+"language_detail" : [
+  {
+    "language" : "c",
+    "compile_binary" : "$(ROOT_DIR)\\bin\\gcc.exe",
+    "compile_args" : ["$(SOURCE_FILES)", "-o", "$(OUTPUT_FILE)", "$(EXTRA_COMPILE_ARGS)"],
+    "default_output_file" : "$(SOURCE_FILE_BASENAME_NO_EXT).exe",
+    "running_binary" : "$(OUTPUT_FILE)",
+    "running_args" : [],
+    "debug_flags" : ["-g -fopenmp"],
+    "release_flags" : ["-O3 -march=native -fopenmp"],
+  },
+  {
+    "language" : "cpp",
+    "compile_binary" : "$(ROOT_DIR)\\bin\\g++.exe",
+    "compile_args" : ["$(SOURCE_FILES)", "-o", "$(OUTPUT_FILE)", "--std=c++11","$(EXTRA_COMPILE_ARGS)"],
+    "default_output_file" : "$(SOURCE_FILE_BASENAME_NO_EXT).exe",
+    "running_binary" : "$(OUTPUT_FILE)",
+    "running_args" : [],
+    "debug_flags" : ["-g -fopenmp"],
+    "release_flags" : ["-O3 -march=native -fopenmp"],
+  },],
+},
+
+{
+"name" : "python",
+"type" : "interpreter",
+"arch" : "x86",
+"version" : "2.7.3",
+"variables" : {
+"ROOT_DIR": "C:\\python\\Python27",
+},
+"env_var_keep" : {},
+"env_var_merge" : {},
+"env_var_replace" : {},
+"language_detail" : [
+  {
+    "language" : "python",
+    "running_binary" : "$(ROOT_DIR)\\python.exe",
+    "running_args" : ["$(SOURCE_FILE_PATH)"],
+  },],
+},
+
+{
+"name" : "go",
+"type" : "compiler",
+"arch" : "x86",
+"version" : "1.4",
+"variables" : {
+"ROOT_DIR" : "D:\\DevSoft\\go",
+},
+"env_var_keep" : {},
+"env_var_merge" : {},
+"env_var_replace" : {
+    "GOROOT" : "D:\\DevSoft\\go",
+  },
+"language_detail" : [
+  {
+    "language" : "go",
+    "compile_binary" : "$(ROOT_DIR)\\bin\\go.exe",
+    "compile_args" : ["build", "-o", "$(OUTPUT_FILE)", "$(SOURCE_FILES)"],
+    "default_output_file" : "$(SOURCE_FILE_BASENAME_NO_EXT).exe",
+    "running_binary" : "$(OUTPUT_FILE)",
+    "running_args" : [],
+  },],
+},
+
+{
+"name" : "java",
+"type" : "compiler",
+"arch" : "x86",
+"version" : "1.7.0.45",
+"variables" : {
+"ROOT_DIR" : "D:\\DevSoft\\jdk1.7.0_45",
+},
+"env_var_keep" : {},
+"env_var_merge" : {},
+"env_var_replace" : {},
+"language_detail" : [
+  {
+    "language" : "java",
+    "compile_binary" : "$(ROOT_DIR)\\bin\\javac.exe",
+    "compile_args" : ["$(SOURCE_FILES)"],
+    "default_output_file" : "$(SOURCE_FILE_PATH_NO_EXT).class",
+    "running_binary" : "$(ROOT_DIR)\\bin\\java.exe",
+    "running_args" : ["-cp", "$(SOURCE_FILE_DIRNAME)", "$(SOURCE_FILE_BASENAME_NO_EXT)"],
+  },],
+},
+
+{
+"name" : "scala",
+"type" : "interpreter",
+"arch" : "x86",
+"version" : "2.11.4",
+"variables" : {
+"ROOT_DIR": "D:\\DevSoft\\scala",
+},
+"env_var_keep" : {},
+"env_var_merge" : {},
+"env_var_replace" : {},
+"language_detail" : [
+  {
+    "language" : "scala",
+    "running_binary" : "$(ROOT_DIR)\\bin\\scala.bat",
+    "running_args" : ["$(SOURCE_FILE_PATH)"],
+  },],
+},
+
+{
+"name" : "ghc",
+"type" : "compiler",
+"arch" : "x86",
+"version" : "2014.2.0.0",
+"variables" : {
+"ROOT_DIR" : "D:\\DevSoft\\Haskell Platform\\2014.2.0.0",
+},
+"env_var_keep" : {},
+"env_var_merge" : {"path":"D:\\DevSoft\\Haskell Platform\\2014.2.0.0\\bin"},
+"env_var_replace" : {},
+"language_detail" : [
+  {
+    "language" : "haskell",
+    "compile_binary" : "$(ROOT_DIR)\\bin\\ghc.exe",
+    "compile_args" : ["$(SOURCE_FILES)", "/-o", "$(OUTPUT_FILE)", "$(EXTRA_COMPILE_ARGS)"],
+    "default_output_file" : "$(SOURCE_FILE_BASENAME_NO_EXT).exe",
+    "running_binary" : "$(OUTPUT_FILE)",
+    "running_args" : [],
+  },],
+},
+
+{
 "name" : "vc",
 "type" : "compiler",
 "arch" : "x86",
@@ -30,8 +170,8 @@
     "default_output_file" : "a.exe",
     "running_binary" : "$(OUTPUT_FILE)",
     "running_args" : [],
-    "debug_flags" : ['/Od /EHsc /openmp /Zi'],
-    "release_flags" : ['/Ox /arch:SSE2 /EHsc /openmp'],
+    "debug_flags" : ["/Od /EHsc /openmp /Zi"],
+    "release_flags" : ["/Ox /arch:SSE2 /EHsc /openmp"],
   },
   {
     "language" : "cpp",
@@ -40,8 +180,9 @@
     "default_output_file" : "a.exe",
     "running_binary" : "$(OUTPUT_FILE)",
     "running_args" : [],
-    "debug_flags" : ['/Od /EHsc /openmp /Zi'],
-    "release_flags" : ['/Ox /arch:SSE2 /EHsc /openmp'],
+    "debug_flags" : ["/Od /EHsc /openmp /Zi"],
+    "release_flags" : ["/Ox /arch:SSE2 /EHsc /openmp"],
   },],
-}
+},
+
 ]
