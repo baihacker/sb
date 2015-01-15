@@ -143,7 +143,15 @@ def compile(files, output, kv, is_debug):
       os.remove(x)
 
 def detect_language(files):
-  ext2language = {'.c':'c','.cpp':'cpp'}
+  ext2language = {
+  '.c':'c',
+  '.cpp':'cpp','.cc':'cpp','.hpp':'cpp','.hxx':'cpp','.cxx':'cpp',
+  '.py':'python','.pyw':'python',
+  '.java':'java',
+  '.hs':'haskell','.lhs':'haskell','.las':'haskell',
+  '.go':'go',
+  '.scala':'scala'
+  }
   for f in files:
     ext = os.path.splitext(f)[1]
     if ext in ext2language:
