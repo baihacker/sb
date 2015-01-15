@@ -27,7 +27,7 @@ def load_compilers():
   compiler_file = find_config_file()
 
   if not os.path.exists(compiler_file):
-    sys.exit(-1)
+    raise Exception, 'can not file configuration file.'
 
   with open(compiler_file, 'r') as tempf:
     compilers = eval(tempf.read())
@@ -118,16 +118,16 @@ def generate_compile_cmd(compiler, instruction, files, output, is_debug):
 
   return cmd, run, clean_files
 
-def compile(files, output, language, is_debug):
+def compile(files, output, kv, is_debug):
   # prepare compiler
   compilers = load_compilers();
-  compiler,instruction = find_compiler(compilers, {'language': language})
-  
+  compiler,instruction = find_compiler(compilers, kv)
+
   if compiler == None:
     raise Exception, 'no suitable compiler'
-  
+
   cmd,run,clean_files = generate_compile_cmd(compiler, instruction, files, output, is_debug)
-  
+
   # compile
   set_up_environment(compiler)
   print(cmd)
@@ -135,14 +135,18 @@ def compile(files, output, language, is_debug):
   for x in clean_files:
     if os.path.exists(x):
       os.remove(x)
-      
+
+def ext2language(ext):
+  ext2language = {'.c':'c','.cpp':'cpp'}
+  return ext2language.get(ext, '')
+
 def main(argv):
   # parse cmdline
   output = ''
   files = []
   is_debug = False
   language = ''
-  
+
   n = len(argv)
   i = 1
   while i < n:
@@ -162,15 +166,12 @@ def main(argv):
       files.append(argv[i])
       i += 1
 
-  ext2language = {'.c':'c','.cpp':'cpp'}
   if len(language) == 0:
-    ext = os.path.splitext(files[0])[1]
-    if ext in ext2language:
-      language = ext2language[ext]
-    else:
-      raise Exception, 'unknown language'
+    language = ext2language(os.path.splitext(files[0])[1])
+  if len(language) == 0:
+    raise Exception, 'unknown language'
 
-  compile(files, output, language, is_debug)
+  compile(files, output, {'language': language}, is_debug)
   #print('Run:')
   #print(run)
   #subprocess.call(run)
