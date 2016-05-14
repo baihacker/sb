@@ -137,10 +137,11 @@ def compile(files, output, kv, is_debug):
   # compile
   set_up_environment(compiler)
   print(cmd)
-  subprocess.call(cmd)
+  ret = subprocess.call(cmd)
   for x in clean_files:
     if os.path.exists(x):
       os.remove(x)
+  return ret, run
 
 def detect_language(files):
   ext2language = {
@@ -164,6 +165,7 @@ def main(argv):
   files = []
   is_debug = False
   language = ''
+  name = ''
 
   n = len(argv)
   i = 1
@@ -180,6 +182,9 @@ def main(argv):
     elif argv[i].lower() == '-l':
       language = argv[i+1].lower()
       i += 2
+    elif argv[i].lower() == '-n':
+      name = argv[i+1].lower()
+      i += 2
     else:
       files.append(argv[i])
       i += 1
@@ -189,7 +194,7 @@ def main(argv):
   if len(language) == 0:
     raise Exception, 'unknown language'
 
-  compile(files, output, {'language': language}, is_debug)
+  compile(files, output, {'language': language, 'name': name}, is_debug)
   #print('Run:')
   #print(run)
   #subprocess.call(run)
