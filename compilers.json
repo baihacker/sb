@@ -68,6 +68,53 @@
 },
 
 {
+"name" : "clang",
+"type" : "compiler",
+"arch" : "x86",
+"version" : "3.8.0",
+"variables" : {
+"ROOT_DIR": "C:\\Program Files (x86)\\LLVM",
+"VC_DIR": "D:\\DevSoft\\win_toolchain_2013e\\vs2013_files\\VC",
+"SDK_DIR": "D:\\DevSoft\\win_toolchain_2013e\\vs2013_files\\win8sdk",
+"RUN_TIME_DIR": "D:\\DevSoft\\win_toolchain_2013e\\vs2013_files\\sys32",
+},
+"env_var_keep" : {},
+"env_var_merge" :
+  {
+  "PATH" :
+        "$(VC_DIR)\\BIN;$(VC_DIR)\\VCPackages;$(RUN_TIME_DIR);",
+  "LIB" :
+        "$(VC_DIR)\\LIB;$(SDK_DIR)\\Lib\\win8\\um\\x86;",
+  "LIBPATH" :
+        "$(VC_DIR)\\LIB;",
+  "INCLUDE" :
+        "$(VC_DIR)\\INCLUDE;$(SDK_DIR)\\Include\\shared;$(SDK_DIR)\\Include\\um;D:\\baihacker\\usr\\include\\;"
+  },
+"env_var_replace" : {},
+"language_detail" : [
+  {
+    "language" : "c",
+    "compile_binary" : "$(ROOT_DIR)\\bin\\clang.exe",
+    "compile_args" : ["$(SOURCE_FILES)", "-o", "$(OUTPUT_FILE)", "$(EXTRA_COMPILE_ARGS)"],
+    "default_output_file" : "a.exe",
+    "running_binary" : "$(OUTPUT_FILE)",
+    "running_args" : [],
+    "debug_flags" : ["-g"],
+    "release_flags" : ["-O3 -march=native"],
+  },
+  {
+    "language" : "cpp",
+    "compile_binary" : "$(ROOT_DIR)\\bin\\clang++.exe",
+    "compile_args" : ["$(SOURCE_FILES)", "-o", "$(OUTPUT_FILE)", "--std=c++11", "$(EXTRA_COMPILE_ARGS)"],
+    "default_output_file" : "a.exe",
+    "running_binary" : "$(OUTPUT_FILE)",
+    "running_args" : [],
+    "debug_flags" : ["-g"],
+    "release_flags" : ["-O3 -march=native"],
+  },],
+},
+
+{
 "name" : "python",
 "type" : "interpreter",
 "arch" : "x86",
@@ -113,10 +160,10 @@
 {
 "name" : "java",
 "type" : "compiler",
-"arch" : "x86",
-"version" : "1.7.0.45",
+"arch" : "x64",
+"version" : "1.8.0.80",
 "variables" : {
-"ROOT_DIR" : "D:\\DevSoft\\jdk1.7.0_45",
+"ROOT_DIR" : "C:\\Program Files\\Java\\jdk1.8.0_60",
 },
 "env_var_keep" : {},
 "env_var_merge" : {},
@@ -218,5 +265,4 @@
     "release_flags" : ["/Ox /arch:SSE2 /EHsc /openmp"],
   },],
 },
-
 ]
