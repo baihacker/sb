@@ -11,6 +11,7 @@ def main(argv):
   output = ''
   files = []
   is_debug = False
+  run = False
 
   n = len(argv)
   i = 1
@@ -24,11 +25,17 @@ def main(argv):
     elif argv[i].lower() == '-release':
       is_debug = False
       i += 1
+    elif argv[i].lower() == '-r':
+      run = True
+      i += 1
     else:
       files.append(argv[i])
       i += 1
 
-  sb.compile(files, output, {'language':'cpp','name':'vc','version':'12'}, is_debug)
+  compile_cmd, run_cmd = sb.create_commands(files, output, {'language':'cpp','name':'vc','version':'12'}, is_debug)
+  
+  if compile_cmd() == 0 and run == True:
+    run_cmd()
 
 if __name__ == '__main__':
   # parse cmdline

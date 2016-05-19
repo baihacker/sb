@@ -86,10 +86,17 @@ def set_up_environment(compiler):
       realv = expand_variable(v, variables)
       os.environ[k] = realv
 
-def generate_compile_cmd(compiler, instruction, files, output, is_debug):
+def create_commands(files, output, kv, is_debug):
+  compilers = load_compilers();
+  compiler, instruction = find_compiler(compilers, kv)
+
+  if compiler == None:
+    raise Exception, 'no suitable compiler'
+
   variables = dict(compiler.get('variables', {}))
 
   clean_files = (os.path.splitext(x)[0]+'.obj' for x in files)
+
   #soure files
   variables['SOURCE_FILES'] = ' '.join('"%s"'%x for x in files)
   variables['SOURCE_FILE_PATH'] = files[0]
@@ -114,34 +121,36 @@ def generate_compile_cmd(compiler, instruction, files, output, is_debug):
   elif not is_debug and 'release_flags' in instruction:
     variables['EXTRA_COMPILE_ARGS'] = ' '.join(instruction['release_flags'])
 
-  cmds = ['"'+instruction['compile_binary']+'"']
-  cmds.extend(instruction['compile_args'])
-  cmd = ' '.join(expand_variable(y, variables) for y in cmds)
+  if 'compile_binary' in instruction:
+    compile_args = ['"' + instruction['compile_binary'] + '"']
+    compile_args.extend(instruction['compile_args'])
+    compile_cmd = ' '.join(expand_variable(y, variables) for y in compile_args)
+  else:
+    compile_cmd = None
   
-  runs = ['"'+instruction['running_binary']+'"']
-  runs.extend(instruction['running_args'])
-  run = ' '.join(expand_variable(y, variables) for y in runs)
+  run_args = ['"' + instruction['running_binary'] + '"']
+  run_args.extend(instruction['running_args'])
+  run_cmd = ' '.join(expand_variable(y, variables) for y in run_args)
 
-  return cmd, run, clean_files
+  def compile():
+    if compile_cmd == None:
+      return 0
+    env = dict(os.environ)
+    set_up_environment(compiler)
+    print(compile_cmd)
+    ret = subprocess.call(compile_cmd)
+    for x in clean_files:
+      if os.path.exists(x):
+        os.remove(x)
+    os.environ = env;
+    return ret
+  
+  def run():
+    print(run_cmd)
+    ret = subprocess.call(run_cmd)
+    return ret
 
-def compile(files, output, kv, is_debug):
-  # prepare compiler
-  compilers = load_compilers();
-  compiler,instruction = find_compiler(compilers, kv)
-
-  if compiler == None:
-    raise Exception, 'no suitable compiler'
-
-  cmd,run,clean_files = generate_compile_cmd(compiler, instruction, files, output, is_debug)
-
-  # compile
-  set_up_environment(compiler)
-  print(cmd)
-  ret = subprocess.call(cmd)
-  for x in clean_files:
-    if os.path.exists(x):
-      os.remove(x)
-  return ret, run
+  return compile, run
 
 def detect_language(files):
   ext2language = {
@@ -166,6 +175,7 @@ def main(argv):
   is_debug = False
   language = ''
   name = ''
+  run = False
 
   n = len(argv)
   i = 1
@@ -185,6 +195,9 @@ def main(argv):
     elif argv[i].lower() == '-n':
       name = argv[i+1].lower()
       i += 2
+    elif argv[i].lower() == '-r':
+      run = True
+      i += 1
     else:
       files.append(argv[i])
       i += 1
@@ -194,10 +207,10 @@ def main(argv):
   if len(language) == 0:
     raise Exception, 'unknown language'
 
-  compile(files, output, {'language': language, 'name': name}, is_debug)
-  #print('Run:')
-  #print(run)
-  #subprocess.call(run)
+  compile_cmd, run_cmd = create_commands(files, output, {'language': language, 'name': name}, is_debug)
+
+  if compile_cmd() == 0 and run == True:
+    run_cmd()
 
 if __name__ == '__main__':
   main(sys.argv)

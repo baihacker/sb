@@ -149,6 +149,31 @@
 },
 
 {
+"name" : "dcj",
+"type" : "compiler",
+"arch" : "x86",
+"version" : "2015.06.11",
+"variables" : {
+"ROOT_DIR": "D:\\DevSoft\\dcj",
+"PYTHON_BINARY": "C:\\python\\Python27\\python.exe",
+},
+"env_var_keep" : {},
+"env_var_merge" : {},
+"env_var_replace" : {},
+"language_detail" : [
+  {
+    "language" : "cpp",
+    "compile_binary" : "$(PYTHON_BINARY)",
+    "compile_args" : ["\"$(ROOT_DIR)\\dcj.py\"", "build", "--source", "$(SOURCE_FILES)", "--language", "C++"],
+    "default_output_file" : "$(SOURCE_FILE_BASENAME_NO_EXT).exe",
+    "running_binary" : "$(PYTHON_BINARY)",
+    "running_args" : ["\"$(ROOT_DIR)\\dcj.py\"", "run", "--executable", "\"$(OUTPUT_FILE)\"", "--nodes", "4"],
+    "debug_flags" : [],
+    "release_flags" : [],
+  },],
+},
+
+{
 "name" : "python",
 "type" : "interpreter",
 "arch" : "x86",
