@@ -103,7 +103,7 @@ def create_commands(files, output, kv, is_debug):
   variables['SOURCE_FILE_PATH_NO_EXT'] = os.path.splitext(files[0])[0]
   variables['SOURCE_FILE_BASENAME'] = os.path.basename(files[0])
   variables['SOURCE_FILE_BASENAME_NO_EXT'] = os.path.splitext(os.path.basename(files[0]))[0]
-  variables['SOURCE_FILE_DIRNAME'] = os.path.dirname(files[0])
+  variables['SOURCE_FILE_DIRNAME'] = os.path.dirname(os.path.abspath(files[0]))
 
   #output file
   if len(output) == 0:

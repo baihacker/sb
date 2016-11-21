@@ -3,9 +3,9 @@
 "name" : "mingw",
 "type" : "compiler",
 "arch" : "x64",
-"version" : "5.3.0",
+"version" : "6.2.0",
 "variables" : {
-"ROOT_DIR": "D:\\DevSoft\\MinGW-w64_5.3.0\\mingw64",
+"ROOT_DIR": "D:\\DevSoft\\MinGW-w64-6.2.0\\mingw64",
 },
 "env_var_keep" : {},
 "env_var_merge" : {},
@@ -37,9 +37,9 @@
 "name" : "mingw-pe",
 "type" : "compiler",
 "arch" : "x64",
-"version" : "5.3.0",
+"version" : "6.2.0",
 "variables" : {
-"ROOT_DIR": "D:\\DevSoft\\MinGW-w64_5.3.0\\mingw64",
+"ROOT_DIR": "D:\\DevSoft\\MinGW-w64-6.2.0\\mingw64",
 },
 "env_var_keep" : {},
 "env_var_merge" : {},
@@ -198,12 +198,12 @@
 "arch" : "x86",
 "version" : "1.4",
 "variables" : {
-"ROOT_DIR" : "D:\\DevSoft\\go",
+"ROOT_DIR" : "D:\\DevSoft\\go_1.4_beta1",
 },
 "env_var_keep" : {},
 "env_var_merge" : {},
 "env_var_replace" : {
-    "GOROOT" : "D:\\DevSoft\\go",
+    "GOROOT" : "D:\\DevSoft\\go_1.4_beta1",
   },
 "language_detail" : [
   {
@@ -220,9 +220,9 @@
 "name" : "java",
 "type" : "compiler",
 "arch" : "x64",
-"version" : "1.8.0.80",
+"version" : "1.8.0.112",
 "variables" : {
-"ROOT_DIR" : "C:\\Program Files\\Java\\jdk1.8.0_60",
+"ROOT_DIR" : "C:\\Program Files\\Java\\jdk1.8.0_112",
 },
 "env_var_keep" : {},
 "env_var_merge" : {},
