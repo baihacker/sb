@@ -3,7 +3,17 @@ A very simple building system
 
 Features
 ========
-* Support nearly all kinds of compilers.
+* Support nearly all kinds of compilers:
+  * mingw: c, c++
+  * tdm-mingw: c, c++
+  * clang: c, c++
+  * dcj: c++
+  * python interpreter: python
+  * go compiler: go
+  * java compiler: java
+  * scala interpreter: scala
+  * ghc: haskell
+  * vc: c, c++
 * Use variable to help configure compilers.
 * Work with [win_toolchain_2013e](http://yun.baidu.com/share/link?shareid=2799405881&uk=2684621311) without installing vs2013.
 
