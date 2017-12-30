@@ -1,0 +1,327 @@
+[
+{
+"name" : "mingw",
+"type" : "compiler",
+"arch" : "x64",
+"version" : "7.2.0",
+"variables" : {
+"ROOT_DIR": "D:\\DevSoft\\MinGW-w64_7.2.0\\mingw64",
+},
+"env_var_keep" : {},
+"env_var_merge" : {},
+"env_var_replace" : {},
+"language_detail" : [
+  {
+    "language" : "c",
+    "compile_binary" : "$(ROOT_DIR)\\bin\\gcc.exe",
+    "compile_args" : ["$(SOURCE_FILES)", "-o", "$(OUTPUT_FILE)", "$(EXTRA_COMPILE_ARGS)"],
+    "default_output_file" : "$(SOURCE_FILE_BASENAME_NO_EXT).exe",
+    "running_binary" : "$(OUTPUT_FILE)",
+    "running_args" : [],
+    "debug_flags" : ["-g -fopenmp"],
+    "release_flags" : ["-O3 -march=native -fopenmp"],
+  },
+  {
+    "language" : "cpp",
+    "compile_binary" : "$(ROOT_DIR)\\bin\\g++.exe",
+    "compile_args" : ["$(SOURCE_FILES)", "-o", "$(OUTPUT_FILE)", "$(EXTRA_COMPILE_ARGS)"],
+    "default_output_file" : "$(SOURCE_FILE_BASENAME_NO_EXT).exe",
+    "running_binary" : "$(OUTPUT_FILE)",
+    "running_args" : [],
+    "debug_flags" : ["-g -fopenmp"],
+    "release_flags" : ["-O3 -march=native -fopenmp"],
+  },],
+},
+
+{
+"name" : "mingw-pe",
+"type" : "compiler",
+"arch" : "x64",
+"version" : "7.2.0",
+"variables" : {
+"ROOT_DIR": "D:\\DevSoft\\MinGW-w64_7.2.0\\mingw64",
+},
+"env_var_keep" : {},
+"env_var_merge" : {},
+"env_var_replace" : {},
+"language_detail" : [
+  {
+    "language" : "c",
+    "compile_binary" : "$(ROOT_DIR)\\bin\\gcc.exe",
+    "compile_args" : ["$(SOURCE_FILES)", "-o", "$(OUTPUT_FILE)", "$(EXTRA_COMPILE_ARGS)"],
+    "default_output_file" : "a.exe",
+    "running_binary" : "$(OUTPUT_FILE)",
+    "running_args" : [],
+    "debug_flags" : ["-g -fopenmp"],
+    "release_flags" : ["-O3 -march=native -fopenmp"],
+  },
+  {
+    "language" : "cpp",
+    "compile_binary" : "$(ROOT_DIR)\\bin\\g++.exe",
+    "compile_args" : ["$(SOURCE_FILES)", "-o", "$(OUTPUT_FILE)", "--std=c++11", "$(EXTRA_COMPILE_ARGS)"],
+    "default_output_file" : "a.exe",
+    "running_binary" : "$(OUTPUT_FILE)",
+    "running_args" : [],
+    "debug_flags" : ["-g -fopenmp -lgmpxx -lgmp -LD:/hh/usr/gmp-6.1.2/lib"],
+    "release_flags" : ["-O3 -march=native -fopenmp -lgmpxx -lgmp -LD:/hh/usr/gmp-6.1.2/lib"],
+  },],
+},
+
+{
+"name" : "tdm",
+"type" : "compiler",
+"arch" : "x64",
+"version" : "5.1.0",
+"variables" : {
+"ROOT_DIR": "D:\\DevSoft\\TDM-GCC-64_5.1.0.2",
+},
+"env_var_keep" : {},
+"env_var_merge" : {},
+"env_var_replace" : {},
+"language_detail" : [
+  {
+    "language" : "c",
+    "compile_binary" : "$(ROOT_DIR)\\bin\\gcc.exe",
+    "compile_args" : ["$(SOURCE_FILES)", "-o", "$(OUTPUT_FILE)", "$(EXTRA_COMPILE_ARGS)"],
+    "default_output_file" : "a.exe",
+    "running_binary" : "$(OUTPUT_FILE)",
+    "running_args" : [],
+    "debug_flags" : ["-g -fopenmp"],
+    "release_flags" : ["-O3 -march=native -fopenmp"],
+  },
+  {
+    "language" : "cpp",
+    "compile_binary" : "$(ROOT_DIR)\\bin\\g++.exe",
+    "compile_args" : ["$(SOURCE_FILES)", "-o", "$(OUTPUT_FILE)", "--std=c++11", "$(EXTRA_COMPILE_ARGS)"],
+    "default_output_file" : "a.exe",
+    "running_binary" : "$(OUTPUT_FILE)",
+    "running_args" : [],
+    "debug_flags" : ["-g -fopenmp"],
+    "release_flags" : ["-O3 -march=native -fopenmp"],
+  },],
+},
+
+{
+"name" : "clang",
+"type" : "compiler",
+"arch" : "x86",
+"version" : "3.8.0",
+"variables" : {
+"ROOT_DIR": "C:\\Program Files (x86)\\LLVM",
+"VC_DIR": "D:\\DevSoft\\win_toolchain_2013e\\vs2013_files\\VC",
+"SDK_DIR": "D:\\DevSoft\\win_toolchain_2013e\\vs2013_files\\win8sdk",
+"RUN_TIME_DIR": "D:\\DevSoft\\win_toolchain_2013e\\vs2013_files\\sys32",
+},
+"env_var_keep" : {},
+"env_var_merge" :
+  {
+  "PATH" :
+        "$(VC_DIR)\\BIN;$(VC_DIR)\\VCPackages;$(RUN_TIME_DIR);",
+  "LIB" :
+        "$(VC_DIR)\\LIB;$(SDK_DIR)\\Lib\\win8\\um\\x86;",
+  "LIBPATH" :
+        "$(VC_DIR)\\LIB;",
+  "INCLUDE" :
+        "$(VC_DIR)\\INCLUDE;$(SDK_DIR)\\Include\\shared;$(SDK_DIR)\\Include\\um;D:\\baihacker\\usr\\include\\;"
+  },
+"env_var_replace" : {},
+"language_detail" : [
+  {
+    "language" : "c",
+    "compile_binary" : "$(ROOT_DIR)\\bin\\clang.exe",
+    "compile_args" : ["$(SOURCE_FILES)", "-o", "$(OUTPUT_FILE)", "$(EXTRA_COMPILE_ARGS)"],
+    "default_output_file" : "a.exe",
+    "running_binary" : "$(OUTPUT_FILE)",
+    "running_args" : [],
+    "debug_flags" : ["-g"],
+    "release_flags" : ["-O3 -march=native"],
+  },
+  {
+    "language" : "cpp",
+    "compile_binary" : "$(ROOT_DIR)\\bin\\clang++.exe",
+    "compile_args" : ["$(SOURCE_FILES)", "-o", "$(OUTPUT_FILE)", "--std=c++11", "$(EXTRA_COMPILE_ARGS)"],
+    "default_output_file" : "a.exe",
+    "running_binary" : "$(OUTPUT_FILE)",
+    "running_args" : [],
+    "debug_flags" : ["-g"],
+    "release_flags" : ["-O3 -march=native"],
+  },],
+},
+
+{
+"name" : "dcj",
+"type" : "compiler",
+"arch" : "x86",
+"version" : "2015.06.11",
+"variables" : {
+"ROOT_DIR": "D:\\DevSoft\\dcj",
+"PYTHON_BINARY": "C:\\python\\Python27\\python.exe",
+},
+"env_var_keep" : {},
+"env_var_merge" : {},
+"env_var_replace" : {},
+"language_detail" : [
+  {
+    "language" : "cpp",
+    "compile_binary" : "$(PYTHON_BINARY)",
+    "compile_args" : ["\"$(ROOT_DIR)\\dcj.py\"", "build", "--source", "$(SOURCE_FILES)", "--language", "C++"],
+    "default_output_file" : "$(SOURCE_FILE_BASENAME_NO_EXT).exe",
+    "running_binary" : "$(PYTHON_BINARY)",
+    "running_args" : ["\"$(ROOT_DIR)\\dcj.py\"", "run", "--executable", "\"$(OUTPUT_FILE)\"", "--nodes", "4"],
+    "debug_flags" : [],
+    "release_flags" : [],
+  },],
+},
+
+{
+"name" : "python",
+"type" : "interpreter",
+"arch" : "x86",
+"version" : "2.7.3",
+"variables" : {
+"ROOT_DIR": "C:\\python\\Python27",
+},
+"env_var_keep" : {},
+"env_var_merge" : {},
+"env_var_replace" : {},
+"language_detail" : [
+  {
+    "language" : "python",
+    "running_binary" : "$(ROOT_DIR)\\python.exe",
+    "running_args" : ["$(SOURCE_FILE_PATH)"],
+  },],
+},
+
+{
+"name" : "go",
+"type" : "compiler",
+"arch" : "x86",
+"version" : "1.4",
+"variables" : {
+"ROOT_DIR" : "D:\\DevSoft\\go_1.4_beta1",
+},
+"env_var_keep" : {},
+"env_var_merge" : {},
+"env_var_replace" : {
+    "GOROOT" : "D:\\DevSoft\\go_1.4_beta1",
+  },
+"language_detail" : [
+  {
+    "language" : "go",
+    "compile_binary" : "$(ROOT_DIR)\\bin\\go.exe",
+    "compile_args" : ["build", "-o", "$(OUTPUT_FILE)", "$(SOURCE_FILES)"],
+    "default_output_file" : "$(SOURCE_FILE_BASENAME_NO_EXT).exe",
+    "running_binary" : "$(OUTPUT_FILE)",
+    "running_args" : [],
+  },],
+},
+
+{
+"name" : "java",
+"type" : "compiler",
+"arch" : "x64",
+"version" : "1.8.0.112",
+"variables" : {
+"ROOT_DIR" : "C:\\Program Files\\Java\\jdk1.8.0_112",
+},
+"env_var_keep" : {},
+"env_var_merge" : {},
+"env_var_replace" : {},
+"language_detail" : [
+  {
+    "language" : "java",
+    "compile_binary" : "$(ROOT_DIR)\\bin\\javac.exe",
+    "compile_args" : ["$(SOURCE_FILES)"],
+    "default_output_file" : "$(SOURCE_FILE_PATH_NO_EXT).class",
+    "running_binary" : "$(ROOT_DIR)\\bin\\java.exe",
+    "running_args" : ["-cp", "$(SOURCE_FILE_DIRNAME)", "$(SOURCE_FILE_BASENAME_NO_EXT)"],
+  },],
+},
+
+{
+"name" : "scala",
+"type" : "interpreter",
+"arch" : "x86",
+"version" : "2.11.4",
+"variables" : {
+"ROOT_DIR": "D:\\DevSoft\\scala",
+},
+"env_var_keep" : {},
+"env_var_merge" : {},
+"env_var_replace" : {},
+"language_detail" : [
+  {
+    "language" : "scala",
+    "running_binary" : "$(ROOT_DIR)\\bin\\scala.bat",
+    "running_args" : ["$(SOURCE_FILE_PATH)"],
+  },],
+},
+
+{
+"name" : "ghc",
+"type" : "compiler",
+"arch" : "x86",
+"version" : "2014.2.0.0",
+"variables" : {
+"ROOT_DIR" : "D:\\DevSoft\\Haskell Platform\\2014.2.0.0",
+},
+"env_var_keep" : {},
+"env_var_merge" : {"path":"D:\\DevSoft\\Haskell Platform\\2014.2.0.0\\bin"},
+"env_var_replace" : {},
+"language_detail" : [
+  {
+    "language" : "haskell",
+    "compile_binary" : "$(ROOT_DIR)\\bin\\ghc.exe",
+    "compile_args" : ["$(SOURCE_FILES)", "/-o", "$(OUTPUT_FILE)", "$(EXTRA_COMPILE_ARGS)"],
+    "default_output_file" : "$(SOURCE_FILE_BASENAME_NO_EXT).exe",
+    "running_binary" : "$(OUTPUT_FILE)",
+    "running_args" : [],
+  },],
+},
+
+{
+"name" : "vc",
+"type" : "compiler",
+"arch" : "x86",
+"version" : "12.0",
+"variables" : {
+"VC_DIR": "D:\\DevSoft\\win_toolchain_2013e\\vs2013_files\\VC",
+"SDK_DIR": "D:\\DevSoft\\win_toolchain_2013e\\vs2013_files\\win8sdk",
+"RUN_TIME_DIR": "D:\\DevSoft\\win_toolchain_2013e\\vs2013_files\\sys32",
+},
+"env_var_keep" : {},
+"env_var_merge" :
+  {
+  "PATH" :
+        "$(VC_DIR)\\BIN;$(VC_DIR)\\VCPackages;$(RUN_TIME_DIR);",
+  "LIB" :
+        "$(VC_DIR)\\LIB;$(SDK_DIR)\\Lib\\win8\\um\\x86;",
+  "LIBPATH" :
+        "$(VC_DIR)\\LIB;",
+  "INCLUDE" :
+        "$(VC_DIR)\\INCLUDE;$(SDK_DIR)\\Include\\shared;$(SDK_DIR)\\Include\\um;D:\\baihacker\\usr\\include\\;"
+  },
+"env_var_replace" : {},
+"language_detail" : [
+  {
+    "language" : "c",
+    "compile_binary" : "$(VC_DIR)\\bin\\cl.exe",
+    "compile_args" : ["$(SOURCE_FILES)", "/Fe$(OUTPUT_FILE)", "/TC", "/Fo\"$(SOURCE_FILE_PATH_NO_EXT).obj\"", "$(EXTRA_COMPILE_ARGS)"],
+    "default_output_file" : "a.exe",
+    "running_binary" : "$(OUTPUT_FILE)",
+    "running_args" : [],
+    "debug_flags" : ["/Od /EHsc /openmp /Zi"],
+    "release_flags" : ["/Ox /arch:SSE2 /EHsc /openmp"],
+  },
+  {
+    "language" : "cpp",
+    "compile_binary" : "$(VC_DIR)\\bin\\cl.exe",
+    "compile_args" : ["$(SOURCE_FILES)", "/Fe\"$(OUTPUT_FILE)\"", "/TP", "/Fo\"$(SOURCE_FILE_PATH_NO_EXT).obj\"", "$(EXTRA_COMPILE_ARGS)"],
+    "default_output_file" : "a.exe",
+    "running_binary" : "$(OUTPUT_FILE)",
+    "running_args" : [],
+    "debug_flags" : ["/Od /EHsc /openmp /Zi"],
+    "release_flags" : ["/Ox /arch:SSE2 /EHsc /openmp"],
+  },],
+},
+]
