@@ -3,7 +3,7 @@ A very simple building system
 
 Features
 ========
-* Support nearly all kinds of compilers:
+* Support nearly all kinds of compilers (easy to extend to other compiler/languages):
   * mingw: c, c++
   * tdm-mingw: c, c++
   * clang: c, c++
