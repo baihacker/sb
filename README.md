@@ -5,7 +5,7 @@ Features
 ========
 * Support nearly all kinds of compilers.
 * Use variable to help configure compilers.
-* Work with [win_toolchain_2013e] (http://yun.baidu.com/share/link?shareid=2799405881&uk=2684621311) without installing vs2013.
+* Work with [win_toolchain_2013e](http://yun.baidu.com/share/link?shareid=2799405881&uk=2684621311) without installing vs2013.
 
 Installion
 ==========
