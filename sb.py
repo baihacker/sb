@@ -35,6 +35,12 @@ def load_compilers():
 
   return compilers
 
+def find_compiler_base(compilers):
+  for c in compilers:
+    if c['name'] == '__compiler_base':
+      return c
+  return {}
+
 def find_compiler(compilers, kv):
   language = kv['language']
   name = kv.get('name', '').lower()
@@ -87,13 +93,19 @@ def set_up_environment(compiler):
       os.environ[k] = realv
 
 def create_commands(files, output, kv, is_debug):
-  compilers = load_compilers();
+  compilers = load_compilers()
   compiler, instruction = find_compiler(compilers, kv)
+  compiler_base = find_compiler_base(compilers)
 
   if compiler == None:
     raise Exception, 'no suitable compiler'
 
-  variables = dict(compiler.get('variables', {}))
+  #apply base variables
+  variable_base = compiler_base.get('variables', {})
+  variables = {k:v for (k,v) in variable_base.items()}
+  for (k,v) in dict(compiler.get('variables', {})).items():
+    variables[k] = expand_variable(v, variable_base)
+  compiler['variables'] = variables
 
   clean_files = (os.path.splitext(x)[0]+'.obj' for x in files)
 
@@ -127,7 +139,7 @@ def create_commands(files, output, kv, is_debug):
     compile_cmd = ' '.join(expand_variable(y, variables) for y in compile_args)
   else:
     compile_cmd = None
-  
+
   run_args = ['"' + instruction['running_binary'] + '"']
   run_args.extend(instruction['running_args'])
   run_cmd = ' '.join(expand_variable(y, variables) for y in run_args)
@@ -144,7 +156,7 @@ def create_commands(files, output, kv, is_debug):
         os.remove(x)
     os.environ = env;
     return ret
-  
+
   def run():
     print(run_cmd)
     ret = subprocess.call(run_cmd)
