@@ -86,7 +86,7 @@
           "-g -fopenmp"
         ],
         "release_flags": [
-          "-O3 -march=native -fopenmp"
+          "-O3 -march=native -fopenmp -Wl,--stack,268435456"
         ],
       },
       {
@@ -106,7 +106,7 @@
           "-g -fopenmp -lgmpxx -lgmp -L$(USR_PATH)\\lib\\gmp-6.1.2\\lib"
         ],
         "release_flags": [
-          "-O3 -march=native -fopenmp -lgmpxx -lgmp -L$(USR_PATH)\\lib\\gmp-6.1.2\\lib"
+          "-O3 -march=native -fopenmp -Wl,--stack,268435456 -lgmpxx -lgmp -L$(USR_PATH)\\lib\\gmp-6.1.2\\lib"
         ],
       },
     ],
