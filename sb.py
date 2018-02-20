@@ -13,8 +13,21 @@ CurrentDirectory = os.path.dirname(os.path.realpath(__file__))
 def find_config_file():
   compiler_file_name = 'compilers.json'
 
+  dirs = [CurrentDirectory]
+
+  # RootDir
+  ROOTDIR = os.environ.get('ROOTDIR', '')
+  if len(ROOTDIR) > 0:
+    dirs.append(os.path.join(ROOTDIR, 'home\\config'))
+
+  # dcfpe dir
   dcfpe_dir = os.path.join(os.path.dirname(os.environ['APPDATA']), 'LocalLow\\dcfpe')
-  dirs = [CurrentDirectory, dcfpe_dir, os.environ['APPDATA']]
+  dirs.append(dcfpe_dir)
+
+  # app data
+  dirs.append(os.environ['APPDATA'])
+
+  # path
   dirs.extend(os.environ['PATH'].split(';'))
 
   for dir in dirs:
@@ -104,8 +117,8 @@ def create_commands(files, output, kv, is_debug):
   variable_base = {}
   for (k, v) in compiler_base.get('variables', {}).items():
     variable_base[k] = expand_variable(v, os.environ)
-  
-  #apply base variables  
+
+  #apply base variables
   variables = dict(variable_base)
   for (k,v) in compiler.get('variables', {}).items():
     variables[k] = expand_variable(v, variable_base)

@@ -22,7 +22,8 @@ Installion
 * Install python 2.
 * Put *.py in a directory and make sure the PATH environment variable contain this directory.
 * Edit compilers.json and put this file in a directory, the directory can be (first match):
-  * Current directory.
+  * Current directory
+  * %ROOTDIR%/home/config
   * %APPDATA%/../LocalLow/dcfpe
   * %APPDATA%
   * The directories in %PATH%
