@@ -100,10 +100,14 @@ def create_commands(files, output, kv, is_debug):
   if compiler == None:
     raise Exception, 'no suitable compiler'
 
-  #apply base variables
-  variable_base = compiler_base.get('variables', {})
-  variables = {k:v for (k,v) in variable_base.items()}
-  for (k,v) in dict(compiler.get('variables', {})).items():
+  #apply environment variable to variable base
+  variable_base = {}
+  for (k, v) in compiler_base.get('variables', {}).items():
+    variable_base[k] = expand_variable(v, os.environ)
+  
+  #apply base variables  
+  variables = dict(variable_base)
+  for (k,v) in compiler.get('variables', {}).items():
     variables[k] = expand_variable(v, variable_base)
   compiler['variables'] = variables
 

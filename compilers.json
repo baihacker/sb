@@ -2,8 +2,8 @@
   {
     "name": "__compiler_base",
     "variables": {
-      "DEV_SOFT_PATH": "D:\\DevSoft",
-      "USR_PATH": "D:\\hh\\usr",
+      "DEV_SOFT_PATH": "$(DEVDIR)",
+      "USR_PATH": "$(ROOTDIR)\\usr",
     }
   },
   {
