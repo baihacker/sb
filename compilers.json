@@ -180,7 +180,7 @@
       "PATH": "$(VC_DIR)\\BIN;$(VC_DIR)\\VCPackages;$(RUN_TIME_DIR);",
       "LIB": "$(VC_DIR)\\LIB;$(SDK_DIR)\\Lib\\win8\\um\\x86;",
       "LIBPATH": "$(VC_DIR)\\LIB;",
-      "INCLUDE": "$(VC_DIR)\\INCLUDE;$(SDK_DIR)\\Include\\shared;$(SDK_DIR)\\Include\\um;D:\\baihacker\\usr\\include\\;"
+      "INCLUDE": "$(VC_DIR)\\INCLUDE;$(SDK_DIR)\\Include\\shared;$(SDK_DIR)\\Include\\um;$(USR_PATH)\\lib;$(USR_PATH)\\lib\\pe;$(USR_PATH)\\lib\\gmp-6.1.2\\include"
     },
     "env_var_replace": {},
     "language_detail": [
@@ -407,7 +407,7 @@
       "PATH": "$(VC_DIR)\\BIN;$(VC_DIR)\\VCPackages;$(RUN_TIME_DIR);",
       "LIB": "$(VC_DIR)\\LIB;$(SDK_DIR)\\Lib\\win8\\um\\x86;",
       "LIBPATH": "$(VC_DIR)\\LIB;",
-      "INCLUDE": "$(VC_DIR)\\INCLUDE;$(SDK_DIR)\\Include\\shared;$(SDK_DIR)\\Include\\um;D:\\baihacker\\usr\\include\\;"
+      "INCLUDE": "$(VC_DIR)\\INCLUDE;$(SDK_DIR)\\Include\\shared;$(SDK_DIR)\\Include\\um;$(USR_PATH)\\lib;$(USR_PATH)\\lib\\pe;$(USR_PATH)\\lib\\gmp-6.1.2\\include"
     },
     "env_var_replace": {},
     "language_detail": [
