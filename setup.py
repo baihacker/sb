@@ -180,9 +180,7 @@ def setup_vscode():
   if RUN_FROM_GIT_REPOSITORY:
       dest_dirs.append(os.path.join(ROOTDIR, 'home\\config\\vsc_config'))
 
-  for idx, dest_dir in enumerate(dest_dirs):
-    if idx >= 2:
-      create_dir_if_necessary(dest_dir)
+  for dest_dir in dest_dirs:
     if not os.path.exists(dest_dir):
       continue
     for f in ['settings.json', 'keybindings.json']:
