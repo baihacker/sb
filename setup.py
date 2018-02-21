@@ -11,12 +11,15 @@ from subprocess import check_call
   3. Make sure DEVPATH is a part of PATH.
 
   This script:
-  1. Generates DEVPATH which includes a list of path added to PATH.
-  2. If JAVAHOME exists, setup the corresponding JAVA class path.
-  3. Generates CPLUS_INCLUDE_PATH.
-  4. Copies vscode configurations from %ROOTDIR%\\home\\config\\vsc_config to %APPDAT%\\code
+  1. Check environment variabls.
+  2. Create directories if necessary.
+  3. Copy sb files to destination dirs.
+  4. Generates DEVPATH which includes a list of path added to PATH.
+  5. If JAVAHOME exists, setup the corresponding JAVA class path.
+  6. Generates CPLUS_INCLUDE_PATH.
+  7. Copies vscode configurations from CURRENT_DIR\\vsc_config to %APPDAT%\\code
     and %ROOTDIR%\\projects\\.vscode
-  5. Checks whether notepad++ is setup. (Also check whether npp.exe (a copy of notepad++.exe) exist.)
+  8. Checks whether notepad++ is setup. (Also check whether npp.exe (a copy of notepad++.exe) exist.)
 """
 
 if sys.hexversion > 0x03000000:
@@ -56,27 +59,82 @@ class Win32Environment:
         #check_call('''\
 #"%s" -c "import win32api, win32con; assert win32api.SendMessage(win32con.HWND_BROADCAST, win32con.WM_SETTINGCHANGE, 0, 'Environment')"''' % sys.executable)
 
-def setup_environment_variables():
-  env_setter = Win32Environment(scope="user")
+def force_copy(src, dest):
+  if os.path.exists(dest):
+    os.remove(dest)
+  shutil.copyfile(src, dest)
 
-  DEVDIR = os.environ.get('DEVDIR', '')
-  ROOTDIR = os.environ.get('ROOTDIR', '')
-  JAVAHOME = os.environ.get('JAVA_HOME', '')
+def create_dir_if_necessary(dir):
+  if not os.path.exists(dir):
+    os.mkdir(dir)
 
+DEVDIR = os.environ.get('DEVDIR', '')
+ROOTDIR = os.environ.get('ROOTDIR', '')
+JAVAHOME = os.environ.get('JAVA_HOME', '')
+CURRENT_DIRECTORY = os.path.dirname(os.path.realpath(__file__))
+RUN_FROM_GIT_REPOSITORY = os.path.exists(os.path.join(CURRENT_DIRECTORY, '.git'))
+
+def validate_environment_variables():
   if len(DEVDIR) == 0:
     print('Please set DEVDIR')
     os._exit(-1)
   if len(ROOTDIR) == 0:
     print('Please set ROOTDIR')
     os._exit(-1)
+  if not os.path.exists(DEVDIR):
+    print('%s doesn\'t exist'%DEVDIR)
+    os._exit(-1)
+  if not os.path.isdir(DEVDIR):
+    print('%s is not a directory'%DEVDIR)
+    os._exit(-1)
+  if not os.path.exists(ROOTDIR):
+    print('%s doesn\'t exist'%ROOTDIR)
+    os._exit(-1)
+  if not os.path.isdir(ROOTDIR):
+    print('%s is not a directory'%ROOTDIR)
+    os._exit(-1)
 
-  USRDIR = os.path.join(ROOTDIR, 'usr')
+def create_dirs():
+  create_dir_if_necessary(os.path.join(ROOTDIR, 'usr'))
+  create_dir_if_necessary(os.path.join(ROOTDIR, 'usr\\bin'))
+  create_dir_if_necessary(os.path.join(ROOTDIR, 'home'))
+  create_dir_if_necessary(os.path.join(ROOTDIR, 'home\\config'))
+  create_dir_if_necessary(os.path.join(ROOTDIR, 'home\\config\\vsc_config'))
+  create_dir_if_necessary(os.path.join(ROOTDIR, 'home\\config\\vsc_config\\.vscode'))
+  create_dir_if_necessary(os.path.join(ROOTDIR, 'projects'))
+  create_dir_if_necessary(os.path.join(ROOTDIR, 'projects\\.vscode'))
+
+def copy_files():
+  if not os.path.exists(os.path.join(CURRENT_DIRECTORY, '.git')):
+    print('Skip copying files. Not a git repository!')
+    return
+
+  bin_dir = os.path.join(ROOTDIR, 'usr\\bin')
+  files = ['dcj.py', 'jr.py', 'pe++.py', 'sb.py', 'vc++.py']
+  for f in files:
+    src_file = os.path.join(CURRENT_DIRECTORY, f)
+    dest_file = os.path.join(bin_dir, f)
+    force_copy(src_file, dest_file)
+
+  config_dir = os.path.join(ROOTDIR, 'home\\config')
+  src_file = os.path.join(CURRENT_DIRECTORY, 'compilers.json')
+  dest_file = os.path.join(config_dir, 'compilers.json')
+  force_copy(src_file, dest_file)
+  
+  src_file = os.path.join(CURRENT_DIRECTORY, 'setup.py')
+  dest_file = os.path.join(config_dir, 'setup.py')
+  force_copy(src_file, dest_file)
+
+def setup_environment_variables():
+  env_setter = Win32Environment(scope="user")
 
   def add_if_exists(path, paths):
     if os.path.exists(path):
       paths.append(path)
     else:
       print("%s doesn't exists."%path)
+
+  USRDIR = os.path.join(ROOTDIR, 'usr')
 
   # dev_paths
   dev_paths = []
@@ -111,38 +169,37 @@ def setup_environment_variables():
   print ('Environment variables are set up!')
 
 def setup_vscode():
-  def force_copy(src, dest):
-    if os.path.exists(dest):
-      os.remove(dest)
-    shutil.copyfile(src, dest)
-  def create_dir_if_necessary(dir):
-    if not os.path.exists(dir):
-      os.mkdir(dir)
-
-  vscode_paths = ['Code\\User', 'Code - Insiders\\User']
-  user_files = ['settings.json', 'keybindings.json']
-  for path in vscode_paths:
-    target_dir = os.path.join(os.environ.get('APPDATA'), path)
-    create_dir_if_necessary(target_dir)
-    if not os.path.exists(target_dir):
-      continue
-    src_dir = os.path.join(os.environ.get('ROOTDIR', ''), 'home\\config\\vsc_config')
-    if not os.path.exists(src_dir):
+  # copy user configurations
+  src_dir = os.path.join(CURRENT_DIRECTORY, 'vsc_config')
+  if not os.path.exists(src_dir):
+    print('There is no vsc_config in current directory. path = %s'%src_dir)
+    print ('Failed to set up visual studio code!')
+    return
+  for path in ['Code\\User', 'Code - Insiders\\User']:
+    dest_dirs = [os.path.join(os.environ.get('APPDATA'), path)]
+    if RUN_FROM_GIT_REPOSITORY:
+      dest_dirs.append(os.path.join(ROOTDIR, 'home\\config\\vsc_config'))
+    for dest_dir in dest_dirs:
+      create_dir_if_necessary(dest_dir)
+      if not os.path.exists(dest_dir):
         continue
-    for f in user_files:
-      src_file = os.path.join(src_dir, f)
-      target_file = os.path.join(target_dir, f)
-      force_copy(src_file, target_file)
+      for f in ['settings.json', 'keybindings.json']:
+        src_file = os.path.join(src_dir, f)
+        dest_file = os.path.join(dest_dir, f)
+        if os.path.exists(src_file):
+          force_copy(src_file, dest_file)
 
-  project_config_dir = os.path.join(os.environ.get('ROOTDIR', ''), 'home\\config\\vsc_config\\.vscode')
-  target_config_dir = os.path.join(os.environ.get('ROOTDIR', ''), 'projects\\.vscode')
+  # copy project configurations
+  src_config_dir = os.path.join(src_dir, '.vscode')
+  dest_config_dirs = [os.path.join(ROOTDIR, 'projects\\.vscode')]
+  if RUN_FROM_GIT_REPOSITORY:
+    dest_config_dirs.append(os.path.join(ROOTDIR, 'home\\config\\vsc_config\\.vscode'))
 
-  create_dir_if_necessary(target_config_dir)
-
-  for f in os.listdir(project_config_dir):
-    src_file = os.path.join(project_config_dir, f)
-    target_file = os.path.join(target_config_dir, f)
-    force_copy(src_file, target_file)
+  for f in os.listdir(src_config_dir):
+    for dest_config_dir in dest_config_dirs:
+      src_file = os.path.join(src_config_dir, f)
+      dest_file = os.path.join(dest_config_dir, f)
+      force_copy(src_file, dest_file)
 
   print ('Visual studio code is set up!')
 
@@ -156,6 +213,9 @@ def check_npp():
     print ('Notepad++ is set up!')
 
 def main(argv):
+  validate_environment_variables()
+  create_dirs()
+  copy_files()
   setup_environment_variables()
   setup_vscode()
   check_npp()

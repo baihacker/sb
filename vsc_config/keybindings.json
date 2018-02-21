@@ -1,0 +1,15 @@
+// 将键绑定放入此文件中以覆盖默认值
+[
+  {
+    "key": "ctrl+r",
+    "command": "workbench.action.tasks.runTask"
+  },
+  {
+    "key": "ctrl+t",
+    "command": "workbench.action.tasks.test"
+  },
+  {
+    "key": "ctrl+b",
+    "command": "workbench.action.tasks.terminate"
+  }
+]

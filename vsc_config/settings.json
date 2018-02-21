@@ -1,0 +1,12 @@
+{
+    "terminal.integrated.shell.windows": "C:\\WINDOWS\\System32\\cmd.exe",
+    "files.associations": {
+        "*.c": "cpp",
+        "pe_*": "cpp",
+    },
+    "editor.tabSize": 2,
+    "terminal.integrated.scrollback": 10000,
+    "editor.fontFamily": "Consolas, 微软雅黑",
+    "files.trimTrailingWhitespace": true,
+    "editor.minimap.enabled": false,
+}
