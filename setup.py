@@ -4,21 +4,21 @@ import shutil
 from subprocess import check_call
 
 """
-  Set up basic development enviroment.
+  Set up basic development environment.
   Before script:
-  1. Make sure enviornment variable DEVDIR exist and be a valid directory path.
-  2. Make sure enviornment variable ROOTDIR exist and be a valid directory path.
+  1. Make sure environment variable DEVDIR exist and be a valid directory path.
+  2. Make sure environment variable ROOTDIR exist and be a valid directory path.
   3. Make sure DEVPATH is a part of PATH.
 
   This script:
-  1. Check environment variabls.
+  1. Check environment variables.
   2. Create directories if necessary.
   3. Copy sb files to destination dirs.
   4. Generates DEVPATH which includes a list of path added to PATH.
   5. If JAVAHOME exists, setup the corresponding JAVA class path.
   6. Generates CPLUS_INCLUDE_PATH.
   7. Copies vscode configurations from CURRENT_DIR\\vsc_config to %APPDAT%\\code
-    and %ROOTDIR%\\projects\\.vscode
+    and %ROOTDIR%\\projects\\.vscode and %ROOTDIR%\\home\\config\\vsc_config
   8. Checks whether notepad++ is setup. (Also check whether npp.exe (a copy of notepad++.exe) exist.)
 """
 
