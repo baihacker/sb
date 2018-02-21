@@ -175,19 +175,21 @@ def setup_vscode():
     print('There is no vsc_config in current directory. path = %s'%src_dir)
     print ('Failed to set up visual studio code!')
     return
-  for path in ['Code\\User', 'Code - Insiders\\User']:
-    dest_dirs = [os.path.join(os.environ.get('APPDATA'), path)]
-    if RUN_FROM_GIT_REPOSITORY:
+  appdata = os.environ.get('APPDATA')
+  dest_dirs = [os.path.join(appdata, path) for path in ['Code\\User', 'Code - Insiders\\User']]
+  if RUN_FROM_GIT_REPOSITORY:
       dest_dirs.append(os.path.join(ROOTDIR, 'home\\config\\vsc_config'))
-    for dest_dir in dest_dirs:
+
+  for idx, dest_dir in enumerate(dest_dirs):
+    if idx >= 2:
       create_dir_if_necessary(dest_dir)
-      if not os.path.exists(dest_dir):
-        continue
-      for f in ['settings.json', 'keybindings.json']:
-        src_file = os.path.join(src_dir, f)
-        dest_file = os.path.join(dest_dir, f)
-        if os.path.exists(src_file):
-          force_copy(src_file, dest_file)
+    if not os.path.exists(dest_dir):
+      continue
+    for f in ['settings.json', 'keybindings.json']:
+      src_file = os.path.join(src_dir, f)
+      dest_file = os.path.join(dest_dir, f)
+      if os.path.exists(src_file):
+        force_copy(src_file, dest_file)
 
   # copy project configurations
   src_config_dir = os.path.join(src_dir, '.vscode')
