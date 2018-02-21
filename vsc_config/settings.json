@@ -2,7 +2,7 @@
     "terminal.integrated.shell.windows": "C:\\WINDOWS\\System32\\cmd.exe",
     "files.associations": {
         "*.c": "cpp",
-        "pe_*": "cpp",
+        "pe*": "cpp",
     },
     "editor.tabSize": 2,
     "terminal.integrated.scrollback": 10000,
