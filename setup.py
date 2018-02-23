@@ -148,6 +148,7 @@ def setup_environment_variables():
   add_if_exists('C:\\Program Files (x86)\\Notepad++', dev_paths)
   add_if_exists('C:\\Program Files\\Notepad++', dev_paths)
   add_if_exists('C:\\python\\pypy3-2.4.0-win32', dev_paths)
+  add_if_exists('C:\\Program Files\\TortoiseSVN\\bin', dev_paths)
   if len(JAVAHOME) > 0:
     add_if_exists(os.path.join(JAVAHOME, 'bin'), dev_paths)
   env_setter.setenv('DEVPATH', ';'.join(dev_paths))
