@@ -145,9 +145,13 @@ def setup_environment_variables():
   add_if_exists(os.path.join(DEVDIR, 'MinGW-w64_7.2.0\\mingw64\\bin'), dev_paths)
   add_if_exists('C:\\python\\Python27', dev_paths)
   add_if_exists('C:\\python\\Python33', dev_paths)
+  add_if_exists('C:\\python\\Python27_64', dev_paths)
+  add_if_exists('C:\\python\\Python33_64', dev_paths)
+  add_if_exists('C:\\python\\pypy2', dev_paths)
+  add_if_exists('C:\\python\\pypy3', dev_paths)
   add_if_exists('C:\\Program Files (x86)\\Notepad++', dev_paths)
   add_if_exists('C:\\Program Files\\Notepad++', dev_paths)
-  add_if_exists('C:\\python\\pypy3-2.4.0-win32', dev_paths)
+  
   add_if_exists('C:\\Program Files\\TortoiseSVN\\bin', dev_paths)
   if len(JAVAHOME) > 0:
     add_if_exists(os.path.join(JAVAHOME, 'bin'), dev_paths)
