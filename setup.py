@@ -146,6 +146,7 @@ def setup_environment_variables():
   add_if_exists('C:\\python\\Python27', dev_paths)
   add_if_exists('C:\\python\\Python33', dev_paths)
   add_if_exists('C:\\Program Files (x86)\\Notepad++', dev_paths)
+  add_if_exists('C:\\Program Files\\Notepad++', dev_paths)
   add_if_exists('C:\\python\\pypy3-2.4.0-win32', dev_paths)
   if len(JAVAHOME) > 0:
     add_if_exists(os.path.join(JAVAHOME, 'bin'), dev_paths)
@@ -204,13 +205,21 @@ def setup_vscode():
   print ('Visual studio code is set up!')
 
 def check_npp():
-  npp_dir = 'C:\\Program Files (x86)\\Notepad++'
-  src_exe_path = os.path.join(npp_dir, 'notepad++.exe')
-  dest_exe_path = os.path.join(npp_dir, 'npp.exe')
-  if not os.path.exists(src_exe_path) or not os.path.exists(dest_exe_path):
-    print ('Need to set up npp manually!')
-  else:
-    print ('Notepad++ is set up!')
+  found_npp = False
+  for pf_path in ['C:\\Program Files (x86)', 'C:\\Program Files']:
+    npp_dir = os.path.join(pf_path, 'Notepad++')
+    src_exe_path = os.path.join(npp_dir, 'notepad++.exe')
+    
+    if not os.path.exists(src_exe_path):
+      continue
+    found_npp = True;
+
+    dest_exe_path = os.path.join(npp_dir, 'npp.exe')
+    if not os.path.exists(dest_exe_path):
+      print ('Need to set up npp.exe manually for %s'%src_exe_path)
+
+  if not found_npp:
+    print ('Notepad++ is not set up!')
 
 def main(argv):
   validate_environment_variables()
