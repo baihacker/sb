@@ -8,7 +8,7 @@ from subprocess import check_call
   Before script:
   1. Make sure environment variable DEVDIR exist and be a valid directory path.
   2. Make sure environment variable ROOTDIR exist and be a valid directory path.
-  3. Make sure DEVPATH is a part of PATH.
+  3. Make sure DEVPATH is a part of PATH, i.e PATH=%DEVPATH%;...
 
   This script:
   1. Check environment variables.
@@ -143,6 +143,7 @@ def setup_environment_variables():
   add_if_exists(os.path.join(USRDIR, 'dll\\vc12_x86'), dev_paths)
   add_if_exists(os.path.join(USRDIR, 'dll\\vc12_x64'), dev_paths)
   add_if_exists(os.path.join(DEVDIR, 'MinGW-w64_7.2.0\\mingw64\\bin'), dev_paths)
+  add_if_exists('C:\\Python27', dev_paths)
   add_if_exists('C:\\python\\Python27', dev_paths)
   add_if_exists('C:\\python\\Python33', dev_paths)
   add_if_exists('C:\\python\\Python27_64', dev_paths)
@@ -184,7 +185,7 @@ def setup_vscode():
   appdata = os.environ.get('APPDATA')
   dest_dirs = [os.path.join(appdata, path) for path in ['Code\\User', 'Code - Insiders\\User']]
   if RUN_FROM_GIT_REPOSITORY:
-      dest_dirs.append(os.path.join(ROOTDIR, 'home\\config\\vsc_config'))
+    dest_dirs.append(os.path.join(ROOTDIR, 'home\\config\\vsc_config'))
 
   for dest_dir in dest_dirs:
     if not os.path.exists(dest_dir):
