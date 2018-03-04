@@ -110,7 +110,7 @@ def copy_files():
     return
 
   bin_dir = os.path.join(ROOTDIR, 'usr\\bin')
-  files = ['dcj.py', 'jr.py', 'pe++.py', 'sb.py', 'vc++.py']
+  files = ['dcj.py', 'dcj.bat', 'jr.py', 'jr.bat', 'pe++.py', 'pe++.bat', 'pe.bat', 'sb.py', 'vc++.py', 'vc++.bat']
   for f in files:
     src_file = os.path.join(CURRENT_DIRECTORY, f)
     dest_file = os.path.join(bin_dir, f)
