@@ -41,7 +41,7 @@ Install with pre-defined directory structure (recommended)
   * Install python 2.
   * Create directories: %DEVDIR%, %ROOTDIR%. (The sub-directories is not necessary)
     * Optional, install MinGW under %DEVDIR%. Please make sure %DEVDIR%/MinGW-w64_7.2.0/mingw64/bin exist because he script will add this path to environment variable. If this path doesn't sound good to you, please install it in another path but don't forget to edit setup.py
-    * Optional, install (pe)[https://github.com/baihacker/pe]: copy the files of pe to %ROOTDIR%/usr/lib/pe and config pe if necessary. 
+    * Optional, install [pe](https://github.com/baihacker/pe): copy the files of pe to %ROOTDIR%/usr/lib/pe and config pe if necessary. 
   * Create environment variable: DEVDIR, ROOTDIR. The value is the path of the corresponding directories.
   * Edit compilers.json according to make sure the configuration is correct.
     * The default pe compiler will use Eigen, GMP. Please remove the corresponding compile options if you don't to want to use them. Otherwise, you can put them under %ROOTDIR%/usr/lib and edit the setup.py and compilers.json.
