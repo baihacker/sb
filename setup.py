@@ -142,7 +142,7 @@ def setup_environment_variables():
   add_if_exists(os.path.join(USRDIR, 'dll'), dev_paths)
   add_if_exists(os.path.join(USRDIR, 'dll\\vc12_x86'), dev_paths)
   add_if_exists(os.path.join(USRDIR, 'dll\\vc12_x64'), dev_paths)
-  add_if_exists(os.path.join(DEVDIR, 'MinGW-w64_7.2.0\\mingw64\\bin'), dev_paths)
+  add_if_exists(os.path.join(DEVDIR, 'MinGW-x86_64-7.3.0\\mingw64\\bin'), dev_paths)
   add_if_exists('C:\\Python27', dev_paths)
   add_if_exists('C:\\python\\Python27', dev_paths)
   add_if_exists('C:\\python\\Python33', dev_paths)
