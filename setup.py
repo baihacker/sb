@@ -7,7 +7,7 @@ from subprocess import check_call
   Set up basic development environment.
   Before script:
   1. Make sure environment variable DEVDIR exist and be a valid directory path.
-  2. Make sure environment variable ROOTDIR exist and be a valid directory path.
+  2. Make sure ROOTDIR\app\DevSoft be a valid directory path.
   3. Make sure DEVPATH is a part of PATH, i.e PATH=%DEVPATH%;...
 
   This script:
@@ -70,6 +70,7 @@ def create_dir_if_necessary(dir):
 
 DEVDIR = os.environ.get('DEVDIR', '')
 ROOTDIR = os.environ.get('ROOTDIR', '')
+DEVDIR = os.path.join(ROOTDIR, 'app\\DevSoft')
 JAVAHOME = os.environ.get('JAVA_HOME', '')
 CURRENT_DIRECTORY = os.path.dirname(os.path.realpath(__file__))
 RUN_FROM_GIT_REPOSITORY = os.path.exists(os.path.join(CURRENT_DIRECTORY, '.git'))
