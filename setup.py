@@ -76,23 +76,22 @@ CURRENT_DIRECTORY = os.path.dirname(os.path.realpath(__file__))
 RUN_FROM_GIT_REPOSITORY = os.path.exists(os.path.join(CURRENT_DIRECTORY, '.git'))
 
 def validate_environment_variables():
-  if len(DEVDIR) == 0:
-    print('Please set DEVDIR')
-    os._exit(-1)
   if len(ROOTDIR) == 0:
     print('Please set ROOTDIR')
     os._exit(-1)
-  if not os.path.exists(DEVDIR):
-    print('%s doesn\'t exist'%DEVDIR)
-    os._exit(-1)
-  if not os.path.isdir(DEVDIR):
-    print('%s is not a directory'%DEVDIR)
-    os._exit(-1)
+
   if not os.path.exists(ROOTDIR):
     print('%s doesn\'t exist'%ROOTDIR)
     os._exit(-1)
   if not os.path.isdir(ROOTDIR):
     print('%s is not a directory'%ROOTDIR)
+    os._exit(-1)
+
+  if not os.path.exists(DEVDIR):
+    print('%s doesn\'t exist'%DEVDIR)
+    os._exit(-1)
+  if not os.path.isdir(DEVDIR):
+    print('%s is not a directory'%DEVDIR)
     os._exit(-1)
 
 def create_dirs():
@@ -121,7 +120,7 @@ def copy_files():
   src_file = os.path.join(CURRENT_DIRECTORY, 'compilers.json')
   dest_file = os.path.join(config_dir, 'compilers.json')
   force_copy(src_file, dest_file)
-  
+
   src_file = os.path.join(CURRENT_DIRECTORY, 'setup.py')
   dest_file = os.path.join(config_dir, 'setup.py')
   force_copy(src_file, dest_file)
@@ -153,7 +152,7 @@ def setup_environment_variables():
   add_if_exists('C:\\python\\pypy3', dev_paths)
   add_if_exists('C:\\Program Files (x86)\\Notepad++', dev_paths)
   add_if_exists('C:\\Program Files\\Notepad++', dev_paths)
-  
+
   add_if_exists('C:\\Program Files\\TortoiseSVN\\bin', dev_paths)
   if len(JAVAHOME) > 0:
     add_if_exists(os.path.join(JAVAHOME, 'bin'), dev_paths)
@@ -216,7 +215,7 @@ def check_npp():
   for pf_path in ['C:\\Program Files (x86)', 'C:\\Program Files']:
     npp_dir = os.path.join(pf_path, 'Notepad++')
     src_exe_path = os.path.join(npp_dir, 'notepad++.exe')
-    
+
     if not os.path.exists(src_exe_path):
       continue
     found_npp = True;
