@@ -93,6 +93,7 @@ def validate_environment_variables():
 def create_dirs():
   create_dir_if_necessary(os.path.join(ROOTDIR, 'app'))
   create_dir_if_necessary(os.path.join(ROOTDIR, 'app\\DevSoft'))
+  create_dir_if_necessary(os.path.join(ROOTDIR, 'app\\MathsSoft'))
   create_dir_if_necessary(os.path.join(ROOTDIR, 'usr'))
   create_dir_if_necessary(os.path.join(ROOTDIR, 'usr\\bin'))
   create_dir_if_necessary(os.path.join(ROOTDIR, 'home'))
@@ -141,6 +142,7 @@ def setup_environment_variables():
   add_if_exists(os.path.join(USRDIR, 'dll\\vc12_x86'), dev_paths)
   add_if_exists(os.path.join(USRDIR, 'dll\\vc12_x64'), dev_paths)
   add_if_exists(os.path.join(DEVDIR, 'MinGW-x86_64-7.3.0\\mingw64\\bin'), dev_paths)
+  add_if_exists(os.path.join(ROOTDIR, 'app\\MathsSoft\\mma'), dev_paths)
   add_if_exists('C:\\Python27', dev_paths)
   add_if_exists('C:\\python\\Python27', dev_paths)
   add_if_exists('C:\\python\\Python33', dev_paths)
