@@ -67,6 +67,9 @@ def force_copy(src, dest):
 def create_dir_if_necessary(dir):
   if not os.path.exists(dir):
     os.mkdir(dir)
+  if not os.path.isdir(dir):
+    print('%s is not a directory'%dir)
+    os._exit(-1)
 
 DEVDIR = os.environ.get('DEVDIR', '')
 ROOTDIR = os.environ.get('ROOTDIR', '')
@@ -87,14 +90,9 @@ def validate_environment_variables():
     print('%s is not a directory'%ROOTDIR)
     os._exit(-1)
 
-  if not os.path.exists(DEVDIR):
-    print('%s doesn\'t exist'%DEVDIR)
-    os._exit(-1)
-  if not os.path.isdir(DEVDIR):
-    print('%s is not a directory'%DEVDIR)
-    os._exit(-1)
-
 def create_dirs():
+  create_dir_if_necessary(os.path.join(ROOTDIR, 'app'))
+  create_dir_if_necessary(os.path.join(ROOTDIR, 'app\\DevSoft'))
   create_dir_if_necessary(os.path.join(ROOTDIR, 'usr'))
   create_dir_if_necessary(os.path.join(ROOTDIR, 'usr\\bin'))
   create_dir_if_necessary(os.path.join(ROOTDIR, 'home'))
