@@ -4,7 +4,7 @@
     "variables": {
       "DEV_SOFT_PATH": "$(ROOTDIR)\\app\\DevSoft",
       "USR_PATH": "$(ROOTDIR)\\usr",
-    }`
+    }
   },
   {
     "name": "mingw",
@@ -103,10 +103,10 @@
         "running_binary": "$(OUTPUT_FILE)",
         "running_args": [],
         "debug_flags": [
-          "-g -fopenmp -lgmpxx -lgmp -L$(USR_PATH)\\lib\\gmp-6.1.2\\lib"
+          "-g -fopenmp -lgmpxx -lflint -lgmp -lmpfr -lmpir"
         ],
         "release_flags": [
-          "-O3 -march=native -mtune=native -fopenmp -Wl,--stack,268435456 -lgmpxx -lgmp -L$(USR_PATH)\\lib\\gmp-6.1.2\\lib"
+          "-O3 -march=native -mtune=native -fopenmp -Wl,--stack,268435456 -lgmpxx -lflint -lgmp -lmpfr -lmpir"
         ],
       },
     ],

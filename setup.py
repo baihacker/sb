@@ -167,10 +167,16 @@ def setup_environment_variables():
 
   # cpp_include_path
   cpp_include_paths = []
-  add_if_exists(os.path.join(USRDIR, 'lib'), cpp_include_paths)
-  add_if_exists(os.path.join(USRDIR, 'lib\\pe'), cpp_include_paths)
-  add_if_exists(os.path.join(USRDIR, 'lib\\gmp-6.1.2\\include'), cpp_include_paths)
+  add_if_exists(os.path.join(USRDIR, 'include'), cpp_include_paths)
+  add_if_exists(os.path.join(USRDIR, 'include\\pe'), cpp_include_paths)
+  add_if_exists(os.path.join(USRDIR, 'include\\flint'), cpp_include_paths)
   env_setter.setenv('CPLUS_INCLUDE_PATH', ';'.join(cpp_include_paths))
+  env_setter.setenv('C_INCLUDE_PATH', ';'.join(cpp_include_paths))
+ 
+  # lib path
+  lib_paths = []
+  add_if_exists(os.path.join(USRDIR, 'lib'), lib_paths)
+  env_setter.setenv('LIBRARY_PATH', ';'.join(lib_paths))
 
   print ('Environment variables are set up!')
 
