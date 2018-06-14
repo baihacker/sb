@@ -43,7 +43,7 @@ Install with pre-defined directory structure (recommended)
   * Install python 2.
   * Create root dir and add ROOTDIR (value is the created root dir) to environtment variable list. (The sub-directories mentioned above are created automatically if not exist)
   * Optional, install MinGW under %ROOTDIR%/app/DevSoft. Please make sure %ROOTDIR%/app/DevSoft/MinGW-x86_64-7.3.0/mingw64/bin exist because this script will add that path to environment variable list. If the path doesn't sound good to you, please install it in another path but don't forget to edit setup.py
-  * Optional, install [pe](https://github.com/baihacker/pe): copy the files of pe to %ROOTDIR%/usr/lib/pe and **config** pe if necessary (see [pe](https://github.com/baihacker/pe) for how to config it).
+  * Optional, install [pe](https://github.com/baihacker/pe): copy the files of pe to %ROOTDIR%/usr/include/pe and **config** pe if necessary (see [pe](https://github.com/baihacker/pe) for how to config it).
   * Configure compilers.json.
     * The default pe compiler will use Eigen, GMP. Please remove the corresponding compile options if you don't to want to use them. Otherwise, you can put them under %ROOTDIR%/usr/lib and edit the setup.py and compilers.json.
   * Run setup.py
