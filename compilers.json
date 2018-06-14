@@ -4,15 +4,15 @@
     "variables": {
       "DEV_SOFT_PATH": "$(ROOTDIR)\\app\\DevSoft",
       "USR_PATH": "$(ROOTDIR)\\usr",
-    }
+    }`
   },
   {
     "name": "mingw",
     "type": "compiler",
     "arch": "x64",
-    "version": "7.3.0",
+    "version": "8.1.0",
     "variables": {
-      "ROOT_DIR": "$(DEV_SOFT_PATH)\\MinGW-x86_64-7.3.0\\mingw64",
+      "ROOT_DIR": "$(DEV_SOFT_PATH)\\MinGW-x86_64-8.1.0\\mingw64",
     },
     "env_var_keep": {},
     "env_var_merge": {},
@@ -62,9 +62,9 @@
     "name": "mingw-pe",
     "type": "compiler",
     "arch": "x64",
-    "version": "7.3.0",
+    "version": "8.1.0",
     "variables": {
-      "ROOT_DIR": "$(DEV_SOFT_PATH)\\MinGW-x86_64-7.3.0\\mingw64",
+      "ROOT_DIR": "$(DEV_SOFT_PATH)\\MinGW-x86_64-8.1.0\\mingw64",
     },
     "env_var_keep": {},
     "env_var_merge": {},
