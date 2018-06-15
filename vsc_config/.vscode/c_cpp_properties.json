@@ -48,10 +48,10 @@
                 "${ROOTDIR}\\usr\\lib",
                 "${ROOTDIR}\\usr\\lib\\pe",
                 "${ROOTDIR}\\usr\\lib\\gmp-6.1.2\\include",
-                "${DEVDIR}\\MinGW-w64_7.2.0\\mingw64\\lib\\gcc\\x86_64-w64-mingw32\\7.2.0\\include",
-                "${DEVDIR}\\MinGW-w64_7.2.0\\mingw64\\lib\\gcc\\x86_64-w64-mingw32\\7.2.0\\include\\c++",
-                "${DEVDIR}\\MinGW-w64_7.2.0\\mingw64\\lib\\gcc\\x86_64-w64-mingw32\\7.2.0\\include\\c++\\x86_64-w64-mingw32",
-                "${DEVDIR}\\MinGW-w64_7.2.0\\mingw64\\x86_64-w64-mingw32\\include",
+                "${DEVDIR}\\MinGW-w64_8.1.0\\mingw64\\lib\\gcc\\x86_64-w64-mingw32\\8.1.0\\include",
+                "${DEVDIR}\\MinGW-w64_8.1.0\\mingw64\\lib\\gcc\\x86_64-w64-mingw32\\8.1.0\\include\\c++",
+                "${DEVDIR}\\MinGW-w64_8.1.0\\mingw64\\lib\\gcc\\x86_64-w64-mingw32\\8.1.0\\include\\c++\\x86_64-w64-mingw32",
+                "${DEVDIR}\\MinGW-w64_8.1.0\\mingw64\\x86_64-w64-mingw32\\include",
                 "${workspaceRoot}"
             ],
             "defines": [
@@ -64,13 +64,13 @@
             "intelliSenseMode": "clang-x64",
             "browse": {
                 "path": [
-                    "${ROOTDIR}\\usr\\lib",
-                    "${ROOTDIR}\\usr\\lib\\pe",
-                    "${ROOTDIR}\\usr\\lib\\gmp-6.1.2\\include",
-                    "${DEVDIR}\\MinGW-w64_7.2.0\\mingw64\\lib\\gcc\\x86_64-w64-mingw32\\7.2.0\\include",
-                    "${DEVDIR}\\MinGW-w64_7.2.0\\mingw64\\lib\\gcc\\x86_64-w64-mingw32\\7.2.0\\include\\c++",
-                    "${DEVDIR}\\MinGW-w64_7.2.0\\mingw64\\lib\\gcc\\x86_64-w64-mingw32\\7.2.0\\include\\c++\\x86_64-w64-mingw32",
-                    "${DEVDIR}\\MinGW-w64_7.2.0\\mingw64\\x86_64-w64-mingw32\\include"
+                    "${ROOTDIR}\\usr\\include",
+                    "${ROOTDIR}\\usr\\include\\pe",
+                    "${ROOTDIR}\\usr\\include\\flint",
+                    "${ROOTDIR}\\app\\DevSoft\\MinGW-w64_8.1.0\\mingw64\\lib\\gcc\\x86_64-w64-mingw32\\8.1.0\\include",
+                    "${ROOTDIR}\\app\\DevSoft\\MinGW-w64_8.1.0\\mingw64\\lib\\gcc\\x86_64-w64-mingw32\\8.1.0\\include\\c++",
+                    "${ROOTDIR}\\app\\DevSoft\\MinGW-w64_8.1.0\\mingw64\\lib\\gcc\\x86_64-w64-mingw32\\8.1.0\\include\\c++\\x86_64-w64-mingw32",
+                    "${ROOTDIR}\\app\\DevSoft\\MinGW-w64_8.1.0\\mingw64\\x86_64-w64-mingw32\\include"
                 ],
                 "limitSymbolsToIncludedHeaders": true,
                 "databaseFilename": ""
