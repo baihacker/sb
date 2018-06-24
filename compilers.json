@@ -103,10 +103,10 @@
         "running_binary": "$(OUTPUT_FILE)",
         "running_args": [],
         "debug_flags": [
-          "-g -fopenmp -lgmpxx -lflint -lgmp -lmpfr -lmpir"
+          "-g -fopenmp -lbf -lgmpxx -lflint -lgmp -lmpfr -lmpir"
         ],
         "release_flags": [
-          "-O3 -march=native -mtune=native -fopenmp -Wl,--stack,268435456 -lgmpxx -lflint -lgmp -lmpfr -lmpir"
+          "-O3 -march=native -mtune=native -fopenmp -Wl,--stack,268435456 -lbf -lgmpxx -lflint -lgmp -lmpfr -lmpir"
         ],
       },
     ],
