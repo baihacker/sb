@@ -15,10 +15,15 @@ def find_config_file():
 
   dirs = [CurrentDirectory]
 
+  # USERHOME
+  USERHOME = os.environ.get('USERHOME', '')
+  if len(USERHOME) > 0:
+    dirs.append(os.path.join(USERHOME, 'config'))
+
   # RootDir
   ROOTDIR = os.environ.get('ROOTDIR', '')
   if len(ROOTDIR) > 0:
-    dirs.append(os.path.join(ROOTDIR, 'home\\config'))
+    dirs.append(os.path.join(ROOTDIR, 'config'))
 
   # dcfpe dir
   dcfpe_dir = os.path.join(os.path.dirname(os.environ['APPDATA']), 'LocalLow\\dcfpe')

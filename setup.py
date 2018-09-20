@@ -5,7 +5,7 @@ from subprocess import check_call
 """
   Set up basic development environment.
   Before script:
-  1. Make sure environment variable ROOTDIR exist and be a valid directory path.
+  1. Make sure environment variable ROOTDIR and USERHOME exist and be a valid directory path.
   2. Make sure ROOTDIR\app\DevSoft be a valid directory path.
   3. Make sure DEVPATH is a part of PATH, i.e PATH=%DEVPATH%;...
 
@@ -74,7 +74,7 @@ def create_dir_if_necessary(dir):
     print('%s is not a directory' % dir)
     os._exit(-1)
 
-
+USERHOME = os.environ.get('USERHOME', '')
 ROOTDIR = os.environ.get('ROOTDIR', '')
 DEVDIR = os.path.join(ROOTDIR, 'app\\DevSoft')
 JAVAHOME = os.environ.get('JAVA_HOME', '')
@@ -94,19 +94,29 @@ def validate_environment_variables():
   if not os.path.isdir(ROOTDIR):
     print('%s is not a directory' % ROOTDIR)
     os._exit(-1)
+    
+  if len(USERHOME) == 0:
+    print('Please set USERHOME')
+    os._exit(-1)
+
+  if not os.path.exists(USERHOME):
+    print('%s doesn\'t exist' % USERHOME)
+    os._exit(-1)
+  if not os.path.isdir(USERHOME):
+    print('%s is not a directory' % USERHOME)
+    os._exit(-1)
 
 
 def create_dirs():
   create_dir_if_necessary(os.path.join(ROOTDIR, 'app'))
   create_dir_if_necessary(os.path.join(ROOTDIR, 'app\\DevSoft'))
   create_dir_if_necessary(os.path.join(ROOTDIR, 'app\\MathsSoft'))
-  create_dir_if_necessary(os.path.join(ROOTDIR, 'usr'))
-  create_dir_if_necessary(os.path.join(ROOTDIR, 'usr\\bin'))
-  create_dir_if_necessary(os.path.join(ROOTDIR, 'home'))
-  create_dir_if_necessary(os.path.join(ROOTDIR, 'home\\config'))
-  create_dir_if_necessary(os.path.join(ROOTDIR, 'home\\config\\vsc_config'))
+  create_dir_if_necessary(os.path.join(USERHOME, 'usr'))
+  create_dir_if_necessary(os.path.join(USERHOME, 'usr\\bin'))
+  create_dir_if_necessary(os.path.join(USERHOME, 'config'))
+  create_dir_if_necessary(os.path.join(USERHOME, 'config\\vsc_config'))
   create_dir_if_necessary(
-      os.path.join(ROOTDIR, 'home\\config\\vsc_config\\.vscode'))
+      os.path.join(USERHOME, 'config\\vsc_config\\.vscode'))
   create_dir_if_necessary(os.path.join(ROOTDIR, 'projects'))
   create_dir_if_necessary(os.path.join(ROOTDIR, 'projects\\.vscode'))
 
@@ -116,7 +126,7 @@ def copy_files():
     print('Skip copying files. Not a git repository!')
     return
 
-  bin_dir = os.path.join(ROOTDIR, 'usr\\bin')
+  bin_dir = os.path.join(USERHOME, 'usr\\bin')
   files = [
       'dcj.py', 'dcj.bat', 'jr.py', 'jr.bat', 'pe++.py', 'pe++.bat', 'pe.bat',
       'sb.py', 'vc++.py', 'vc++.bat'
@@ -126,7 +136,7 @@ def copy_files():
     dest_file = os.path.join(bin_dir, f)
     force_copy(src_file, dest_file)
 
-  config_dir = os.path.join(ROOTDIR, 'home\\config')
+  config_dir = os.path.join(USERHOME, 'config')
   src_file = os.path.join(CURRENT_DIRECTORY, 'compilers.json')
   dest_file = os.path.join(config_dir, 'compilers.json')
   force_copy(src_file, dest_file)
@@ -145,7 +155,7 @@ def setup_environment_variables():
     else:
       print("%s doesn't exists." % path)
 
-  USRDIR = os.path.join(ROOTDIR, 'usr')
+  USRDIR = os.path.join(USERHOME, 'usr')
 
   # dev_paths
   dev_paths = []
@@ -209,7 +219,7 @@ def setup_vscode():
       for path in ['Code\\User', 'Code - Insiders\\User']
   ]
   if RUN_FROM_GIT_REPOSITORY:
-    dest_dirs.append(os.path.join(ROOTDIR, 'home\\config\\vsc_config'))
+    dest_dirs.append(os.path.join(USERHOME, 'config\\vsc_config'))
 
   for dest_dir in dest_dirs:
     if not os.path.exists(dest_dir):
@@ -225,7 +235,7 @@ def setup_vscode():
   dest_config_dirs = [os.path.join(ROOTDIR, 'projects\\.vscode')]
   if RUN_FROM_GIT_REPOSITORY:
     dest_config_dirs.append(
-        os.path.join(ROOTDIR, 'home\\config\\vsc_config\\.vscode'))
+        os.path.join(USERHOME, 'config\\vsc_config\\.vscode'))
 
   for f in os.listdir(src_config_dir):
     for dest_config_dir in dest_config_dirs:
