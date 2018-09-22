@@ -321,6 +321,23 @@ def setup_symlinks():
   else:
     print('Cannot setup symbol link from %s to %s'%(src_dir, dest_dir))
 
+def setup_private_symlinks():
+  # Redirect pe
+  src_dir = os.path.join(ROOTDIR, 'pe')
+  dest_dir = os.path.join(USERHOME, 'bg\\CodeDepot\\algo_new\\pe')
+  if readyToCreateDirSymLink(src_dir):
+    os.system('mklink /D "%s" "%s"'%(src_dir, dest_dir))
+  else:
+    print('Cannot setup symbol link from %s to %s'%(src_dir, dest_dir))
+  
+  # Redirect rose_code
+  src_dir = os.path.join(ROOTDIR, 'rose_code')
+  dest_dir = os.path.join(USERHOME, 'bg\\CodeDepot\\algo_new\\rose_code')
+  if readyToCreateDirSymLink(src_dir):
+    os.system('mklink /D "%s" "%s"'%(src_dir, dest_dir))
+  else:
+    print('Cannot setup symbol link from %s to %s'%(src_dir, dest_dir))
+
 def main(argv):
   validate_environment_variables()
   create_dirs()
@@ -330,6 +347,8 @@ def main(argv):
   check_npp()
   if is_admin():
     setup_symlinks()
+    if len(argv) > 1 and argv[1] == '-b':
+      setup_private_symlinks()
 
 
 if __name__ == '__main__':
