@@ -15,10 +15,10 @@ def find_config_file():
 
   dirs = [CurrentDirectory]
 
-  # USERHOME
-  USERHOME = os.environ.get('USERHOME', '')
-  if len(USERHOME) > 0:
-    dirs.append(os.path.join(USERHOME, 'config'))
+  # HOMEDIR
+  HOMEDIR = os.environ.get('HOMEDIR', '')
+  if len(HOMEDIR) > 0:
+    dirs.append(os.path.join(HOMEDIR, 'config'))
 
   # RootDir
   ROOTDIR = os.environ.get('ROOTDIR', '')

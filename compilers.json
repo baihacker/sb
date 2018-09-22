@@ -3,7 +3,7 @@
     "name": "__compiler_base",
     "variables": {
       "DEV_SOFT_PATH": "$(ROOTDIR)\\app\\DevSoft",
-      "USR_PATH": "$(USERHOME)\\usr",
+      "USR_PATH": "$(HOMEDIR)\\usr",
     }
   },
   {
