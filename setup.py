@@ -110,6 +110,7 @@ def validate_environment_variables():
 def create_dirs():
   create_dir_if_necessary(os.path.join(USERHOME, 'usr'))
   create_dir_if_necessary(os.path.join(USERHOME, 'usr\\bin'))
+  create_dir_if_necessary(os.path.join(USERHOME, 'usr\\bin\\sb'))
   create_dir_if_necessary(os.path.join(ROOTDIR, 'app'))
   create_dir_if_necessary(os.path.join(ROOTDIR, 'app\\DevSoft'))
   create_dir_if_necessary(os.path.join(ROOTDIR, 'app\\MathsSoft'))
@@ -127,7 +128,7 @@ def setup_sb():
     return
 
   # Copy binaries to bin directory.
-  target_bin_dir = os.path.join(USERHOME, 'usr\\bin')
+  target_bin_dir = os.path.join(USERHOME, 'usr\\bin\\sb')
   files = [
       'dcj.py', 'dcj.bat', 'jr.py', 'jr.bat', 'pe++.py', 'pe++.bat', 'pe.bat',
       'sb.py', 'vc++.py', 'vc++.bat'
@@ -161,6 +162,7 @@ def setup_environment_variables():
   # dev_paths
   dev_paths = []
   add_if_exists(os.path.join(USRDIR, 'bin'), dev_paths)
+  add_if_exists(os.path.join(USRDIR, 'bin\\sb'), dev_paths)
   add_if_exists(os.path.join(USRDIR, 'dll'), dev_paths)
   add_if_exists(os.path.join(USRDIR, 'dll\\vc12_x86'), dev_paths)
   add_if_exists(os.path.join(USRDIR, 'dll\\vc12_x64'), dev_paths)
