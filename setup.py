@@ -10,7 +10,7 @@ from subprocess import check_call
   1. Make sure environment variable ROOTDIR and USERHOME exist and be a valid directory path.
   2. Make sure ROOTDIR\app\DevSoft be a valid directory path.
   3. Make sure DEVPATH is a part of PATH, i.e PATH=%DEVPATH%;...
-  4. If you want to redirect Chromium directory, please provide DEVICENAME.
+  4. If you want to redirect Chromium directory, please provide DEVICENAME and run it in admin mode.
 
   This script:
   1. Check environment variables.
