@@ -1,6 +1,8 @@
 import sys
 import os
 import shutil
+import ctypes
+
 from subprocess import check_call
 """
   Set up basic development environment.
@@ -8,6 +10,7 @@ from subprocess import check_call
   1. Make sure environment variable ROOTDIR and USERHOME exist and be a valid directory path.
   2. Make sure ROOTDIR\app\DevSoft be a valid directory path.
   3. Make sure DEVPATH is a part of PATH, i.e PATH=%DEVPATH%;...
+  4. If you want to redirect Chromium directory, please provide DEVICENAME.
 
   This script:
   1. Check environment variables.
@@ -69,15 +72,39 @@ def force_copy(src, dest):
   shutil.copyfile(src, dest)
 
 
-def create_dir_if_necessary(dir):
+def create_dir_if_absent(dir):
+  # It doesn't try to create the parents dirs
   if not os.path.exists(dir):
     os.mkdir(dir)
   if not os.path.isdir(dir):
     print('%s is not a directory' % dir)
     os._exit(-1)
 
+def is_admin():
+  try:
+      return ctypes.windll.shell32.IsUserAnAdmin()
+  except:
+      return False
+
+def readyToCreateDirSymLink(path):
+  if not os.path.exists(path):
+    parent = os.path.dirname(path)
+    # create its parent directories recursively
+    if not os.path.exists(parent):
+      os.makedirs(parent)
+    return True
+  # Skip if it is an existing file
+  if not os.path.isdir(path):
+    return False
+  # If it is an empty dir or an existing dir
+  if os.stat(path).st_size == 0:
+    os.rmdir(path)
+    return True
+  return False
+
 USERHOME = os.environ.get('USERHOME', '')
 ROOTDIR = os.environ.get('ROOTDIR', '')
+DEVICENAME = os.environ.get('DEVICENAME', '')
 CURRENT_DIRECTORY = os.path.dirname(os.path.realpath(__file__))
 RUN_FROM_GIT_REPOSITORY = os.path.exists(
     os.path.join(CURRENT_DIRECTORY, '.git'))
@@ -108,18 +135,22 @@ def validate_environment_variables():
 
 
 def create_dirs():
-  create_dir_if_necessary(os.path.join(USERHOME, 'usr'))
-  create_dir_if_necessary(os.path.join(USERHOME, 'usr\\bin'))
-  create_dir_if_necessary(os.path.join(USERHOME, 'usr\\bin\\sb'))
-  create_dir_if_necessary(os.path.join(ROOTDIR, 'app'))
-  create_dir_if_necessary(os.path.join(ROOTDIR, 'app\\DevSoft'))
-  create_dir_if_necessary(os.path.join(ROOTDIR, 'app\\MathsSoft'))
-  create_dir_if_necessary(os.path.join(ROOTDIR, 'config'))
-  create_dir_if_necessary(os.path.join(ROOTDIR, 'config\\vsc_config'))
-  create_dir_if_necessary(
+  create_dir_if_absent(os.path.join(USERHOME, 'usr'))
+  create_dir_if_absent(os.path.join(USERHOME, 'usr\\bin'))
+  create_dir_if_absent(os.path.join(USERHOME, 'usr\\bin\\sb'))
+  create_dir_if_absent(os.path.join(ROOTDIR, 'app'))
+  create_dir_if_absent(os.path.join(ROOTDIR, 'app\\DevSoft'))
+  create_dir_if_absent(os.path.join(ROOTDIR, 'app\\MathsSoft'))
+  create_dir_if_absent(os.path.join(ROOTDIR, 'config'))
+  create_dir_if_absent(os.path.join(ROOTDIR, 'config\\vsc_config'))
+  create_dir_if_absent(
       os.path.join(ROOTDIR, 'config\\vsc_config\\.vscode'))
-  create_dir_if_necessary(os.path.join(ROOTDIR, 'projects'))
-  create_dir_if_necessary(os.path.join(ROOTDIR, 'projects\\.vscode'))
+  create_dir_if_absent(os.path.join(ROOTDIR, 'projects'))
+  create_dir_if_absent(os.path.join(ROOTDIR, 'projects\\.vscode'))
+  if len(DEVICENAME) > 0:
+    create_dir_if_absent(os.path.join(ROOTDIR, 'devices'))
+    create_dir_if_absent(os.path.join(ROOTDIR, 'devices\\%s'%DEVICENAME))
+    create_dir_if_absent(os.path.join(ROOTDIR, 'devices\\%s\\Chromium'%DEVICENAME))
 
 # Set up the simple build environment, you can onlye setup it from sb repository.
 def setup_sb():
@@ -270,6 +301,25 @@ def check_npp():
   if not found_npp:
     print('Notepad++ is not set up!')
 
+def setup_symlinks():
+  # Redirect chromium
+  if len(DEVICENAME) > 0:
+    src_dir = os.path.join(os.path.dirname(os.environ['APPDATA']), 'Local\\Chromium')
+    dest_dir = os.path.join(ROOTDIR, 'devices\\%s\\Chromium'%DEVICENAME)
+    if readyToCreateDirSymLink(src_dir):
+      os.system('mklink /D "%s" "%s"'%(src_dir, dest_dir))
+    else:
+      print('Cannot setup symbol link from %s to %s'%(src_dir, dest_dir))
+  else:
+    print('Skip setup symbol from Chromium since the device name is unknown')
+
+  # Redirect cloud
+  src_dir = os.path.join(ROOTDIR, 'projects\\cloud')
+  dest_dir = os.path.join(ROOTDIR, 'OneDrive\\projects')
+  if readyToCreateDirSymLink(src_dir):
+    os.system('mklink /D "%s" "%s"'%(src_dir, dest_dir))
+  else:
+    print('Cannot setup symbol link from %s to %s'%(src_dir, dest_dir))
 
 def main(argv):
   validate_environment_variables()
@@ -278,6 +328,8 @@ def main(argv):
   setup_environment_variables()
   setup_vscode()
   check_npp()
+  if is_admin():
+    setup_symlinks()
 
 
 if __name__ == '__main__':
