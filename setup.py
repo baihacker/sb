@@ -152,7 +152,7 @@ def create_dirs():
     create_dir_if_absent(os.path.join(ROOTDIR, 'devices\\%s'%DEVICENAME))
     create_dir_if_absent(os.path.join(ROOTDIR, 'devices\\%s\\Chromium'%DEVICENAME))
 
-# Set up the simple build environment, you can onlye setup it from sb repository.
+# Set up the simple build environment, you can only setup it from sb repository.
 def setup_sb():
   if not os.path.exists(os.path.join(CURRENT_DIRECTORY, '.git')):
     print('Skip setting up simple build environment. Not a git repository!')
