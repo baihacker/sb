@@ -337,6 +337,14 @@ def setup_private_symlinks():
     os.system('mklink /D "%s" "%s"'%(src_dir, dest_dir))
   else:
     print('Cannot setup symbol link from %s to %s'%(src_dir, dest_dir))
+    
+  # Redirect home
+  src_dir = os.path.join(ROOTDIR, 'home')
+  dest_dir = USERHOME
+  if readyToCreateDirSymLink(src_dir):
+    os.system('mklink /D "%s" "%s"'%(src_dir, dest_dir))
+  else:
+    print('Cannot setup symbol link from %s to %s'%(src_dir, dest_dir))
 
 def main(argv):
   validate_environment_variables()
