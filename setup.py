@@ -18,11 +18,9 @@ from subprocess import check_call
   3. Copy sb files to destination dirs.
   4. Generates DEVPATH which includes a list of path added to PATH.
   5. If JAVAHOME exists, setup the corresponding JAVA class path.
-  6. Generates CPLUS_INCLUDE_PATH.
-  7. Copies vscode configurations from CURRENT_DIR\\vsc_config to %APPDATA%\\code
-    and %ROOTDIR%\\projects\\.vscode and %HOMEDIR%\\config\\vsc_config
-  8. Checks whether notepad++ is setup. (Also check whether npp.exe (a copy of
-  notepad++.exe) exist.)
+  6. Generates CPLUS_INCLUDE_PATH and LIBRARY_PATH.
+  7. Copies vscode user configurations from CURRENT_DIR\\vsc_config to %APPDATA%\\code\\User, %APPDATA%\\Code - Insiders\\User and %HOMEDIR%\\config\\vsc_config. Copy vscode directory configurations from CURRENT_DIR\\vsc_config\\.vscode to %HOMEDIR%\\config\\vsc_config\\.vscode, %ROOTDIR%\\projects\\.vscode.
+  8. Checks whether notepad++ is setup. (Also check whether npp.exe (a copy of notepad++.exe) exist.)
 """
 
 if sys.hexversion > 0x03000000:
