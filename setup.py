@@ -108,24 +108,22 @@ DEVICENAME = os.environ.get('DEVICENAME', '')
 CURRENT_DIRECTORY = os.path.dirname(os.path.realpath(__file__))
 RUN_FROM_GIT_REPOSITORY = os.path.exists(
     os.path.join(CURRENT_DIRECTORY, '.git'))
-
+PRIVATE_INSTALL = False
 
 def validate_environment_variables():
   if len(ROOTDIR) == 0:
     print('Please set ROOTDIR')
     os._exit(-1)
-
   if not os.path.exists(ROOTDIR):
     print('%s doesn\'t exist' % ROOTDIR)
     os._exit(-1)
   if not os.path.isdir(ROOTDIR):
     print('%s is not a directory' % ROOTDIR)
     os._exit(-1)
-    
+
   if len(HOMEDIR) == 0:
     print('Please set HOMEDIR')
     os._exit(-1)
-
   if not os.path.exists(HOMEDIR):
     print('%s doesn\'t exist' % HOMEDIR)
     os._exit(-1)
@@ -249,7 +247,7 @@ def setup_vscode():
   # copy user configurations
   src_dir = os.path.join(CURRENT_DIRECTORY, 'vsc_config')
   if not os.path.exists(src_dir):
-    print('There is no vsc_config in current directory. path = %s' % src_dir)
+    print('There is no vsc_config in current directory: %s' % src_dir)
     print('Failed to set up visual studio code!')
     return
 
@@ -274,7 +272,8 @@ def setup_vscode():
   src_config_dir = os.path.join(src_dir, '.vscode')
   dest_config_dirs = [os.path.join(HOMEDIR, 'config\\vsc_config\\.vscode')]
   dest_config_dirs.append(os.path.join(ROOTDIR, 'projects\\.vscode'))
-  dest_config_dirs.append(os.path.join(ROOTDIR, 'OneDrive\\projects\\.vscode'))
+  if PRIVATE_INSTALL:
+    dest_config_dirs.append(os.path.join(ROOTDIR, 'OneDrive\\projects\\.vscode'))
 
   for f in os.listdir(src_config_dir):
     for dest_config_dir in dest_config_dirs:
@@ -338,7 +337,7 @@ def setup_private_symlinks():
     os.system('mklink /D "%s" "%s"'%(src_dir, dest_dir))
   else:
     print('Cannot setup symbol link from %s to %s'%(src_dir, dest_dir))
-    
+
   # Redirect projects
   src_dir = os.path.join(HOMEDIR, 'projects')
   dest_dir = os.path.join(ROOTDIR, 'OneDrive\\projects')
@@ -346,7 +345,7 @@ def setup_private_symlinks():
     os.system('mklink /D "%s" "%s"'%(src_dir, dest_dir))
   else:
     print('Cannot setup symbol link from %s to %s'%(src_dir, dest_dir))
-    
+
   # Redirect dev_docs
   src_dir = os.path.join(HOMEDIR, 'dev_docs')
   dest_dir = os.path.join(ROOTDIR, 'dev_docs')
@@ -357,6 +356,9 @@ def setup_private_symlinks():
 
 
 def main(argv):
+  global PRIVATE_INSTALL
+  if len(argv) > 1 and argv[1] == '-b':
+    PRIVATE_INSTALL = True
   validate_environment_variables()
   create_dirs()
   setup_sb()
@@ -365,7 +367,7 @@ def main(argv):
   check_npp()
   if is_admin():
     setup_symlinks()
-    if len(argv) > 1 and argv[1] == '-b':
+    if PRIVATE_INSTALL:
       setup_private_symlinks()
 
 
