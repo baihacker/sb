@@ -453,4 +453,68 @@
       },
     ],
   },
+  {
+    "name": "vc",
+    "type": "compiler",
+    "arch": "x86",
+    "version": "14.0",
+    "variables": {
+      "VC_DIR": "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\VC",
+      "VC_VERSION": "14.15.26726",
+      "SDK_DIR": "C:\\Program Files (x86)\\Windows Kits\\10",
+      "SDK_VERSION": "10.0.17134.0",
+      "HOST": "x64",
+      "TARGET": "x64",
+      "OTHER_TARGET": "x86", # {OTHER_TARGET} = {"x86", "x64"} - {TARGET}
+    },
+    "env_var_keep": {},
+    "env_var_merge": {
+      "PATH": "$(VC_DIR)\\Tools\\MSVC\\$(VC_VERSION)\\bin\\Host$(HOST)\\$(TARGET);$(VC_DIR)\\Tools\\MSVC\\$(VC_VERSION)\\bin\\Host$(HOST)\\$(OTHER_TARGET);",
+      "INCLUDE": "$(CPLUS_INCLUDE_PATH);$(VC_DIR)\\Tools\\MSVC\\$(VC_VERSION)\\Include;$(SDK_DIR)\\Include\\$(SDK_VERSION)\\ucrt;$(SDK_DIR)\\Include\\$(SDK_VERSION)\\um;$(SDK_DIR)\\Include\\$(SDK_VERSION)\\shared;",
+      "LIB": "$(LIBRARY_PATH);$(VC_DIR)\\Tools\\MSVC\\$(VC_VERSION)\\lib\\$(TARGET);$(SDK_DIR)\\lib\\$(SDK_VERSION)\\ucrt\\$(TARGET);$(SDK_DIR)\\lib\\$(SDK_VERSION)\\um\\$(TARGET);",
+    },
+    "env_var_replace": {},
+    "language_detail": [
+      {
+        "language": "c",
+        "compile_binary": "cl.exe",
+        "compile_args": [
+          "$(SOURCE_FILES)",
+          "/Fe$(OUTPUT_FILE)",
+          "/TC",
+          "/Fo\"$(SOURCE_FILE_PATH_NO_EXT).obj\"",
+          "$(EXTRA_COMPILE_ARGS)"
+        ],
+        "default_output_file": "a.exe",
+        "running_binary": "$(OUTPUT_FILE)",
+        "running_args": [],
+        "debug_flags": [
+          "/Od /EHsc /openmp /Zi"
+        ],
+        "release_flags": [
+          "/Ox /EHsc /openmp"
+        ],
+      },
+      {
+        "language": "cpp",
+        "compile_binary": "cl.exe",
+        "compile_args": [
+          "$(SOURCE_FILES)",
+          "/Fe\"$(OUTPUT_FILE)\"",
+          "/TP",
+          "/Fo\"$(SOURCE_FILE_PATH_NO_EXT).obj\"",
+          "$(EXTRA_COMPILE_ARGS)"
+        ],
+        "default_output_file": "a.exe",
+        "running_binary": "$(OUTPUT_FILE)",
+        "running_args": [],
+        "debug_flags": [
+          "/Od /EHsc /openmp /Zi"
+        ],
+        "release_flags": [
+          "/Ox /EHsc /openmp"
+        ],
+      },
+    ],
+  },
 ]
