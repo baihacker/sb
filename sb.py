@@ -106,7 +106,7 @@ def set_up_environment(compiler):
       else:
         os.environ[k] = realv
   if 'env_var_replace' in compiler:
-    for k, v in compiler['env_var_merge'].items():
+    for k, v in compiler['env_var_replace'].items():
       realv = expand_variable(v, variables)
       os.environ[k] = realv
 

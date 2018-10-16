@@ -159,7 +159,7 @@ def setup_sb():
   target_bin_dir = os.path.join(HOMEDIR, 'usr\\bin\\sb')
   files = [
       'dcj.py', 'dcj.bat', 'jr.py', 'jr.bat', 'pe++.py', 'pe++.bat', 'pe.bat',
-      'sb.py', 'vc++.py', 'vc++.bat'
+      'sb.py', 'vc++.py', 'vc++.bat', 'clang++.py'
   ]
   for f in files:
     src_file = os.path.join(CURRENT_DIRECTORY, f)
@@ -196,7 +196,9 @@ def setup_environment_variables():
   add_if_exists(os.path.join(USRDIR, 'dll\\vc12_x64'), dev_paths)
 
   add_if_exists(
-      os.path.join(ROOTDIR, 'app\\DevSoft\\MinGW-x86_64-8.1.0\\mingw64\\bin'), dev_paths)
+      os.path.join(ROOTDIR, 'app\\DevSoft\\MinGW-x86_64-8.1.0-posix-seh-rt_v6-rev0\\mingw64\\bin'), dev_paths)
+  add_if_exists(
+      os.path.join(ROOTDIR, 'app\\DevSoft\\LLVM_7.0.0\\bin'), dev_paths)
   add_if_exists(os.path.join(ROOTDIR, 'app\\MathsSoft\\mma'), dev_paths)
 
   add_if_exists('C:\\Python27', dev_paths)

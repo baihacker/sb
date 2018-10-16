@@ -4,6 +4,11 @@
     "variables": {
       "DEV_SOFT_PATH": "$(ROOTDIR)\\app\\DevSoft",
       "USR_PATH": "$(HOMEDIR)\\usr",
+      "CLANG_MINGW64_DIR": "$(ROOTDIR)\\app\\DevSoft\\LLVM_7.0.0",
+      "MINGW64_DIR": "$(ROOTDIR)\\app\\DevSoft\\MinGW-x86_64-8.1.0-posix-seh-rt_v6-rev0\\mingw64",
+      #"MINGW64_DIR": "$(ROOTDIR)\\app\\DevSoft\\MinGW-x86_64-8.1.0-win32-seh-rt_v6-rev0\\mingw64",
+      "TDM64_DIR": "$(ROOTDIR)\\app\\DevSoft\\TDM-GCC-64_5.1.0.2",
+      "PYTHON27_DIR": "C:\\python\\Python27",
     }
   },
   {
@@ -12,7 +17,6 @@
     "arch": "x64",
     "version": "8.1.0",
     "variables": {
-      "ROOT_DIR": "$(DEV_SOFT_PATH)\\MinGW-x86_64-8.1.0\\mingw64",
     },
     "env_var_keep": {},
     "env_var_merge": {},
@@ -20,7 +24,7 @@
     "language_detail": [
       {
         "language": "c",
-        "compile_binary": "$(ROOT_DIR)\\bin\\gcc.exe",
+        "compile_binary": "$(MINGW64_DIR)\\bin\\gcc.exe",
         "compile_args": [
           "$(SOURCE_FILES)",
           "-o",
@@ -39,7 +43,7 @@
       },
       {
         "language": "cpp",
-        "compile_binary": "$(ROOT_DIR)\\bin\\g++.exe",
+        "compile_binary": "$(MINGW64_DIR)\\bin\\g++.exe",
         "compile_args": [
           "$(SOURCE_FILES)",
           "-o",
@@ -64,7 +68,6 @@
     "arch": "x64",
     "version": "8.1.0",
     "variables": {
-      "ROOT_DIR": "$(DEV_SOFT_PATH)\\MinGW-x86_64-8.1.0\\mingw64",
     },
     "env_var_keep": {},
     "env_var_merge": {},
@@ -72,7 +75,7 @@
     "language_detail": [
       {
         "language": "c",
-        "compile_binary": "$(ROOT_DIR)\\bin\\gcc.exe",
+        "compile_binary": "$(MINGW64_DIR)\\bin\\gcc.exe",
         "compile_args": [
           "$(SOURCE_FILES)",
           "-o",
@@ -91,7 +94,7 @@
       },
       {
         "language": "cpp",
-        "compile_binary": "$(ROOT_DIR)\\bin\\g++.exe",
+        "compile_binary": "$(MINGW64_DIR)\\bin\\g++.exe",
         "compile_args": [
           "$(SOURCE_FILES)",
           "-o",
@@ -117,7 +120,6 @@
     "arch": "x64",
     "version": "5.1.0",
     "variables": {
-      "ROOT_DIR": "$(DEV_SOFT_PATH)\\TDM-GCC-64_5.1.0.2",
     },
     "env_var_keep": {},
     "env_var_merge": {},
@@ -125,7 +127,7 @@
     "language_detail": [
       {
         "language": "c",
-        "compile_binary": "$(ROOT_DIR)\\bin\\gcc.exe",
+        "compile_binary": "$(TDM64_DIR)\\bin\\gcc.exe",
         "compile_args": [
           "$(SOURCE_FILES)",
           "-o",
@@ -144,7 +146,7 @@
       },
       {
         "language": "cpp",
-        "compile_binary": "$(ROOT_DIR)\\bin\\g++.exe",
+        "compile_binary": "$(TDM64_DIR)\\bin\\g++.exe",
         "compile_args": [
           "$(SOURCE_FILES)",
           "-o",
@@ -170,7 +172,7 @@
     "arch": "x86",
     "version": "3.8.0",
     "variables": {
-      "ROOT_DIR": "C:\\Program Files (x86)\\LLVM",
+      "CLANG_DIR": "C:\\Program Files (x86)\\LLVM",
       "VC_DIR": "$(DEV_SOFT_PATH)\\win_toolchain_2013e\\vs2013_files\\VC",
       "SDK_DIR": "$(DEV_SOFT_PATH)\\win_toolchain_2013e\\vs2013_files\\win8sdk",
       "RUN_TIME_DIR": "$(DEV_SOFT_PATH)\\win_toolchain_2013e\\vs2013_files\\sys32",
@@ -186,7 +188,7 @@
     "language_detail": [
       {
         "language": "c",
-        "compile_binary": "$(ROOT_DIR)\\bin\\clang.exe",
+        "compile_binary": "$(CLANG_DIR)\\bin\\clang.exe",
         "compile_args": [
           "$(SOURCE_FILES)",
           "-o",
@@ -205,7 +207,7 @@
       },
       {
         "language": "cpp",
-        "compile_binary": "$(ROOT_DIR)\\bin\\clang++.exe",
+        "compile_binary": "$(CLANG_DIR)\\bin\\clang++.exe",
         "compile_args": [
           "$(SOURCE_FILES)",
           "-o",
@@ -226,13 +228,68 @@
     ],
   },
   {
+    "name": "clang-pe",
+    "type": "compiler",
+    "arch": "x64",
+    "version": "7.0.0",
+    "variables": {
+    },
+    "env_var_keep": {},
+    "env_var_merge": {
+      "PATH": "$(MINGW64_DIR)\\bin;", # Clang uses this path to find mingw
+    },
+    "env_var_replace": {},
+    "language_detail": [
+      {
+        "language": "c",
+        "compile_binary": "$(CLANG_MINGW64_DIR)\\bin\\clang.exe",
+        "compile_args": [
+          "$(SOURCE_FILES)",
+          "-o",
+          "$(OUTPUT_FILE)",
+          "$(EXTRA_COMPILE_ARGS)"
+        ],
+        "default_output_file": "a.exe",
+        "running_binary": "$(OUTPUT_FILE)",
+        "running_args": [],
+        "debug_flags": [
+          "-g",
+        ],
+        "release_flags": [
+          "-O3 -march=native -mtune=native -Wl,--stack,268435456",
+        ],
+      },
+      {
+        "language": "cpp",
+        "compile_binary": "$(CLANG_MINGW64_DIR)\\bin\\clang++.exe",
+        "compile_args": [
+          "$(SOURCE_FILES)",
+          "-x c++",
+          "-o",
+          "$(OUTPUT_FILE)",
+          "--std=c++11",
+          "$(EXTRA_COMPILE_ARGS)"
+        ],
+        "default_output_file": "a.exe",
+        "running_binary": "$(OUTPUT_FILE)",
+        "running_args": [],
+        "debug_flags": [
+          "-g -lbf -lgmpxx -lflint -lgmp -lmpfr -lmpir",
+        ],
+        "release_flags": [
+          "-O3 -march=native -mtune=native -Wl,--stack,268435456 -lbf -lgmpxx -lflint -lgmp -lmpfr -lmpir"
+        ],
+      },
+    ],
+  },
+  {
     "name": "dcj",
     "type": "compiler",
     "arch": "x86",
     "version": "2015.06.11",
     "variables": {
-      "ROOT_DIR": "$(DEV_SOFT_PATH)\\dcj",
-      "PYTHON_BINARY": "C:\\python\\Python27\\python.exe",
+      "DCJ_DIR": "$(DEV_SOFT_PATH)\\dcj",
+      "PYTHON_BINARY": "$(PYTHON27_DIR)\\python.exe",
     },
     "env_var_keep": {},
     "env_var_merge": {},
@@ -242,7 +299,7 @@
         "language": "cpp",
         "compile_binary": "$(PYTHON_BINARY)",
         "compile_args": [
-          "\"$(ROOT_DIR)\\dcj.py\"",
+          "\"$(DCJ_DIR)\\dcj.py\"",
           "build",
           "--source",
           "$(SOURCE_FILES)",
@@ -252,7 +309,7 @@
         "default_output_file": "$(SOURCE_FILE_BASENAME_NO_EXT).exe",
         "running_binary": "$(PYTHON_BINARY)",
         "running_args": [
-          "\"$(ROOT_DIR)\\dcj.py\"",
+          "\"$(DCJ_DIR)\\dcj.py\"",
           "run",
           "--executable",
           "\"$(OUTPUT_FILE)\"",
@@ -270,7 +327,7 @@
     "arch": "x86",
     "version": "2.7.3",
     "variables": {
-      "ROOT_DIR": "C:\\python\\Python27",
+      
     },
     "env_var_keep": {},
     "env_var_merge": {},
@@ -278,7 +335,7 @@
     "language_detail": [
       {
         "language": "python",
-        "running_binary": "$(ROOT_DIR)\\python.exe",
+        "running_binary": "$(PYTHON27_DIR)\\python.exe",
         "running_args": [
           "$(SOURCE_FILE_PATH)"
         ],
@@ -291,7 +348,7 @@
     "arch": "x86",
     "version": "1.4",
     "variables": {
-      "ROOT_DIR": "$(DEV_SOFT_PATH)\\go_1.4_beta1",
+      "GO_DIR": "$(DEV_SOFT_PATH)\\go_1.4_beta1",
     },
     "env_var_keep": {},
     "env_var_merge": {},
@@ -301,7 +358,7 @@
     "language_detail": [
       {
         "language": "go",
-        "compile_binary": "$(ROOT_DIR)\\bin\\go.exe",
+        "compile_binary": "$(GO_DIR)\\bin\\go.exe",
         "compile_args": [
           "build",
           "-o",
@@ -320,7 +377,7 @@
     "arch": "x64",
     "version": "1.8.0.112",
     "variables": {
-      "ROOT_DIR": "C:\\Program Files\\Java\\jdk1.8.0_112",
+      "JAVA_DIR": "C:\\Program Files\\Java\\jdk1.8.0_112",
     },
     "env_var_keep": {},
     "env_var_merge": {},
@@ -328,12 +385,12 @@
     "language_detail": [
       {
         "language": "java",
-        "compile_binary": "$(ROOT_DIR)\\bin\\javac.exe",
+        "compile_binary": "$(JAVA_DIR)\\bin\\javac.exe",
         "compile_args": [
           "$(SOURCE_FILES)"
         ],
         "default_output_file": "$(SOURCE_FILE_PATH_NO_EXT).class",
-        "running_binary": "$(ROOT_DIR)\\bin\\java.exe",
+        "running_binary": "$(JAVA_DIR)\\bin\\java.exe",
         "running_args": [
           "-cp",
           "$(SOURCE_FILE_DIRNAME)",
@@ -348,7 +405,7 @@
     "arch": "x86",
     "version": "2.11.4",
     "variables": {
-      "ROOT_DIR": "$(DEV_SOFT_PATH)\\scala",
+      "SCALA_DIR": "$(DEV_SOFT_PATH)\\scala",
     },
     "env_var_keep": {},
     "env_var_merge": {},
@@ -356,7 +413,7 @@
     "language_detail": [
       {
         "language": "scala",
-        "running_binary": "$(ROOT_DIR)\\bin\\scala.bat",
+        "running_binary": "$(SCALA_DIR)\\bin\\scala.bat",
         "running_args": [
           "$(SOURCE_FILE_PATH)"
         ],
@@ -369,17 +426,17 @@
     "arch": "x86",
     "version": "2014.2.0.0",
     "variables": {
-      "ROOT_DIR": "$(DEV_SOFT_PATH)t\\Haskell Platform\\2014.2.0.0",
+      "GHC_DIR": "$(DEV_SOFT_PATH)\\Haskell Platform\\2014.2.0.0",
     },
     "env_var_keep": {},
     "env_var_merge": {
-      "path": "$(DEV_SOFT_PATH)\\Haskell Platform\\2014.2.0.0\\bin"
+      "path": "$(DGHC_DIR)\\bin"
     },
     "env_var_replace": {},
     "language_detail": [
       {
         "language": "haskell",
-        "compile_binary": "$(ROOT_DIR)\\bin\\ghc.exe",
+        "compile_binary": "$(GHC_DIR)\\bin\\ghc.exe",
         "compile_args": [
           "$(SOURCE_FILES)",
           "/-o",
