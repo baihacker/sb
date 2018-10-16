@@ -4,11 +4,23 @@
     "variables": {
       "DEV_SOFT_PATH": "$(ROOTDIR)\\app\\DevSoft",
       "USR_PATH": "$(HOMEDIR)\\usr",
-      "CLANG_MINGW64_DIR": "$(ROOTDIR)\\app\\DevSoft\\LLVM_7.0.0",
+      # Dir name convention
+      # PROD[[_]VERSION][_ARCH][_SPECIFICATIONS]_DIR
+      #
+      # CLANG_X64_MINGW64_DIR means:
+      # CLANG, we don't care the version, they are x64 build, built by MINGW64
+      #
+      # MINGW64_DIR
+      # MINGW64 is a prod name, no need for arch since it is in prod name
+      #
+      # PYTHON27_X86_DIR
+      # PYTHON, version 2.7, x86 build
+      #
+      "CLANG_X64_MINGW64_DIR": "$(ROOTDIR)\\app\\DevSoft\\LLVM_7.0.0",
       "MINGW64_DIR": "$(ROOTDIR)\\app\\DevSoft\\MinGW-x86_64-8.1.0-posix-seh-rt_v6-rev0\\mingw64",
       #"MINGW64_DIR": "$(ROOTDIR)\\app\\DevSoft\\MinGW-x86_64-8.1.0-win32-seh-rt_v6-rev0\\mingw64",
-      "TDM64_DIR": "$(ROOTDIR)\\app\\DevSoft\\TDM-GCC-64_5.1.0.2",
-      "PYTHON27_DIR": "C:\\python\\Python27",
+      "TDM_X64_DIR": "$(ROOTDIR)\\app\\DevSoft\\TDM-GCC-64_5.1.0.2",
+      "PYTHON27_X86_DIR": "C:\\python\\Python27",
     }
   },
   {
@@ -127,7 +139,7 @@
     "language_detail": [
       {
         "language": "c",
-        "compile_binary": "$(TDM64_DIR)\\bin\\gcc.exe",
+        "compile_binary": "$(TDM_X64_DIR)\\bin\\gcc.exe",
         "compile_args": [
           "$(SOURCE_FILES)",
           "-o",
@@ -146,7 +158,7 @@
       },
       {
         "language": "cpp",
-        "compile_binary": "$(TDM64_DIR)\\bin\\g++.exe",
+        "compile_binary": "$(TDM_X64_DIR)\\bin\\g++.exe",
         "compile_args": [
           "$(SOURCE_FILES)",
           "-o",
@@ -242,7 +254,7 @@
     "language_detail": [
       {
         "language": "c",
-        "compile_binary": "$(CLANG_MINGW64_DIR)\\bin\\clang.exe",
+        "compile_binary": "$(CLANG_X64_MINGW64_DIR)\\bin\\clang.exe",
         "compile_args": [
           "$(SOURCE_FILES)",
           "-o",
@@ -261,7 +273,7 @@
       },
       {
         "language": "cpp",
-        "compile_binary": "$(CLANG_MINGW64_DIR)\\bin\\clang++.exe",
+        "compile_binary": "$(CLANG_X64_MINGW64_DIR)\\bin\\clang++.exe",
         "compile_args": [
           "$(SOURCE_FILES)",
           "-x c++",
@@ -289,7 +301,7 @@
     "version": "2015.06.11",
     "variables": {
       "DCJ_DIR": "$(DEV_SOFT_PATH)\\dcj",
-      "PYTHON_BINARY": "$(PYTHON27_DIR)\\python.exe",
+      "PYTHON_BINARY": "$(PYTHON27_X86_DIR)\\python.exe",
     },
     "env_var_keep": {},
     "env_var_merge": {},
@@ -335,7 +347,7 @@
     "language_detail": [
       {
         "language": "python",
-        "running_binary": "$(PYTHON27_DIR)\\python.exe",
+        "running_binary": "$(PYTHON27_X86_DIR)\\python.exe",
         "running_args": [
           "$(SOURCE_FILE_PATH)"
         ],
