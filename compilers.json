@@ -79,8 +79,7 @@
     "type": "compiler",
     "arch": "x64",
     "version": "8.1.0",
-    "variables": {
-    },
+    "variables": {},
     "env_var_keep": {},
     "env_var_merge": {},
     "env_var_replace": {},
@@ -131,8 +130,7 @@
     "type": "compiler",
     "arch": "x64",
     "version": "5.1.0",
-    "variables": {
-    },
+    "variables": {},
     "env_var_keep": {},
     "env_var_merge": {},
     "env_var_replace": {},
@@ -244,8 +242,7 @@
     "type": "compiler",
     "arch": "x64",
     "version": "7.0.0",
-    "variables": {
-    },
+    "variables": {},
     "env_var_keep": {},
     "env_var_merge": {
       "PATH": "$(MINGW64_DIR)\\bin;", # Clang uses this path to find mingw
@@ -338,9 +335,7 @@
     "type": "interpreter",
     "arch": "x86",
     "version": "2.7.3",
-    "variables": {
-      
-    },
+    "variables": {},
     "env_var_keep": {},
     "env_var_merge": {},
     "env_var_replace": {},
