@@ -59,6 +59,26 @@ def find_compiler_base(compilers):
       return c
   return {}
 
+def merge_object(src, dest):
+  result = dict(dest)
+  for k, v in src.items():
+    if k in dest and isinstance(v, dict):
+      result[k] = merge_object(v, dest[k])
+    else:
+      result[k] = v
+  return result
+
+def resolve_compiler(internal_name, compilers):
+  for item in compilers:
+    ok = 'internal_name' in item and item['internal_name'] == internal_name
+    ok = ok or (not 'internal_name' in item and 'name' in item and item['name'] == internal_name)
+    if ok:
+      ret = dict(item)
+      if 'base' in ret:
+        ret = merge_object(ret, resolve_compiler(ret['base'], compilers))
+      return ret
+  return {}
+
 def find_compiler(compilers, kv):
   language = kv['language']
   name = kv.get('name', '').lower()
@@ -70,17 +90,20 @@ def find_compiler(compilers, kv):
     version = int(versions[0])
 
   for c in compilers:
-    if len(name) > 0 and c['name'].lower() != name:
+    if len(name) > 0 and (not 'name' in c or c['name'].lower() != name):
       continue
-    if len(type) > 0 and c['type'].lower() != type:
+    if len(type) > 0 and (not 'type' in c or c['type'].lower() != type):
       continue
-    if len(arch) > 0 and c['arch'].lower() != arch:
+    if len(arch) > 0 and (not 'arch' in c or c['arch'].lower() != arch):
       continue
-    if version >= 0 and int(c['version'].split('.')[0]) != version:
+    if version >= 0 and (not 'version' in c or int(c['version'].split('.')[0]) != version):
       continue
-    for instruction in c['language_detail']:
-      if language in instruction['language'].split(','):
-        return dict(c), dict(instruction)
+
+    compiler = merge_object(c, resolve_compiler(c['base'], compilers)) if 'base' in c else dict(c)
+    if not 'language_detail' in compiler:
+      continue
+    if language in compiler['language_detail']:
+      return compiler, dict(compiler['language_detail'][language])
 
   return None, None
 
@@ -209,6 +232,7 @@ def main(argv):
   is_debug = False
   language = ''
   name = ''
+  arch = ''
   run = False
 
   n = len(argv)
@@ -229,6 +253,9 @@ def main(argv):
     elif argv[i].lower() == '-n':
       name = argv[i+1].lower()
       i += 2
+    elif argv[i].lower() == '-a':
+      arch = argv[i+1].lower()
+      i += 2
     elif argv[i].lower() == '-r':
       run = True
       i += 1
@@ -241,7 +268,7 @@ def main(argv):
   if len(language) == 0:
     raise Exception, 'unknown language'
 
-  compile_cmd, run_cmd = create_commands(files, output, {'language': language, 'name': name}, is_debug)
+  compile_cmd, run_cmd = create_commands(files, output, {'language': language, 'name': name, 'arch': arch}, is_debug)
 
   if compile_cmd() == 0 and run == True:
     run_cmd()

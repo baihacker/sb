@@ -32,7 +32,7 @@ def main(argv):
       files.append(argv[i])
       i += 1
 
-  compile_cmd, run_cmd = sb.create_commands(files, output, {'language':'cpp','name':'vc','version':'14'}, is_debug)
+  compile_cmd, run_cmd = sb.create_commands(files, output, {'language':'cpp','name':'vc','version':'14','arch':'x64'}, is_debug)
   
   if compile_cmd() == 0 and run == True:
     run_cmd()
