@@ -11,7 +11,7 @@
       # CLANG, we don't care the version, they are x64 build, built by MINGW64
       #
       # MINGW64_DIR:
-      # MINGW64 is a prod name, no need for arch since it is in prod name
+      # MINGW64 is a prod name, we don't care the version, no need for arch since it is in prod name
       #
       # PYTHON27_X86_DIR:
       # PYTHON, version 2.7 (we always concern the python version), x86 build
@@ -262,10 +262,10 @@
         "running_binary": "$(OUTPUT_FILE)",
         "running_args": [],
         "debug_flags": [
-          "-g",
+          "-g -fopenmp",
         ],
         "release_flags": [
-          "-O3 -march=native -mtune=native -Wl,--stack,268435456",
+          "-O3 -march=native -mtune=native -fopenmp -Wl,--stack,268435456",
         ],
       },
       {
@@ -283,10 +283,10 @@
         "running_binary": "$(OUTPUT_FILE)",
         "running_args": [],
         "debug_flags": [
-          "-g -lbf -lgmpxx -lflint -lgmp -lmpfr -lmpir",
+          "-g -fopenmp -lbf -lgmpxx -lflint -lgmp -lmpfr -lmpir",
         ],
         "release_flags": [
-          "-O3 -march=native -mtune=native -Wl,--stack,268435456 -lbf -lgmpxx -lflint -lgmp -lmpfr -lmpir"
+          "-O3 -march=native -mtune=native -fopenmp -Wl,--stack,268435456 -lbf -lgmpxx -lflint -lgmp -lmpfr -lmpir"
         ],
       },
     ],
