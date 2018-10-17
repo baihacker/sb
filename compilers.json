@@ -1,3 +1,22 @@
+# __compiler_base
+# mingw64
+#   mingw64-pe
+#   clang-mingw64
+#     clang-pe
+# tmd
+# dcj
+# python
+# go
+# java
+# scala
+# ghc
+# vc-toolchain-base
+#   vc-toolchain(x86)
+#   vc-toolchain(x64)
+# vc-base
+#   vc(x86)
+#   vc(x64)
+#     clang-vc
 [
   {
     "name": "__compiler_base",
