@@ -46,7 +46,7 @@ Install with pre-defined directory structure (recommended)
   * Install python 2.
   * Create the root dir and add set the value of environment variable ROOTDIR to the dir created. (No need to create the sub-directories of ROOTDIR and they will be created automatically if not exist)
   * For HOMEDIR, the step is similar to ROOTDIR.
-  * Optional, install MinGW under %ROOTDIR%/app/DevSoft. Please make sure %ROOTDIR%/app/DevSoft/MinGW-x86_64-7.3.0/mingw64/bin exist because this script will add that path to environment variable list. If the path doesn't sound good to you, please install it in another path but don't forget to edit setup.py
+  * Optional, install MinGW under %ROOTDIR%/app/DevSoft. Please make sure %ROOTDIR%/app/DevSoft/MinGW-x86_64-8.1.0-posix-seh-rt_v6-rev0/mingw64/bin exist because this script will add that path to environment variable list. If the path doesn't sound good to you, please install it in another path but don't forget to edit setup.py
   * Optional, install [pe](https://github.com/baihacker/pe): copy the files of pe to %HOMEDIR%/usr/include/pe and **config** pe if necessary (see [pe](https://github.com/baihacker/pe) for how to config it).
   * Configure compilers.json.
     * The default pe compiler will use Eigen, GMP. Please remove the corresponding compile options if you don't to want to use them. Otherwise, you can put them under %HOMEDIR%/usr/lib and edit the setup.py and compilers.json.
@@ -55,8 +55,8 @@ Install with pre-defined directory structure (recommended)
 Usage
 =====
 * Command: pe++.py <your file>.
-* pe++.py will try to use  {'language':'cpp','name':'mingw-pe'} to find the corresponding compiler configuration.
-* dcj.py, jr.py, vc++.py are similar to pe++.py but a different filter to find the compiler configuration.
+* pe++.py will try to use  {'language':'cpp','name':'mingw64-pe'} to find the corresponding compiler configuration.
+* dcj.py, jr.py, vc++.py, clang++ are similar to pe++.py but a different filter to find the compiler configuration.
 * options
   * -o <output file name>
     * Specify the output file name. (Default = empty string and determined by compilers)
@@ -72,6 +72,8 @@ Usage
   * jr.py
     * {'language':'java'}
   * pe++.py
-    * {'language':'cpp','name':'mingw-pe'}
+    * {'language':'cpp','name':'mingw64-pe'}
   * vc++.py
-    * {'language':'cpp','name':'vc','version':'12'}
+    * {'language':'cpp','name':'vc','version':'14'}
+  * clang++.py
+    * {'language':'cpp','name':'clang-pe'}
