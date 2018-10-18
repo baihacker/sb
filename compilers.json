@@ -36,6 +36,7 @@
       # PYTHON, version 2.7 (we always concern the python version), x86 build
       #
       "CLANG_X64_MINGW64_DIR": "$(ROOTDIR)\\app\\DevSoft\\LLVM_7.0.0",
+      #"CLANG_X64_MINGW64_DIR": "D:\\LLVM",
       "MINGW64_DIR": "$(ROOTDIR)\\app\\DevSoft\\MinGW-x86_64-8.1.0-posix-seh-rt_v6-rev0\\mingw64",
       "PYTHON27_X86_DIR": "C:\\python\\Python27",
     }
@@ -191,10 +192,10 @@
         "running_binary": "$(OUTPUT_FILE)",
         "running_args": [],
         "debug_flags": [
-          "-g -fopenmp",
+          "-g",
         ],
         "release_flags": [
-          "-O3 -mtune=native -fopenmp",
+          "-O3 -mtune=native",
         ],
       },
       "cpp": {
@@ -211,10 +212,10 @@
         "running_binary": "$(OUTPUT_FILE)",
         "running_args": [],
         "debug_flags": [
-          "-g -fopenmp",
+          "-g",
         ],
         "release_flags": [
-          "-O3 -mtune=native -fopenmp"
+          "-O3 -mtune=native"
         ],
       },
     },
@@ -235,10 +236,10 @@
         ],
         "default_output_file": "a.exe",
         "debug_flags": [
-          "-g -fopenmp",
+          "-g",
         ],
         "release_flags": [
-          "-O3 -march=native -mtune=native -fopenmp -Wl,--stack,268435456",
+          "-O3 -march=native -mtune=native -Wl,--stack,268435456",
         ],
       },
       "cpp": {
@@ -252,10 +253,10 @@
         ],
         "default_output_file": "a.exe",
         "debug_flags": [
-          "-g -fopenmp -lbf -lgmpxx -lflint -lgmp -lmpfr -lmpir",
+          "-g -lbf -lgmpxx -lflint -lgmp -lmpfr -lmpir",
         ],
         "release_flags": [
-          "-O3 -march=native -mtune=native -fopenmp -Wl,--stack,268435456 -lbf -lgmpxx -lflint -lgmp -lmpfr -lmpir"
+          "-O3 -march=native -mtune=native -Wl,--stack,268435456 -lbf -lgmpxx -lflint -lgmp -lmpfr -lmpir"
         ],
       },
     },
