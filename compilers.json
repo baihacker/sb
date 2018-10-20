@@ -75,7 +75,7 @@
           "$(SOURCE_FILES)",
           "-o",
           "$(OUTPUT_FILE)",
-          "--std=c++11",
+          "--std=c++14",
           "$(EXTRA_COMPILE_ARGS)"
         ],
         "default_output_file": "$(SOURCE_FILE_BASENAME_NO_EXT).exe",
@@ -205,7 +205,7 @@
           "-x c++",
           "-o",
           "$(OUTPUT_FILE)",
-          "--std=c++11",
+          "--std=c++14",
           "$(EXTRA_COMPILE_ARGS)"
         ],
         "default_output_file": "$(SOURCE_FILE_BASENAME_NO_EXT).exe",
@@ -248,7 +248,7 @@
           "-x c++",
           "-o",
           "$(OUTPUT_FILE)",
-          "--std=c++11",
+          "--std=c++14",
           "$(EXTRA_COMPILE_ARGS)"
         ],
         "default_output_file": "a.exe",
