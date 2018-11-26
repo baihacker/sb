@@ -323,20 +323,20 @@ def setup_private_symlinks():
     print('Cannot setup symbol link from %s to %s'%(src_dir, dest_dir))
 
   # Redirect pe
-  src_dir = os.path.join(HOMEDIR, 'pe')
-  dest_dir = os.path.join(HOMEDIR, 'bg\\CodeDepot\\algo_new\\pe')
-  if readyToCreateDirSymLink(src_dir):
-    os.system('mklink /D "%s" "%s"'%(src_dir, dest_dir))
-  else:
-    print('Cannot setup symbol link from %s to %s'%(src_dir, dest_dir))
+  # src_dir = os.path.join(HOMEDIR, 'pe')
+  # dest_dir = os.path.join(HOMEDIR, 'bg\\CodeDepot\\algo_new\\pe')
+  # if readyToCreateDirSymLink(src_dir):
+  #   os.system('mklink /D "%s" "%s"'%(src_dir, dest_dir))
+  # else:
+  #   print('Cannot setup symbol link from %s to %s'%(src_dir, dest_dir))
 
   # Redirect rose_code
-  src_dir = os.path.join(HOMEDIR, 'rose_code')
-  dest_dir = os.path.join(HOMEDIR, 'bg\\CodeDepot\\algo_new\\rose_code')
-  if readyToCreateDirSymLink(src_dir):
-    os.system('mklink /D "%s" "%s"'%(src_dir, dest_dir))
-  else:
-    print('Cannot setup symbol link from %s to %s'%(src_dir, dest_dir))
+  # src_dir = os.path.join(HOMEDIR, 'rose_code')
+  # dest_dir = os.path.join(HOMEDIR, 'bg\\CodeDepot\\algo_new\\rose_code')
+  # if readyToCreateDirSymLink(src_dir):
+  #   os.system('mklink /D "%s" "%s"'%(src_dir, dest_dir))
+  # else:
+  #   print('Cannot setup symbol link from %s to %s'%(src_dir, dest_dir))
 
   # Redirect projects
   src_dir = os.path.join(HOMEDIR, 'projects')
@@ -347,12 +347,12 @@ def setup_private_symlinks():
     print('Cannot setup symbol link from %s to %s'%(src_dir, dest_dir))
 
   # Redirect dev_docs
-  src_dir = os.path.join(HOMEDIR, 'dev_docs')
-  dest_dir = os.path.join(ROOTDIR, 'dev_docs')
-  if readyToCreateDirSymLink(src_dir):
-    os.system('mklink /D "%s" "%s"'%(src_dir, dest_dir))
-  else:
-    print('Cannot setup symbol link from %s to %s'%(src_dir, dest_dir))
+  # src_dir = os.path.join(HOMEDIR, 'dev_docs')
+  # dest_dir = os.path.join(ROOTDIR, 'dev_docs')
+  # if readyToCreateDirSymLink(src_dir):
+  #   os.system('mklink /D "%s" "%s"'%(src_dir, dest_dir))
+  # else:
+  #   print('Cannot setup symbol link from %s to %s'%(src_dir, dest_dir))
 
 
 def main(argv):
