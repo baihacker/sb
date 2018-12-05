@@ -586,7 +586,7 @@
     "name": "vc-base",
     "variables": {
       "VC_DIR": "C:\\Program Files (x86)\\Microsoft Visual Studio\\2017\\Community\\VC",
-      "VC_VERSION": "14.15.26726",
+      "VC_VERSION": "14.16.27023",
       "SDK_DIR": "C:\\Program Files (x86)\\Windows Kits\\10",
       "SDK_VERSION": "10.0.17134.0",
     },
