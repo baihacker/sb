@@ -39,4 +39,5 @@ def main(argv):
 
 if __name__ == '__main__':
   # parse cmdline
+  os.system('COLOR 0A')
   main(sys.argv)
