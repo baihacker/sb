@@ -25,7 +25,7 @@ from subprocess import check_call
   9. Checks whether notepad++ is setup. (Also check whether npp.exe (a copy of notepad++.exe) exist.)
 """
 
-testRun = True
+testRun = False
 
 if testRun:
   HOMEDIR = 'D:\\test\\home'
