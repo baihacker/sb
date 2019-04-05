@@ -37,7 +37,7 @@ Install with pre-defined directory structure (recommended)
     * %ROOTDIR%/app/DevSoft development related software.
     * %ROOTDIR%/app/MathsSoft maths related software.
     * %ROOTDIR%/projects your work directory, visual studio code configuration file is initialized there (.vscode).
-    * %ROOTDIR%/devices device dependent data. e.g. If you have to PCs, each PC has its own directory.
+    * %ROOTDIR%/devices device dependent data. e.g. If you have two PCs, each PC has its own directory.
   * %HOMEDIR% is the home directory.
     * %HOMEDIR%/config will contain compilers.json and a copy of setup.py.
     * %HOMEDIR%/config/vsc_config a copy of vsc_config.
