@@ -2,26 +2,47 @@ import sys
 import os
 import shutil
 import ctypes
+import random
+import stat
 
 from subprocess import check_call
 """
   Set up basic development environment.
   Before script:
-  1. Make sure environment variable ROOTDIR and HOMEDIR exist and be a valid directory path.
-  2. Make sure ROOTDIR\app\DevSoft be a valid directory path.
-  3. Make sure DEVPATH is a part of PATH, i.e PATH=%DEVPATH%;...
-  4. If you want to redirect Chromium directory, please provide DEVICENAME and run it in admin mode.
+  1. Make sure environment variable ROOTDIR and HOMEDIR are valid directory path.
+  2. Make sure DEVPATH is a part of PATH, i.e PATH=%DEVPATH%;...
+  3. If you want to redirect Chromium directory, please provide DEVICENAME and run it in admin mode.
 
   This script:
   1. Check environment variables.
   2. Create directories if necessary.
   3. Copy sb files to destination dirs.
-  4. Generates DEVPATH which includes a list of path added to PATH.
-  5. If JAVAHOME exists, setup the corresponding JAVA class path.
-  6. Generates CPLUS_INCLUDE_PATH and LIBRARY_PATH.
-  7. Copies vscode user configurations from CURRENT_DIR\\vsc_config to %APPDATA%\\code\\User, %APPDATA%\\Code - Insiders\\User and %HOMEDIR%\\config\\vsc_config. Copy vscode directory configurations from CURRENT_DIR\\vsc_config\\.vscode to %HOMEDIR%\\config\\vsc_config\\.vscode, %ROOTDIR%\\projects\\.vscode.
-  8. Checks whether notepad++ is setup. (Also check whether npp.exe (a copy of notepad++.exe) exist.)
+  4. Setup pe if 'git' is available.
+  5. Generates DEVPATH which includes a list of path added to PATH.
+  6. If JAVAHOME exists, setup the corresponding JAVA class path.
+  7. Generates CPLUS_INCLUDE_PATH and LIBRARY_PATH.
+  8. Copies vscode user configurations from CURRENT_DIR\\vsc_config to %APPDATA%\\code\\User, %APPDATA%\\Code - Insiders\\User and %HOMEDIR%\\config\\vsc_config. Copy vscode directory configurations from CURRENT_DIR\\vsc_config\\.vscode to %HOMEDIR%\\config\\vsc_config\\.vscode, %ROOTDIR%\\projects\\.vscode.
+  9. Checks whether notepad++ is setup. (Also check whether npp.exe (a copy of notepad++.exe) exist.)
 """
+
+testRun = True
+
+if testRun:
+  HOMEDIR = 'D:\\test\\home'
+  ROOTDIR = 'D:\\test\\root'
+  DEVICENAME = 'device'
+else:
+  HOMEDIR = os.environ.get('HOMEDIR', '')
+  ROOTDIR = os.environ.get('ROOTDIR', '')
+  DEVICENAME = os.environ.get('DEVICENAME', '')
+TEMP_DIR = os.environ.get('TEMP', '')
+
+CURRENT_DIRECTORY = os.path.dirname(os.path.realpath(__file__))
+RUN_FROM_GIT_REPOSITORY = os.path.exists(
+    os.path.join(CURRENT_DIRECTORY, '.git'))
+PRIVATE_INSTALL = False
+
+HAS_GIT = os.system('git --help > 0') == 0
 
 if sys.hexversion > 0x03000000:
   import winreg
@@ -61,6 +82,15 @@ class Win32Environment:
     # TODO: handle CalledProcessError (for assert)
     #check_call('''"%s" -c "import win32api, win32con; assert win32api.SendMessage(win32con.HWND_BROADCAST, win32con.WM_SETTINGCHANGE, 0, 'Environment')"''' % sys.executable)
 
+def remove_dir(dir):
+  if os.path.exists(dir):
+    for root,dirs,files in os.walk(dir):
+      for d in dirs:
+        os.chmod(os.path.join(root, d), stat.S_IWRITE)
+      for f in files:
+        os.chmod(os.path.join(root, f), stat.S_IWRITE)
+    shutil.rmtree(dir, True)
+
 
 def force_copy(src, dest):
   if src.lower() == dest.lower():
@@ -78,13 +108,37 @@ def create_dir_if_absent(dir):
     print('%s is not a directory' % dir)
     os._exit(-1)
 
+
+def copy_dir_to(src, dest):
+  create_dir_if_absent(dest)
+  for f in os.listdir(src):
+    if len(f) > 0 and f[0] == '.':
+      continue
+    src_file = os.path.join(src, f)
+    dest_file = os.path.join(dest, f)
+    if os.path.isdir(src_file):
+      copy_dir_to(src_file, dest_file)
+    else:
+      force_copy(src_file, dest_file)
+
+
+def pull_git(git, target):
+  tmp_dir = os.path.join(TEMP_DIR, 'sb'+str(random.random())+'.tmp')
+  try:
+    os.system('git clone %s "%s"'%(git, tmp_dir))
+    copy_dir_to(tmp_dir, target)
+  finally:
+    remove_dir(tmp_dir)
+
+
 def is_admin():
   try:
       return ctypes.windll.shell32.IsUserAnAdmin()
   except:
       return False
 
-def readyToCreateDirSymLink(path):
+
+def ready_to_create_dir_symbol_link(path):
   if not os.path.exists(path):
     parent = os.path.dirname(path)
     # create its parent directories recursively
@@ -100,40 +154,29 @@ def readyToCreateDirSymLink(path):
     return True
   return False
 
-HOMEDIR = os.environ.get('HOMEDIR', '')
-ROOTDIR = os.environ.get('ROOTDIR', '')
-DEVICENAME = os.environ.get('DEVICENAME', '')
-CURRENT_DIRECTORY = os.path.dirname(os.path.realpath(__file__))
-RUN_FROM_GIT_REPOSITORY = os.path.exists(
-    os.path.join(CURRENT_DIRECTORY, '.git'))
-PRIVATE_INSTALL = False
 
 def validate_environment_variables():
   if len(ROOTDIR) == 0:
     print('Please set ROOTDIR')
     os._exit(-1)
-  if not os.path.exists(ROOTDIR):
-    print('%s doesn\'t exist' % ROOTDIR)
-    os._exit(-1)
-  if not os.path.isdir(ROOTDIR):
-    print('%s is not a directory' % ROOTDIR)
-    os._exit(-1)
 
   if len(HOMEDIR) == 0:
     print('Please set HOMEDIR')
     os._exit(-1)
-  if not os.path.exists(HOMEDIR):
-    print('%s doesn\'t exist' % HOMEDIR)
-    os._exit(-1)
-  if not os.path.isdir(HOMEDIR):
-    print('%s is not a directory' % HOMEDIR)
-    os._exit(-1)
 
 
 def create_dirs():
+  print('Creating directories...')
+  if not os.path.exists(ROOTDIR):
+    os.makedirs(ROOTDIR)
+  if not os.path.exists(HOMEDIR):
+    os.makedirs(HOMEDIR)
   create_dir_if_absent(os.path.join(HOMEDIR, 'usr'))
   create_dir_if_absent(os.path.join(HOMEDIR, 'usr\\bin'))
   create_dir_if_absent(os.path.join(HOMEDIR, 'usr\\bin\\sb'))
+  create_dir_if_absent(os.path.join(HOMEDIR, 'usr\\include'))
+  create_dir_if_absent(os.path.join(HOMEDIR, 'usr\\include\\pe'))
+  create_dir_if_absent(os.path.join(HOMEDIR, 'usr\\lib'))
   create_dir_if_absent(os.path.join(HOMEDIR, 'config'))
   create_dir_if_absent(os.path.join(HOMEDIR, 'config\\vsc_config'))
   create_dir_if_absent(
@@ -148,11 +191,14 @@ def create_dirs():
     create_dir_if_absent(os.path.join(ROOTDIR, 'devices'))
     create_dir_if_absent(os.path.join(ROOTDIR, 'devices\\%s'%DEVICENAME))
     create_dir_if_absent(os.path.join(ROOTDIR, 'devices\\%s\\Chromium'%DEVICENAME))
+  print('Directories are created.')
 
-# Set up the simple build environment, you can only setup it from sb repository.
+
+# If the current directory is a sb repository, set up the simple build environment.
 def setup_sb():
+  print('\nSetting up sb...')
   if not os.path.exists(os.path.join(CURRENT_DIRECTORY, '.git')):
-    print('Skip setting up simple build environment. Not a git repository!')
+    print('Skip setting up simple build environment. Not a git repository!\n')
     return
 
   # Copy binaries to bin directory.
@@ -173,9 +219,21 @@ def setup_sb():
     src_file = os.path.join(CURRENT_DIRECTORY, f)
     dest_file = os.path.join(target_config_dir, f)
     force_copy(src_file, dest_file)
+  
+  print('sb is set up.')
+
+
+def setup_pe():
+  print('\nSetting up pe...')
+  if not HAS_GIT:
+    print('Please install git first.')
+    return
+  pull_git('https://github.com/baihacker/pe.git', os.path.join(HOMEDIR, 'usr\\include\\pe'))
+  print('pe is set up.')
 
 
 def setup_environment_variables():
+  print('\nBuilding environment variables...')
   env_setter = Win32Environment(scope='user')
 
   def add_if_exists(path, paths):
@@ -244,6 +302,7 @@ def setup_environment_variables():
 
 
 def setup_vscode():
+  print('\nSetting up vscode configurations...')
   # copy user configurations
   src_dir = os.path.join(CURRENT_DIRECTORY, 'vsc_config')
   if not os.path.exists(src_dir):
@@ -285,6 +344,7 @@ def setup_vscode():
 
 
 def check_npp():
+  print('\nCheck notepad++ installtion...')
   found_npp = False
   for pf_path in ['C:\\Program Files (x86)', 'C:\\Program Files']:
     npp_dir = os.path.join(pf_path, 'Notepad++')
@@ -300,32 +360,39 @@ def check_npp():
 
   if not found_npp:
     print('Notepad++ is not set up!')
+  else:
+    print('Notepad++ is set up!')
+
 
 def setup_symlinks():
+  print('\nSetting up symlinks...')
   # Redirect chromium
   if len(DEVICENAME) > 0:
     src_dir = os.path.join(os.path.dirname(os.environ['APPDATA']), 'Local\\Chromium')
     dest_dir = os.path.join(ROOTDIR, 'devices\\%s\\Chromium'%DEVICENAME)
-    if readyToCreateDirSymLink(src_dir):
+    if ready_to_create_dir_symbol_link(src_dir):
       os.system('mklink /D "%s" "%s"'%(src_dir, dest_dir))
     else:
       print('Cannot setup symbol link from %s to %s'%(src_dir, dest_dir))
   else:
     print('Skip setup symbol from Chromium since the device name is unknown')
+  print('Symlinks are set up.')
+
 
 def setup_private_symlinks():
+  print('\nSetting up private symlinks...')
   # Redirect home
-  src_dir = os.path.join(ROOTDIR, 'home')
-  dest_dir = HOMEDIR
-  if readyToCreateDirSymLink(src_dir):
-    os.system('mklink /D "%s" "%s"'%(src_dir, dest_dir))
-  else:
-    print('Cannot setup symbol link from %s to %s'%(src_dir, dest_dir))
+  # src_dir = os.path.join(ROOTDIR, 'home')
+  # dest_dir = HOMEDIR
+  # if ready_to_create_dir_symbol_link(src_dir):
+  #  os.system('mklink /D "%s" "%s"'%(src_dir, dest_dir))
+  #else:
+  #  print('Cannot setup symbol link from %s to %s'%(src_dir, dest_dir))
 
   # Redirect pe
   # src_dir = os.path.join(HOMEDIR, 'pe')
   # dest_dir = os.path.join(HOMEDIR, 'bg\\CodeDepot\\algo_new\\pe')
-  # if readyToCreateDirSymLink(src_dir):
+  # if ready_to_create_dir_symbol_link(src_dir):
   #   os.system('mklink /D "%s" "%s"'%(src_dir, dest_dir))
   # else:
   #   print('Cannot setup symbol link from %s to %s'%(src_dir, dest_dir))
@@ -333,7 +400,7 @@ def setup_private_symlinks():
   # Redirect rose_code
   # src_dir = os.path.join(HOMEDIR, 'rose_code')
   # dest_dir = os.path.join(HOMEDIR, 'bg\\CodeDepot\\algo_new\\rose_code')
-  # if readyToCreateDirSymLink(src_dir):
+  # if ready_to_create_dir_symbol_link(src_dir):
   #   os.system('mklink /D "%s" "%s"'%(src_dir, dest_dir))
   # else:
   #   print('Cannot setup symbol link from %s to %s'%(src_dir, dest_dir))
@@ -341,7 +408,7 @@ def setup_private_symlinks():
   # Redirect projects
   src_dir = os.path.join(HOMEDIR, 'projects')
   dest_dir = os.path.join(ROOTDIR, 'OneDrive\\projects')
-  if readyToCreateDirSymLink(src_dir):
+  if ready_to_create_dir_symbol_link(src_dir):
     os.system('mklink /D "%s" "%s"'%(src_dir, dest_dir))
   else:
     print('Cannot setup symbol link from %s to %s'%(src_dir, dest_dir))
@@ -349,10 +416,11 @@ def setup_private_symlinks():
   # Redirect dev_docs
   # src_dir = os.path.join(HOMEDIR, 'dev_docs')
   # dest_dir = os.path.join(ROOTDIR, 'dev_docs')
-  # if readyToCreateDirSymLink(src_dir):
+  # if ready_to_create_dir_symbol_link(src_dir):
   #   os.system('mklink /D "%s" "%s"'%(src_dir, dest_dir))
   # else:
   #   print('Cannot setup symbol link from %s to %s'%(src_dir, dest_dir))
+  print('Private symlinks are set up.')
 
 
 def main(argv):
@@ -362,6 +430,7 @@ def main(argv):
   validate_environment_variables()
   create_dirs()
   setup_sb()
+  setup_pe()
   setup_environment_variables()
   setup_vscode()
   check_npp()
