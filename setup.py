@@ -214,7 +214,7 @@ def setup_sb():
 
   # Copy compilers.json and setup.py to config directory.
   target_config_dir = os.path.join(HOMEDIR, 'config')
-  files = ['compilers.json', 'setup.py']
+  files = ['compilers.json', 'setup.py', '_vimrc']
   for f in files:
     src_file = os.path.join(CURRENT_DIRECTORY, f)
     dest_file = os.path.join(target_config_dir, f)
@@ -344,6 +344,23 @@ def setup_vscode():
   print('Visual studio code is set up!')
 
 
+def setup_vim():
+  print('\nSetting up vim...')
+  vim_prefix = ['C:\\Program Files (x86)\\Vim', 'C:\\Program Files\\Vim']
+  src = os.path.join(CURRENT_DIRECTORY, '_vimrc')
+  done = 0
+  for target in vim_prefix:
+    vimrc = os.path.join(target, '_vimrc')
+    if os.path.exists(vimrc):
+      shutil.copyfile(src, vimrc)
+      print('%s is updated.'%vimrc)
+      done = done + 1
+  if done > 0:
+    print('Vim is set up.')
+  else:
+    print('Vim is not found.')
+
+
 def check_npp():
   print('\nCheck notepad++ installtion...')
   found_npp = False
@@ -435,6 +452,7 @@ def main(argv):
   setup_environment_variables()
   setup_vscode()
   check_npp()
+  setup_vim()
   if is_admin():
     setup_symlinks()
     if PRIVATE_INSTALL:
