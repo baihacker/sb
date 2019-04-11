@@ -42,7 +42,7 @@ RUN_FROM_GIT_REPOSITORY = os.path.exists(
     os.path.join(CURRENT_DIRECTORY, '.git'))
 PRIVATE_INSTALL = False
 
-HAS_GIT = os.system('git --help > 0') == 0
+HAS_GIT = os.system('git --help 1>NUL 2>NUL') == 0
 
 if sys.hexversion > 0x03000000:
   import winreg
