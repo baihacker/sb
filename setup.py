@@ -11,7 +11,7 @@ from subprocess import check_call
   Before script:
   1. Make sure environment variable ROOTDIR and HOMEDIR are valid directory path.
   2. Make sure DEVPATH is a part of PATH, i.e PATH=%DEVPATH%;...
-  3. If you want to redirect Chromium directory, please provide DEVICENAME and run it in admin mode.
+  3. If you want to create builtin symbol links (currently, no symbol links are created), please provide DEVICENAME and run this script in admin mode.
 
   This script:
   1. Check environment variables.
@@ -23,6 +23,7 @@ from subprocess import check_call
   7. Generates CPLUS_INCLUDE_PATH and LIBRARY_PATH.
   8. Copies vscode user configurations from CURRENT_DIR\\vsc_config to %APPDATA%\\code\\User, %APPDATA%\\Code - Insiders\\User and %HOMEDIR%\\config\\vsc_config. Copy vscode directory configurations from CURRENT_DIR\\vsc_config\\.vscode to %HOMEDIR%\\config\\vsc_config\\.vscode, %ROOTDIR%\\projects\\.vscode.
   9. Checks whether notepad++ is setup. (Also check whether npp.exe (a copy of notepad++.exe) exist.)
+  10. Copy _vimrc to vim's dir.
 """
 
 testRun = False
@@ -383,18 +384,19 @@ def check_npp():
 
 
 def setup_symlinks():
-  print('\nSetting up symlinks...')
+  # print('\nSetting up symlinks...')
   # Redirect chromium
-  if len(DEVICENAME) > 0:
-    src_dir = os.path.join(os.path.dirname(os.environ['APPDATA']), 'Local\\Chromium')
-    dest_dir = os.path.join(ROOTDIR, 'devices\\%s\\Chromium'%DEVICENAME)
-    if ready_to_create_dir_symbol_link(src_dir):
-      os.system('mklink /D "%s" "%s"'%(src_dir, dest_dir))
-    else:
-      print('Cannot setup symbol link from %s to %s'%(src_dir, dest_dir))
-  else:
-    print('Skip setup symbol from Chromium since the device name is unknown')
-  print('Symlinks are set up.')
+  # if len(DEVICENAME) > 0:
+  # src_dir = os.path.join(os.path.dirname(os.environ['APPDATA']), 'Local\\Chromium')
+  #  dest_dir = os.path.join(ROOTDIR, 'devices\\%s\\Chromium'%DEVICENAME)
+  #  if ready_to_create_dir_symbol_link(src_dir):
+  #    os.system('mklink /D "%s" "%s"'%(src_dir, dest_dir))
+  #  else:
+  #    print('Cannot setup symbol link from %s to %s'%(src_dir, dest_dir))
+  # else:
+  #  print('Skip setup symbol from Chromium since the device name is unknown')
+  # print('Symlinks are set up.')
+  pass
 
 
 def setup_private_symlinks():
