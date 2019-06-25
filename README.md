@@ -55,8 +55,8 @@ Install with pre-defined directory structure (recommended)
 Usage
 =====
 * Command: pe++.py <your file>.
-* pe++.py will try to use  {'language':'cpp','name':'mingw64-pe'} to find the corresponding compiler configuration.
-* dcj.py, jr.py, vc++.py, clang++ are similar to pe++.py but a different filter to find the compiler configuration.
+* pe++.py will try to use  {'language':'cpp','name':'mingw64-pe'} to find the corresponding compiler.
+* dcj.py, jr.py, vc++.py, clang++ are similar to pe++.py but a different compiler spec to find the compiler.
 * options
   * -o <output file name>
     * Specify the output file name. (Default = empty string and determined by compilers)
@@ -66,7 +66,15 @@ Usage
     * Enable release mode. (Default)
   * -r
     * Run the application after compiling your source code successfully. (Not enabled by default)
-* Configuration list
+  * -l
+    * specify the language
+  * -n
+    * specify the name field in compiler spec.
+  * -a
+    * specify the arch field in compiler spec.
+  * --
+    * all the options after -- will be appended to the compiler command.
+* Compiler spec list
   * dcj.py
     * {'language':'cpp','name':'dcj'}
   * jr.py

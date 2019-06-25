@@ -133,13 +133,17 @@ def set_up_environment(compiler):
       realv = expand_variable(v, variables)
       os.environ[k] = realv
 
-def create_commands(files, output, kv, is_debug):
+def create_commands(config):
   compilers = load_compilers()
-  compiler, instruction = find_compiler(compilers, kv)
+  compiler, instruction = find_compiler(compilers, config['compiler_spec'])
   compiler_base = find_compiler_base(compilers)
 
   if compiler == None:
     raise Exception, 'no suitable compiler'
+    
+  files = config['files']
+  output = config['output']
+  is_debug = config['is_debug']
 
   # compute variable base based on environment variables
   variable_base = dict(os.environ)
@@ -172,11 +176,13 @@ def create_commands(files, output, kv, is_debug):
     variables['OUTPUT_FILE'] = output
 
   #extra args
-  variables['EXTRA_COMPILE_ARGS'] = ''
+  extra_options = []
   if is_debug and 'debug_flags' in instruction:
-    variables['EXTRA_COMPILE_ARGS'] = ' '.join(instruction['debug_flags'])
+    extra_options.extend(instruction['debug_flags'])
   elif not is_debug and 'release_flags' in instruction:
-    variables['EXTRA_COMPILE_ARGS'] = ' '.join(instruction['release_flags'])
+    extra_options.extend(instruction['release_flags'])
+  extra_options.extend(config['extra_options'])
+  variables['EXTRA_COMPILE_ARGS'] = ' '.join(extra_options)
 
   if 'compile_binary' in instruction:
     compile_args = ['"' + instruction['compile_binary'] + '"']
@@ -225,15 +231,20 @@ def detect_language(files):
       return ext2language[ext]
   return ''
 
-def main(argv):
+def parse_and_run(argv, config):
   # parse cmdline
-  output = ''
-  files = []
-  is_debug = False
-  language = ''
-  name = ''
-  arch = ''
-  run = False
+  output = config.get('output', '')
+  files = config.get('files', [])
+  is_debug = config.get('files', False)
+  run = config.get('run', False)
+  extra_options = config.get('extra_options', [])
+
+  compiler_spec = config.get('compiler_spec', {})
+  language = compiler_spec.get('language', '')
+  name = compiler_spec.get('name', '')
+  type = compiler_spec.get('type', '')
+  arch = compiler_spec.get('arch', '')
+  version = compiler_spec.get('version', '-1')
 
   n = len(argv)
   i = 1
@@ -259,6 +270,9 @@ def main(argv):
     elif argv[i].lower() == '-r':
       run = True
       i += 1
+    elif argv[i].lower() == '--':
+      extra_options = argv[i+1:]
+      break
     else:
       files.append(argv[i])
       i += 1
@@ -268,10 +282,26 @@ def main(argv):
   if len(language) == 0:
     raise Exception, 'unknown language'
 
-  compile_cmd, run_cmd = create_commands(files, output, {'language': language, 'name': name, 'arch': arch}, is_debug)
+  compiler_spec['language'] = language
+  compiler_spec['name'] = name
+  compiler_spec['type'] = type
+  compiler_spec['arch'] = arch
+  compiler_spec['version'] = version
+
+  config['output'] = output
+  config['files'] = files
+  config['is_debug'] = is_debug
+  config['compiler_spec'] = compiler_spec
+  config['run'] = compiler_spec
+  config['extra_options'] = extra_options
+
+  compile_cmd, run_cmd = create_commands(config)
 
   if compile_cmd() == 0 and run == True:
     run_cmd()
+
+def main(argv):
+  parse_and_run(argv, {});
 
 if __name__ == '__main__':
   main(sys.argv)
