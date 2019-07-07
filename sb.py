@@ -296,7 +296,6 @@ def parse_and_run(argv, config):
   config['run'] = run
   config['extra_options'] = extra_options
 
-  print config
   compile_cmd, run_cmd = create_commands(config)
 
   if compile_cmd() == 0 and run == True:
