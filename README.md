@@ -28,7 +28,7 @@ A very simple building system
   * %APPDATA%
   * The directories in %PATH%
 
-### Install with pre-defined directory structure (recommended)
+### Install with pre-defined directory structures (recommended)
 This installation uses this directory structure:
   * %ROOTDIR% is the root directory.
     * %ROOTDIR%/app the directory to install applications.
@@ -61,6 +61,7 @@ This installation uses this directory structure:
   * Prepare
     * Install python 2.
     * Make sure environment variable ROOTDIR and HOMEDIR are valid directory path. (No need to create the sub-directories of ROOTDIR OR HOMEDIR and they will be created automatically if not exist)
+    * Check other configurations
     * Append the following code to ~/.bashrc
 ```bash
         export HOMEDIR=<home dir created in the previous step>
@@ -72,8 +73,6 @@ This installation uses this directory structure:
 
         export PATH=$DEVPATH:$PATH
 ```
-
-   * Check other configurations
 
   * Install
     * Open terminal.
@@ -92,9 +91,13 @@ This installation uses this directory structure:
     * [Windows] The default pe compiler will use Eigen, GMP. Please remove the corresponding compile options if you don't to want to use them. Otherwise, you can put them under %HOMEDIR%/usr/lib and edit the setup.py and compilers.json.
 
 ## Usage
-* Command: pe++.py <your file>.
-* pe++.py will try to use  {'language':'cpp','name':'mingw64-pe'} to find the corresponding compiler.
-* dcj.py, jr.py, vc++.py, clang++ are similar to pe++.py but a different compiler spec to find the compiler.
+* Command
+  * Windows: pe++.py filename.
+    * pe++ filename is available but it is not recommended.
+  * Linux: pe++ filename.
+  * pe++.py uses {'language':'cpp','name':'mingw64-pe'} to find the corresponding compiler.
+  * dcj.py, jr.py, vc++.py, clang++ are similar to pe++.py but a different compiler spec to find the compiler, please see copmiler spec list.
+  * pe++ (linux) will reuse pe++.py with another copmiler name gcc-pe.
 * options
   * -o <output file name>
     * Specify the output file name. (Default = empty string and determined by compilers)
@@ -113,6 +116,8 @@ This installation uses this directory structure:
   * --
     * all the options after -- will be appended to the compiler command.
 * Compiler spec list
+  * clang++.py
+    * {'language':'cpp','name':'clang-pe'}
   * dcj.py
     * {'language':'cpp','name':'dcj'}
   * jr.py
@@ -120,6 +125,4 @@ This installation uses this directory structure:
   * pe++.py
     * {'language':'cpp','name':'mingw64-pe'}
   * vc++.py
-    * {'language':'cpp','name':'vc','version':'14'}
-  * clang++.py
-    * {'language':'cpp','name':'clang-pe'}
+    * {'language':'cpp','name':'vc','version':'14','arch':'x64'}
