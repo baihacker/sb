@@ -9,37 +9,7 @@ import util
 
 """
   Set up basic development environment.
-  Before script:
-
-  Windows:
-    1. Install python2.
-    2. Make sure environment variable ROOTDIR and HOMEDIR are valid directory path.
-    3. Make sure DEVPATH is a part of PATH, i.e PATH=%DEVPATH%;...
-
-  Linux:
-    1. Install python2.
-    2. Make sure environment variable ROOTDIR and HOMEDIR are valid directory path.
-    3. Append the following code to ~/.bashrc
-        export HOMEDIR=<home dir created in step 2>
-        export ROOTDIR=<root dir created in step 2>
-
-        if [ -f ~/.sbrc ]; then
-         . ~/.sbrc
-        fi
-
-        export PATH=$DEVPATH:$PATH
-
-  Run this script:
-
-  Windows:
-    1. Run cmd with administrator permission.
-    2. Enter this dir
-    3. Execute: python setup.py
-
-  Linux:
-    1. Open terminal.
-    2. Enter this dir.
-    3. Execute: python ./setup.py
+  Please see README.md for how to install sb.
 
   This script:
     1. Check environment variables.
@@ -52,11 +22,6 @@ import util
     8. [Windows] Copies vscode user configurations from CURRENT_DIR\\vsc_config to %APPDATA%\\code\\User, %APPDATA%\\Code - Insiders\\User and %HOMEDIR%\\config\\vsc_config. Copy vscode directory configurations from CURRENT_DIR\\vsc_config\\.vscode to %HOMEDIR%\\config\\vsc_config\\.vscode, %ROOTDIR%\\projects\\.vscode.
     9. [Windows] Checks whether notepad++ is setup. (Also check whether npp.exe (a copy of notepad++.exe) exist.)
     10. Copy _vimrc to vim's dir or copy .vimrc to ~/ for linux.
-  
-  After running this script:
-
-  Windows:
-    1. Open and close the environment setting dialog to let the new created/updated environment variables take effect.
 """
 
 testRun = False
