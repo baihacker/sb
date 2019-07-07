@@ -12,14 +12,14 @@ import util
   Before script:
 
   Windows:
-    1. Make sure environment variable ROOTDIR and HOMEDIR are valid directory path.
-    2. Install python2.
-    2. Make sure DEVPATH is a part of PATH, i.e PATH=%DEVPATH%;...
+    1. Install python2.
+    2. Make sure environment variable ROOTDIR and HOMEDIR are valid directory path.
+    3. Make sure DEVPATH is a part of PATH, i.e PATH=%DEVPATH%;...
 
   Linux:
-    1. Make sure environment variable ROOTDIR and HOMEDIR are valid directory path.
-    2. Install python2.
-    2. Append the following code to ~/.bashrc
+    1. Install python2.
+    2. Make sure environment variable ROOTDIR and HOMEDIR are valid directory path.
+    3. Append the following code to ~/.bashrc
         export HOMEDIR=<home dir created in step 1>
         export ROOTDIR=<root dir created in step 1>
 
