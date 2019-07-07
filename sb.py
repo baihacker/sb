@@ -189,6 +189,7 @@ def create_commands(config):
   if 'compile_binary' in instruction:
     compile_args = ['"' + instruction['compile_binary'] + '"']
     compile_args.extend(instruction['compile_args'])
+    compile_args[0] = util.trans_path(expand_variable(compile_args[0], variables))
     compile_cmd = ' '.join(expand_variable(y, variables) for y in compile_args)
   else:
     compile_cmd = None
