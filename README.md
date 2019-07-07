@@ -64,8 +64,8 @@ This installation uses this directory structure:
     * Check other configurations
     * Append the following code to ~/.bashrc
 ```bash
-        export HOMEDIR=<home dir created in the previous step>
-        export ROOTDIR=<root dir created in the previous step>
+        export HOMEDIR=<home dir>
+        export ROOTDIR=<root dir>
 
         if [ -f ~/.sbrc ]; then
          . ~/.sbrc
