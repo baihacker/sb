@@ -20,8 +20,8 @@ import util
     1. Install python2.
     2. Make sure environment variable ROOTDIR and HOMEDIR are valid directory path.
     3. Append the following code to ~/.bashrc
-        export HOMEDIR=<home dir created in step 1>
-        export ROOTDIR=<root dir created in step 1>
+        export HOMEDIR=<home dir created in step 2>
+        export ROOTDIR=<root dir created in step 2>
 
         if [ -f ~/.sbrc ]; then
          . ~/.sbrc
