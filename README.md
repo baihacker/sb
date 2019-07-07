@@ -81,24 +81,24 @@ This installation uses this directory structure:
 
 #### Other configurations
 
-  * [Windows] install MinGW under %ROOTDIR%/app/DevSoft.
+  * [Windows] install MinGW under `%ROOTDIR%/app/DevSoft`.
     * Please make sure `%ROOTDIR%/app/DevSoft/MinGW-x86_64-8.1.0-posix-seh-rt_v6-rev0/mingw64/bin` exist because this script will add that path to environment variable list.
-    * If the path doesn't sound good to you, please install it in another path but don't forget to edit setup.py
+    * If the path doesn't sound good to you, please install it in another path but don't forget to edit setup.py (method: setup_environment_variables) and compilers.json (compiler: __compiler_base)
   * Configure compiler compilers.json.
     * Compile options
       * You can customize the compile command there.
-    * [C/C++] Options of linked lib
+    * [C/C++] Linked lib
       * The `mingw64-pe` (Windows) will link to libs of GMP, BF, FLINT, MPFR, MPIR and `gcc-pe` will link to the lib of GMP.
-        * Please remove the corresponding libs you don't to want to use.
-        * Keep te libs you will use.
+        * Remove the libs you don't use.
+        * Keep te libs you use.
         * Add more libs if necessary.
         * You can utilize the include path `%HOMEDIR%/usr/include` and the lib path `%HOMEDIR%/usr/lib` configured by setup.py to install libraries.
     * [pe](https://github.com/baihacker/pe) compatibility.
-      * This script will install [pe](https://github.com/baihacker/pe) to `%HOMEDIR%/usr/include/p`e and **configure** it automatically.
+      * This script will install [pe](https://github.com/baihacker/pe) to `%HOMEDIR%/usr/include/pe` and **configure** it automatically.
       * In the auto configure process, it checks whether the header file of a library exists and `enable` the corresponding library if the header file is found.
-        * For non-VC compilers, `enable` means to include the header file and the codes depend on them.
-        * For VC compilers, `enable` means to include the header file and the codes depend on them and add the corresponding link option.
-      * You need to make sure that the pe configure is consistent with your compiler configurations when compile a pe based source file
+        * For non-VC compilers, `enable` means to include the library header file and to enable the pe codes depend on them.
+        * For VC compilers, `enable` means to include the library header file and to enable the pe codes depend on them and to add the corresponding link option.
+      * You need to make sure that the pe configure is consistent with your compiler configurations when compiling a pe based source file
         * CPLUS_INCLUDE_PATH or the compile option has the path of the header file of enabled library.
         * LIBRARY_PATH or the compile option has the path of the lib of the enabled library (Some libraries don't have libs).
         * The compile option has the lib of the enable library (Some libraries don't have libs). As mentioned above, it is not necessary for VC compilers.
