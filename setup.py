@@ -10,21 +10,53 @@ import util
 """
   Set up basic development environment.
   Before script:
-  1. Make sure environment variable ROOTDIR and HOMEDIR are valid directory path.
-  2. Make sure DEVPATH is a part of PATH, i.e PATH=%DEVPATH%;...
-  3. If you want to create builtin symbol links (currently, no symbol links are created), please provide DEVICENAME and run this script in admin mode.
+
+  Windows:
+    1. Make sure environment variable ROOTDIR and HOMEDIR are valid directory path.
+    2. Install python2.
+    2. Make sure DEVPATH is a part of PATH, i.e PATH=%DEVPATH%;...
+
+  Linux:
+    1. Make sure environment variable ROOTDIR and HOMEDIR are valid directory path.
+    2. Install python2.
+    2. Append the following code to ~/.bashrc
+        export HOMEDIR=<home dir created in step 1>
+        export ROOTDIR=<root dir created in step 1>
+
+        if [ -f ~/.sbrc ]; then
+         . ~/.sbrc
+        fi
+
+        export PATH=$DEVPATH:$PATH
+
+  Run this script:
+
+  Windows:
+    1. Run cmd with administrator permission.
+    2. Enter this dir
+    3. Execute: python setup.py
+
+  Linux:
+    1. Open terminal.
+    2. Enter this dir.
+    3. Execute: python ./setup.py
 
   This script:
-  1. Check environment variables.
-  2. Create directories if necessary.
-  3. Copy sb files to destination dirs.
-  4. Setup pe if 'git' is available.
-  5. Generates DEVPATH which includes a list of path added to PATH.
-  6. If JAVAHOME exists, setup the corresponding JAVA class path.
-  7. Generates CPLUS_INCLUDE_PATH and LIBRARY_PATH.
-  8. Copies vscode user configurations from CURRENT_DIR\\vsc_config to %APPDATA%\\code\\User, %APPDATA%\\Code - Insiders\\User and %HOMEDIR%\\config\\vsc_config. Copy vscode directory configurations from CURRENT_DIR\\vsc_config\\.vscode to %HOMEDIR%\\config\\vsc_config\\.vscode, %ROOTDIR%\\projects\\.vscode.
-  9. Checks whether notepad++ is setup. (Also check whether npp.exe (a copy of notepad++.exe) exist.)
-  10. Copy _vimrc to vim's dir.
+    1. Check environment variables.
+    2. Create directories if necessary.
+    3. Copy sb files to destination dirs.
+    4. Setup pe if 'git' is available.
+    5. Generates DEVPATH which includes a list of path added to PATH.
+    6. If JAVAHOME exists, setup the corresponding JAVA class path.
+    7. Generates CPLUS_INCLUDE_PATH and LIBRARY_PATH.
+    8. [Windows] Copies vscode user configurations from CURRENT_DIR\\vsc_config to %APPDATA%\\code\\User, %APPDATA%\\Code - Insiders\\User and %HOMEDIR%\\config\\vsc_config. Copy vscode directory configurations from CURRENT_DIR\\vsc_config\\.vscode to %HOMEDIR%\\config\\vsc_config\\.vscode, %ROOTDIR%\\projects\\.vscode.
+    9. [Windows] Checks whether notepad++ is setup. (Also check whether npp.exe (a copy of notepad++.exe) exist.)
+    10. Copy _vimrc to vim's dir or copy .vimrc to ~/ for linux.
+  
+  After running this script:
+
+  Windows:
+    1. Open and close the environment setting dialog to let the new created/updated environment variables take effect.
 """
 
 testRun = False
@@ -32,11 +64,11 @@ testRun = False
 if testRun:
   HOMEDIR = 'D:\\test\\home'
   ROOTDIR = 'D:\\test\\root'
-  DEVICENAME = 'device'
+  #DEVICENAME = 'device'
 else:
   HOMEDIR = os.environ.get('HOMEDIR', '')
   ROOTDIR = os.environ.get('ROOTDIR', '')
-  DEVICENAME = os.environ.get('DEVICENAME', '')
+  #DEVICENAME = os.environ.get('DEVICENAME', '')
 
 CURRENT_DIRECTORY = os.path.dirname(os.path.realpath(__file__))
 
@@ -157,10 +189,10 @@ def create_dirs():
   create_dir_if_absent(os.path.join(ROOTDIR, 'app\\MathsSoft'))
   create_dir_if_absent(os.path.join(ROOTDIR, 'projects'))
   create_dir_if_absent(os.path.join(ROOTDIR, 'projects\\.vscode'))
-  if len(DEVICENAME) > 0:
-    create_dir_if_absent(os.path.join(ROOTDIR, 'devices'))
-    create_dir_if_absent(os.path.join(ROOTDIR, 'devices\\%s'%DEVICENAME))
-    create_dir_if_absent(os.path.join(ROOTDIR, 'devices\\%s\\Chromium'%DEVICENAME))
+  #if len(DEVICENAME) > 0:
+  #  create_dir_if_absent(os.path.join(ROOTDIR, 'devices'))
+  #  create_dir_if_absent(os.path.join(ROOTDIR, 'devices\\%s'%DEVICENAME))
+  #  create_dir_if_absent(os.path.join(ROOTDIR, 'devices\\%s\\Chromium'%DEVICENAME))
   print('Directories are created.')
 
 
