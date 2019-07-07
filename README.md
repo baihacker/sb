@@ -62,7 +62,7 @@ This installation uses this directory structure:
     * Install python 2.
     * Make sure environment variable ROOTDIR and HOMEDIR are valid directory path. (No need to create the sub-directories of ROOTDIR OR HOMEDIR and they will be created automatically if not exist)
     * Check other configurations
-    * Append the following code to ~/.bashrc
+    * Append the following code (please modify <home dir> and <root dir>) to ~/.bashrc
 ```bash
         export HOMEDIR=<home dir>
         export ROOTDIR=<root dir>
