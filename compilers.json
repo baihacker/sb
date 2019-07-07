@@ -120,6 +120,37 @@
     },
   },
   {
+    "name": "gcc-pe",
+    "type": "compiler",
+    "arch": "x64",
+    "version": "7.4.0",
+    "base": "mingw64",
+    "language_detail": {
+      "c": {
+        "compile_binary": "gcc",
+        "default_output_file": "a.out",
+        "running_binary": "./a.out",
+        "debug_flags": [
+          "-g -fopenmp"
+        ],
+        "release_flags": [
+          "-O3 -march=native -mtune=native -fopenmp -Wl,--stack,268435456"
+        ],
+      },
+      "cpp": {
+        "compile_binary": "/usr/bin/g++",
+        "default_output_file": "a.out",
+        "running_binary": "./a.out",
+        "debug_flags": [
+          "-g -fopenmp -lgmpxx -lgmp"
+        ],
+        "release_flags": [
+          "-O3 -march=native -mtune=native -fopenmp -lgmpxx -lgmp"
+        ],
+      },
+    },
+  },
+  {
     "name": "clang-vc",
     "type": "compiler",
     "arch": "x64",

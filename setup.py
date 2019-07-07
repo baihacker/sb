@@ -1,11 +1,12 @@
+#!/usr/bin/env python
 import sys
 import os
 import shutil
 import ctypes
 import random
 import stat
+import util
 
-from subprocess import check_call
 """
   Set up basic development environment.
   Before script:
@@ -36,52 +37,15 @@ else:
   HOMEDIR = os.environ.get('HOMEDIR', '')
   ROOTDIR = os.environ.get('ROOTDIR', '')
   DEVICENAME = os.environ.get('DEVICENAME', '')
-TEMP_DIR = os.environ.get('TEMP', '')
 
 CURRENT_DIRECTORY = os.path.dirname(os.path.realpath(__file__))
+
 RUN_FROM_GIT_REPOSITORY = os.path.exists(
     os.path.join(CURRENT_DIRECTORY, '.git'))
+
 PRIVATE_INSTALL = False
 
 HAS_GIT = os.system('git --help 1>NUL 2>NUL') == 0
-
-if sys.hexversion > 0x03000000:
-  import winreg
-else:
-  import _winreg as winreg
-
-
-class Win32Environment:
-  """Utility class to get/set windows environment variable"""
-
-  def __init__(self, scope):
-    assert scope in ('user', 'system')
-    self.scope = scope
-    if scope == 'user':
-      self.root = winreg.HKEY_CURRENT_USER
-      self.subkey = 'Environment'
-    else:
-      self.root = winreg.HKEY_LOCAL_MACHINE
-      self.subkey = (r'SYSTEM\CurrentControlSet\Control\Session '
-                     r'Manager\Environment')
-
-  def getenv(self, name):
-    key = winreg.OpenKey(self.root, self.subkey, 0, winreg.KEY_READ)
-    try:
-      value, _ = winreg.QueryValueEx(key, name)
-    except WindowsError:
-      value = ''
-    return value
-
-  def setenv(self, name, value):
-    # Note: for 'system' scope, you must run this as Administrator
-    key = winreg.OpenKey(self.root, self.subkey, 0, winreg.KEY_ALL_ACCESS)
-    winreg.SetValueEx(key, name, 0, winreg.REG_EXPAND_SZ, value)
-    winreg.CloseKey(key)
-    # For some strange reason, calling SendMessage from the current process
-    # doesn't propagate environment changes at all.
-    # TODO: handle CalledProcessError (for assert)
-    #check_call('''"%s" -c "import win32api, win32con; assert win32api.SendMessage(win32con.HWND_BROADCAST, win32con.WM_SETTINGCHANGE, 0, 'Environment')"''' % sys.executable)
 
 def remove_dir(dir):
   if os.path.exists(dir):
@@ -96,6 +60,8 @@ def remove_dir(dir):
 def force_copy(src, dest):
   if src.lower() == dest.lower():
     return
+  src = util.trans_path(src)
+  dest = util.trans_path(dest)
   if os.path.exists(dest):
     os.remove(dest)
   shutil.copyfile(src, dest)
@@ -103,6 +69,7 @@ def force_copy(src, dest):
 
 def create_dir_if_absent(dir):
   # It doesn't try to create the parents dirs
+  dir = util.trans_path(dir)
   if not os.path.exists(dir):
     os.mkdir(dir)
   if not os.path.isdir(dir):
@@ -111,6 +78,8 @@ def create_dir_if_absent(dir):
 
 
 def copy_dir_to(src, dest):
+  src = util.trans_path(src)
+  dest = util.trans_path(dest)
   create_dir_if_absent(dest)
   for f in os.listdir(src):
     if len(f) > 0 and f[0] == '.':
@@ -124,7 +93,7 @@ def copy_dir_to(src, dest):
 
 
 def pull_git(git, target):
-  tmp_dir = os.path.join(TEMP_DIR, 'sb'+str(random.random())+'.tmp')
+  tmp_dir = os.path.join(util.TEMP_DIR, 'sb'+str(random.random())+'.tmp')
   try:
     os.system('git clone %s "%s"'%(git, tmp_dir))
     copy_dir_to(tmp_dir, target)
@@ -134,9 +103,9 @@ def pull_git(git, target):
 
 def is_admin():
   try:
-      return ctypes.windll.shell32.IsUserAnAdmin()
+    return ctypes.windll.shell32.IsUserAnAdmin()
   except:
-      return False
+    return False
 
 
 def ready_to_create_dir_symbol_link(path):
@@ -206,12 +175,14 @@ def setup_sb():
   target_bin_dir = os.path.join(HOMEDIR, 'usr\\bin\\sb')
   files = [
       'dcj.py', 'dcj.bat', 'jr.py', 'jr.bat', 'pe++.py', 'pe++.bat', 'pe.bat',
-      'sb.py', 'vc++.py', 'vc++.bat', 'clang++.py'
+      'sb.py', 'vc++.py', 'vc++.bat', 'clang++.py', 'util.py', 'pe++'
   ]
   for f in files:
     src_file = os.path.join(CURRENT_DIRECTORY, f)
     dest_file = os.path.join(target_bin_dir, f)
     force_copy(src_file, dest_file)
+    if util.IS_LINUX:
+      os.chmod(util.trans_path(dest_file), 0777)
 
   # Copy compilers.json and setup.py to config directory.
   target_config_dir = os.path.join(HOMEDIR, 'config')
@@ -220,7 +191,7 @@ def setup_sb():
     src_file = os.path.join(CURRENT_DIRECTORY, f)
     dest_file = os.path.join(target_config_dir, f)
     force_copy(src_file, dest_file)
-  
+
   print('sb is set up.')
 
 
@@ -229,15 +200,18 @@ def setup_pe():
   if not HAS_GIT:
     print('Please install git first.')
     return
-  pull_git('https://github.com/baihacker/pe.git', os.path.join(HOMEDIR, 'usr\\include\\pe'))
+  PE_DIR = util.trans_path(os.path.join(HOMEDIR, 'usr\\include\\pe'))
+  pull_git('https://github.com/baihacker/pe.git', PE_DIR)
+  util.execute_cmd('python "%s"'%os.path.join(PE_DIR, 'gen_config.py'))
   print('pe is set up.')
 
 
 def setup_environment_variables():
   print('\nBuilding environment variables...')
-  env_setter = Win32Environment(scope='user')
+  env_setter = util.EnvironmentWriter()
 
   def add_if_exists(path, paths):
+    path = util.trans_path(path)
     if os.path.exists(path):
       paths.append(path)
     else:
@@ -250,34 +224,36 @@ def setup_environment_variables():
   dev_paths = []
   add_if_exists(os.path.join(USRDIR, 'bin'), dev_paths)
   add_if_exists(os.path.join(USRDIR, 'bin\\sb'), dev_paths)
-  add_if_exists(os.path.join(USRDIR, 'dll'), dev_paths)
-  add_if_exists(os.path.join(USRDIR, 'dll\\vc12_x86'), dev_paths)
-  add_if_exists(os.path.join(USRDIR, 'dll\\vc12_x64'), dev_paths)
+  if util.IS_WIN:
+    add_if_exists(os.path.join(USRDIR, 'dll'), dev_paths)
+    add_if_exists(os.path.join(USRDIR, 'dll\\vc12_x86'), dev_paths)
+    add_if_exists(os.path.join(USRDIR, 'dll\\vc12_x64'), dev_paths)
 
-  add_if_exists(
-      os.path.join(ROOTDIR, 'app\\DevSoft\\MinGW-x86_64-8.1.0-posix-seh-rt_v6-rev0\\mingw64\\bin'), dev_paths)
-  add_if_exists(
-      os.path.join(ROOTDIR, 'app\\DevSoft\\LLVM_7.0.0\\bin'), dev_paths)
-  add_if_exists(os.path.join(ROOTDIR, 'app\\MathsSoft\\mma'), dev_paths)
+  if util.IS_WIN:
+    add_if_exists(
+        os.path.join(ROOTDIR, 'app\\DevSoft\\MinGW-x86_64-8.1.0-posix-seh-rt_v6-rev0\\mingw64\\bin'), dev_paths)
+    add_if_exists(
+        os.path.join(ROOTDIR, 'app\\DevSoft\\LLVM_7.0.0\\bin'), dev_paths)
+    add_if_exists(os.path.join(ROOTDIR, 'app\\MathsSoft\\mma'), dev_paths)
 
-  add_if_exists('C:\\Python27', dev_paths)
-  add_if_exists('C:\\python\\Python27', dev_paths)
-  add_if_exists('C:\\python\\Python33', dev_paths)
-  add_if_exists('C:\\python\\Python27_64', dev_paths)
-  add_if_exists('C:\\python\\Python33_64', dev_paths)
-  add_if_exists('C:\\python\\pypy2', dev_paths)
-  add_if_exists('C:\\python\\pypy3', dev_paths)
-  add_if_exists('C:\\Program Files (x86)\\Notepad++', dev_paths)
-  add_if_exists('C:\\Program Files\\Notepad++', dev_paths)
-  add_if_exists('C:\\Program Files (x86)\\Pari64-2-9-5', dev_paths)
-  add_if_exists('C:\\Program Files (x86)\\Vim\\vim81', dev_paths)
+    add_if_exists('C:\\Python27', dev_paths)
+    add_if_exists('C:\\python\\Python27', dev_paths)
+    add_if_exists('C:\\python\\Python33', dev_paths)
+    add_if_exists('C:\\python\\Python27_64', dev_paths)
+    add_if_exists('C:\\python\\Python33_64', dev_paths)
+    add_if_exists('C:\\python\\pypy2', dev_paths)
+    add_if_exists('C:\\python\\pypy3', dev_paths)
+    add_if_exists('C:\\Program Files (x86)\\Notepad++', dev_paths)
+    add_if_exists('C:\\Program Files\\Notepad++', dev_paths)
+    add_if_exists('C:\\Program Files (x86)\\Pari64-2-9-5', dev_paths)
+    add_if_exists('C:\\Program Files (x86)\\Vim\\vim81', dev_paths)
 
-  add_if_exists('C:\\Program Files\\TortoiseSVN\\bin', dev_paths)
+    add_if_exists('C:\\Program Files\\TortoiseSVN\\bin', dev_paths)
 
   if len(JAVAHOME) > 0:
     add_if_exists(os.path.join(JAVAHOME, 'bin'), dev_paths)
 
-  env_setter.setenv('DEVPATH', ';'.join(dev_paths))
+  env_setter.setenv('DEVPATH', util.DELIMITER.join(dev_paths))
 
   # class_paths
   class_paths = []
@@ -285,22 +261,47 @@ def setup_environment_variables():
     add_if_exists('.', class_paths)
     add_if_exists(os.path.join(JAVAHOME, 'lib\\dt.jar'), class_paths)
     add_if_exists(os.path.join(JAVAHOME, 'lib\\tools.jar'), class_paths)
-    env_setter.setenv('CLASSPATH', ';'.join(class_paths))
+    env_setter.setenv('CLASSPATH', util.DELIMITER.join(class_paths))
 
   # cpp_include_path
   cpp_include_paths = []
   add_if_exists(os.path.join(USRDIR, 'include'), cpp_include_paths)
   add_if_exists(os.path.join(USRDIR, 'include\\pe'), cpp_include_paths)
   add_if_exists(os.path.join(USRDIR, 'include\\flint'), cpp_include_paths)
-  env_setter.setenv('CPLUS_INCLUDE_PATH', ';'.join(cpp_include_paths))
-  env_setter.setenv('C_INCLUDE_PATH', ';'.join(cpp_include_paths))
+  env_setter.setenv('CPLUS_INCLUDE_PATH', util.DELIMITER.join(cpp_include_paths))
+  env_setter.setenv('C_INCLUDE_PATH', util.DELIMITER.join(cpp_include_paths))
 
   # lib path
   lib_paths = []
   add_if_exists(os.path.join(USRDIR, 'lib'), lib_paths)
-  env_setter.setenv('LIBRARY_PATH', ';'.join(lib_paths))
+  env_setter.setenv('LIBRARY_PATH', util.DELIMITER.join(lib_paths))
+
+  env_setter.done()
 
   print('Environment variables are set up!')
+
+
+def setup_vim():
+  print('\nSetting up vim...')
+  if util.IS_WIN:
+    vim_prefix = ['C:\\Program Files (x86)\\Vim', 'C:\\Program Files\\Vim']
+    FILE_NAME = '_vimrc'
+  else:
+    vim_prefix = [util.LINUX_HOME]
+    FILE_NAME = '.vimrc'
+
+  src = os.path.join(CURRENT_DIRECTORY, FILE_NAME)
+  done = 0
+  for dir in vim_prefix:
+    target_path = os.path.join(dir, FILE_NAME)
+    if os.path.exists(target_path):
+      shutil.copyfile(util.trans_path(src), util.trans_path(target_path))
+      print('%s is updated.'%target_path)
+      done = done + 1
+  if done > 0:
+    print('Vim is set up.')
+  else:
+    print('Vim is not found.')
 
 
 def setup_vscode():
@@ -343,23 +344,6 @@ def setup_vscode():
       force_copy(src_file, dest_file)
 
   print('Visual studio code is set up!')
-
-
-def setup_vim():
-  print('\nSetting up vim...')
-  vim_prefix = ['C:\\Program Files (x86)\\Vim', 'C:\\Program Files\\Vim']
-  src = os.path.join(CURRENT_DIRECTORY, '_vimrc')
-  done = 0
-  for target in vim_prefix:
-    vimrc = os.path.join(target, '_vimrc')
-    if os.path.exists(vimrc):
-      shutil.copyfile(src, vimrc)
-      print('%s is updated.'%vimrc)
-      done = done + 1
-  if done > 0:
-    print('Vim is set up.')
-  else:
-    print('Vim is not found.')
 
 
 def check_npp():
@@ -447,18 +431,22 @@ def main(argv):
   global PRIVATE_INSTALL
   if len(argv) > 1 and argv[1] == '-b':
     PRIVATE_INSTALL = True
+
   validate_environment_variables()
   create_dirs()
   setup_sb()
   setup_pe()
   setup_environment_variables()
-  setup_vscode()
-  check_npp()
   setup_vim()
-  if is_admin():
-    setup_symlinks()
-    if PRIVATE_INSTALL:
-      setup_private_symlinks()
+
+  if util.IS_WIN:
+    setup_vscode()
+    check_npp()
+
+    if is_admin():
+      setup_symlinks()
+      if PRIVATE_INSTALL:
+        setup_private_symlinks()
 
 
 if __name__ == '__main__':

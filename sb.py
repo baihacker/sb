@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+import util
 import os
 import sys
 import shutil
@@ -6,14 +8,12 @@ import json
 import time
 import subprocess
 
-CurrentDirectory = os.path.dirname(os.path.realpath(__file__))
-#OutputDirectory = os.path.join(CurrentDirectory, 'build')
-#if not os.path.exists(OutputDirectory): os.makedirs(OutputDirectory)
+CURRENT_DIRECTORY = os.path.dirname(os.path.realpath(__file__))
 
 def find_config_file():
   compiler_file_name = 'compilers.json'
 
-  dirs = [CurrentDirectory]
+  dirs = [CURRENT_DIRECTORY]
 
   # HOMEDIR
   HOMEDIR = os.environ.get('HOMEDIR', '')
@@ -26,17 +26,19 @@ def find_config_file():
     dirs.append(os.path.join(ROOTDIR, 'config'))
 
   # dcfpe dir
-  dcfpe_dir = os.path.join(os.path.dirname(os.environ['APPDATA']), 'LocalLow\\dcfpe')
-  dirs.append(dcfpe_dir)
+  if util.IS_WIN:
+    dcfpe_dir = os.path.join(os.path.dirname(os.environ['APPDATA']), 'LocalLow\\dcfpe')
+    dirs.append(dcfpe_dir)
 
   # app data
-  dirs.append(os.environ['APPDATA'])
+  if util.IS_WIN:
+    dirs.append(os.environ['APPDATA'])
 
   # path
-  dirs.extend(os.environ['PATH'].split(';'))
+  dirs.extend(os.environ['PATH'].split(util.DELIMITER))
 
   for dir in dirs:
-    path = os.path.join(dir, compiler_file_name)
+    path = os.path.join(util.trans_path(dir), compiler_file_name)
     if os.path.exists(path):
       return path
 
@@ -201,7 +203,7 @@ def create_commands(config):
     env = dict(os.environ)
     set_up_environment(compiler)
     print(compile_cmd)
-    ret = subprocess.call(compile_cmd)
+    ret = util.execute_cmd(compile_cmd)
     for x in clean_files:
       if os.path.exists(x):
         os.remove(x)
@@ -210,8 +212,7 @@ def create_commands(config):
 
   def run():
     print(run_cmd)
-    ret = subprocess.call(run_cmd)
-    return ret
+    return util.execute_cmd(run_cmd)
 
   return compile, run
 
@@ -292,9 +293,10 @@ def parse_and_run(argv, config):
   config['files'] = files
   config['is_debug'] = is_debug
   config['compiler_spec'] = compiler_spec
-  config['run'] = compiler_spec
+  config['run'] = run
   config['extra_options'] = extra_options
 
+  print config
   compile_cmd, run_cmd = create_commands(config)
 
   if compile_cmd() == 0 and run == True:
