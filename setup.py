@@ -43,7 +43,10 @@ RUN_FROM_GIT_REPOSITORY = os.path.exists(
 PRIVATE_INSTALL = False
 UPDATE_VIM = False
 
-HAS_GIT = os.system('git --help 1>NUL 2>NUL') == 0
+if util.IS_WIN:
+  HAS_GIT = os.system('git --help 1>NUL 2>NUL') == 0
+else:
+  HAS_GIT = os.system('git --help > /dev/null 2>&1') == 0
 
 def remove_dir(dir):
   if os.path.exists(dir):
