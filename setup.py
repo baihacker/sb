@@ -41,6 +41,7 @@ RUN_FROM_GIT_REPOSITORY = os.path.exists(
     os.path.join(CURRENT_DIRECTORY, '.git'))
 
 PRIVATE_INSTALL = False
+UPDATE_VIM = False
 
 HAS_GIT = os.system('git --help 1>NUL 2>NUL') == 0
 
@@ -426,15 +427,24 @@ def setup_private_symlinks():
 
 def main(argv):
   global PRIVATE_INSTALL
-  if len(argv) > 1 and argv[1] == '-b':
-    PRIVATE_INSTALL = True
+  global UPDATE_VIM
+  n = len(argv)
+  i = 1
+  while i < n:
+    if argv[i].lower() == '-b':
+      PRIVATE_INSTALL = True
+    elif argv[i].lower() == '-v':
+      UPDATE_VIM = True
+    i += 1
 
   validate_environment_variables()
   create_dirs()
   setup_sb()
   setup_pe()
   setup_environment_variables()
-  setup_vim()
+
+  if UPDATE_VIM:
+    setup_vim()
 
   if util.IS_WIN:
     setup_vscode()
