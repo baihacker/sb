@@ -62,7 +62,7 @@ This installation uses this directory structure:
     * Install python 2.
     * Make sure environment variable ROOTDIR and HOMEDIR are valid directory path. (No need to create the sub-directories of ROOTDIR OR HOMEDIR and they will be created automatically if not exist)
     * Check other configurations
-    * Append the following code (please modify <home dir> and <root dir>) to ~/.bashrc
+    * Append the following code (please modify `<home dir> and <root dir>`) to ~/.bashrc
 ```bash
         export HOMEDIR=<home dir>
         export ROOTDIR=<root dir>
@@ -92,14 +92,14 @@ This installation uses this directory structure:
 
 ## Usage
 * Command
-  * Windows: pe++.py filename.
-    * pe++ filename is available but it is not recommended.
-  * Linux: pe++ filename.
+  * Windows: pe++.py `<source file>`.
+    * pe++ `<source file>` is available but it is not recommended.
+  * Linux: pe++ `<source file>`.
   * pe++.py uses {'language':'cpp','name':'mingw64-pe'} to find the corresponding compiler.
   * dcj.py, jr.py, vc++.py, clang++ are similar to pe++.py but a different compiler spec to find the compiler, please see copmiler spec list.
   * pe++ (linux) will reuse pe++.py with another copmiler name gcc-pe.
 * options
-  * -o <output file name>
+  * -o `<output file name>`
     * Specify the output file name. (Default = empty string and determined by compilers)
   * -debug
     * Enable debug mode.
