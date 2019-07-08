@@ -2,11 +2,6 @@
 import util
 import os
 import sys
-import shutil
-import zipfile
-import json
-import time
-import subprocess
 
 CURRENT_DIRECTORY = os.path.dirname(os.path.realpath(__file__))
 
