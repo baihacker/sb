@@ -102,7 +102,7 @@ This installation uses this directory structures:
       * You need to make sure that the pe configure is consistent with your compiler configurations when compiling a pe based source file
         * CPLUS_INCLUDE_PATH or the compile option has the path of the header file of enabled library.
         * LIBRARY_PATH or the compile option has the path of the lib of the enabled library (Some libraries don't have libs).
-        * The compile option has the lib of the enable library (Some libraries don't have libs). As mentioned above, it is not necessary for VC compilers.
+        * The compiling option has the lib of the enabled library (Some libraries don't have libs). As mentioned above, it is not necessary for VC compilers.
 
 ## Usage
 * Command
