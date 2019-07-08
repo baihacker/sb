@@ -53,6 +53,8 @@ This installation uses this directory structures:
 #### Install on windows
 
   * Prepare
+    * Install git.
+    * Clone sb to a directory.
     * Install python 2.
     * Make sure environment variable ROOTDIR and HOMEDIR are valid directory path. (No need to create the sub-directories of ROOTDIR or HOMEDIR and they will be created automatically if not exist)
     * Make sure DEVPATH is a part of PATH, i.e PATH=%DEVPATH%;...
@@ -60,7 +62,7 @@ This installation uses this directory structures:
     * Note: Open and close the environment setting dialog to let the new created/updated environment variables take effect.
   * Install
     * Run cmd with administrator permission.
-    * Enter this dir.
+    * Enter sb directory.
     * Execute: python setup.py
   * After installing sb
     * Open and close the environment setting dialog to let the new created/updated environment variables take effect.
@@ -68,6 +70,8 @@ This installation uses this directory structures:
 #### Install on linux
 
   * Prepare
+    * Install git.
+    * Clone sb to a directory.
     * Install python 2.
     * Make sure environment variable ROOTDIR and HOMEDIR are valid directory path. (No need to create the sub-directories of ROOTDIR OR HOMEDIR and they will be created automatically if not exist)
     * Check other configurations
@@ -85,8 +89,13 @@ This installation uses this directory structures:
 
   * Install
     * Open terminal.
-    * Enter this dir.
+    * Enter sb directory.
     * Execute: python ./setup.py
+
+#### Install on mac
+Nearly the same as that on linux.
+  * Append toe code to `~/.bash_profile` instead of `~/.bashrc`.
+  * Just remove -fopenmp from your compiler option.
 
 #### Other configurations
 
