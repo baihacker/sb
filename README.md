@@ -19,17 +19,18 @@ A very simple building system
 ## Installation
 ### Simple installation
 * Install python 2.
-* Put *.py and *.bat in a directory and make sure the PATH environment variable contain this directory.
-* Edit compilers.json and put this file in a directory, the directory can be (first match):
-  * Current directory
-  * %HOMEDIR%/config
-  * %ROOTDIR%/config
-  * %APPDATA%/../LocalLow/dcfpe
-  * %APPDATA%
-  * The directories in %PATH%
+* Put all the files in a directory and make sure that the `PATH` environment variable contains that directory.
+* Edit configuration file `compilers.json`.
+* Put `compilers.json` in a directory and the directory can be (first match):
+  * `SB installation directory`
+  * `%HOMEDIR%/config`
+  * `%ROOTDIR%/config`
+  * [Windows] `%APPDATA%/../LocalLow/dcfpe`
+  * [Windows] `%APPDATA%`
+  * The directories in `%PATH%`
 
 ### Install with pre-defined directory structures (recommended)
-This installation uses this directory structure:
+This installation uses this directory structures:
   * %ROOTDIR% is the root directory.
     * %ROOTDIR%/app the directory to install applications.
     * %ROOTDIR%/app/DevSoft development related software.
@@ -62,7 +63,7 @@ This installation uses this directory structure:
     * Install python 2.
     * Make sure environment variable ROOTDIR and HOMEDIR are valid directory path. (No need to create the sub-directories of ROOTDIR OR HOMEDIR and they will be created automatically if not exist)
     * Check other configurations
-    * Append the following code (please modify `<home dir> and <root dir>`) to ~/.bashrc
+    * Append the following code (please modify `<home dir> and <root dir>`) to `~/.bashrc`
 ```bash
         export HOMEDIR=<home dir>
         export ROOTDIR=<root dir>
@@ -119,7 +120,7 @@ This installation uses this directory structure:
   * -release
     * Enable release mode. (Default)
   * -r
-    * Run the application after compiling your source code successfully. (Not enabled by default)
+    * Run the application after compiling your source code successfully. (Disabled by default)
   * -l
     * specify the language
   * -n
@@ -127,7 +128,7 @@ This installation uses this directory structure:
   * -a
     * specify the arch field in compiler spec.
   * --
-    * all the options after -- will be appended to the compiler command.
+    * all the options after -- will be appended to the compiling command.
 * Compiler spec list
   * clang++.py
     * {'language':'cpp','name':'clang-pe'}
