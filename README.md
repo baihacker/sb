@@ -1,7 +1,15 @@
 # sb
 A very simple building system
 
-## Features
+## Introduction
+* SB is a wrapper of compilers, you can
+  * Use a simple wrapper command to compile/run your source code without writing long compiling options.
+  * Run the binary automatically after success compiling just by adding an option.
+  * Configure the compiler easily
+    * Uses Object Oriented way to organize compiler configurations.
+    * Use variable to configure compilers.
+    * Support variable override.
+    * Support environment variable.
 * Support nearly all kinds of compilers (easy to extend to other compiler/languages):
   * mingw: c, c++
   * tdm-mingw: c, c++
@@ -13,8 +21,8 @@ A very simple building system
   * scala interpreter: scala
   * ghc: haskell
   * vc: c, c++
-* Use variable to help configure compilers.
 * Work with [win_toolchain_2013e](http://yun.baidu.com/share/link?shareid=2799405881&uk=2684621311) without installing vs2013.
+* Support Windows and Linux distributions.
 
 ## Installation
 ### Simple installation
