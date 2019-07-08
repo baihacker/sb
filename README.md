@@ -95,7 +95,7 @@ This installation uses this directory structures:
 #### Install on mac
 Nearly the same as that on linux.
   * Append toe code to `~/.bash_profile` instead of `~/.bashrc`.
-  * Just remove -fopenmp from your compiler option.
+  * Remove `-fopenmp` from your compiler option.
 
 #### Other configurations
 
