@@ -6,7 +6,7 @@ A very simple building system
   * Use a simple wrapper command to compile/run your source code without writing long compiling options.
   * Run the binary automatically after success compiling just by adding an option.
   * Configure the compiler easily
-    * Uses Object Oriented way to organize compiler configurations.
+    * Use Object Oriented way to organize compiler configurations.
     * Use variable to configure compilers.
     * Support variable override.
     * Support environment variable.
