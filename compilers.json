@@ -138,7 +138,7 @@
         ],
       },
       "cpp": {
-        "compile_binary": "/usr/bin/g++",
+        "compile_binary": "g++",
         "default_output_file": "a.out",
         "running_binary": "./a.out",
         "debug_flags": [
