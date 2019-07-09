@@ -85,7 +85,7 @@ export HOMEDIR=<home dir>
 export ROOTDIR=<root dir>
 
 if [ -f ~/.sbrc ]; then
- . ~/.sbrc
+  . ~/.sbrc
 fi
 
 export PATH=$DEVPATH${PATH:+:${PATH}}
