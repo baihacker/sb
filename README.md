@@ -56,7 +56,9 @@ This installation uses this directory structures:
     * Install git.
     * Clone sb to a directory.
     * Install python 2.
-    * Make sure environment variable ROOTDIR and HOMEDIR are valid directory path. (No need to create the sub-directories of ROOTDIR or HOMEDIR and they will be created automatically if not exist)
+    * Make sure environment variable ROOTDIR and HOMEDIR are valid directory path.
+      * No need to create the sub-directories of ROOTDIR OR HOMEDIR and they will be created automatically if not exist.
+      * ROOTDIR and HOMEDIR may be the directory.
     * Make sure DEVPATH is a part of PATH, i.e PATH=%DEVPATH%;...
     * Check other configurations.
     * Note: Open and close the environment setting dialog to let the new created/updated environment variables take effect.
@@ -73,7 +75,9 @@ This installation uses this directory structures:
     * Install git.
     * Clone sb to a directory.
     * Install python 2.
-    * Make sure environment variable ROOTDIR and HOMEDIR are valid directory path. (No need to create the sub-directories of ROOTDIR OR HOMEDIR and they will be created automatically if not exist)
+    * Make sure environment variable ROOTDIR and HOMEDIR are valid directory path. 
+      * No need to create the sub-directories of ROOTDIR OR HOMEDIR and they will be created automatically if not exist.
+      * ROOTDIR and HOMEDIR may be the directory.
     * Check other configurations
     * Append the following code (please modify `<home dir> and <root dir>`) to `~/.bashrc`
 ```bash
