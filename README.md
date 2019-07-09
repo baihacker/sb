@@ -88,7 +88,7 @@ if [ -f ~/.sbrc ]; then
  . ~/.sbrc
 fi
 
-export PATH=$DEVPATH${PATH:+:$PATH}
+export PATH=$DEVPATH${PATH:+:${PATH}}
 ```
 
   * Install
