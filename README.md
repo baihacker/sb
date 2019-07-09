@@ -84,7 +84,7 @@ This installation uses this directory structures:
          . ~/.sbrc
         fi
 
-        export PATH=$DEVPATH:$PATH
+        export PATH=$DEVPATH${PATH:+:$PATH}
 ```
 
   * Install
