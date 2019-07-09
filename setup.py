@@ -254,7 +254,7 @@ def setup_environment_variables():
   if len(JAVAHOME) > 0:
     add_if_exists(os.path.join(JAVAHOME, 'bin'), dev_paths)
 
-  env_setter.setenv('DEVPATH', util.DELIMITER.join(dev_paths))
+  env_setter.setenv('DEVPATH', dev_paths)
 
   # class_paths
   class_paths = []
@@ -262,20 +262,20 @@ def setup_environment_variables():
     add_if_exists('.', class_paths)
     add_if_exists(os.path.join(JAVAHOME, 'lib\\dt.jar'), class_paths)
     add_if_exists(os.path.join(JAVAHOME, 'lib\\tools.jar'), class_paths)
-    env_setter.setenv('CLASSPATH', util.DELIMITER.join(class_paths))
+    env_setter.setenv('CLASSPATH', class_paths)
 
   # cpp_include_path
   cpp_include_paths = []
   add_if_exists(os.path.join(USRDIR, 'include'), cpp_include_paths)
   add_if_exists(os.path.join(USRDIR, 'include\\pe'), cpp_include_paths)
   add_if_exists(os.path.join(USRDIR, 'include\\flint'), cpp_include_paths)
-  env_setter.setenv('CPLUS_INCLUDE_PATH', util.DELIMITER.join(cpp_include_paths))
-  env_setter.setenv('C_INCLUDE_PATH', util.DELIMITER.join(cpp_include_paths))
+  env_setter.setenv('CPLUS_INCLUDE_PATH', cpp_include_paths)
+  env_setter.setenv('C_INCLUDE_PATH', cpp_include_paths)
 
   # lib path
   lib_paths = []
   add_if_exists(os.path.join(USRDIR, 'lib'), lib_paths)
-  env_setter.setenv('LIBRARY_PATH', util.DELIMITER.join(lib_paths))
+  env_setter.setenv('LIBRARY_PATH', lib_paths)
 
   env_setter.done()
 

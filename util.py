@@ -62,6 +62,8 @@ if IS_WIN:
 
     def setenv(self, name, value):
       # Note: for 'system' scope, you must run this as Administrator
+      if isinstance(value, list):
+        value = DELIMITER.join(value)
       key = winreg.OpenKey(self.root, self.subkey, 0, winreg.KEY_ALL_ACCESS)
       winreg.SetValueEx(key, name, 0, winreg.REG_EXPAND_SZ, value)
       winreg.CloseKey(key)
@@ -86,7 +88,13 @@ else:
       return ''
 
     def setenv(self, name, value):
-      self.content.append('export %s=%s'%(name,value))
+      if isinstance(value, list):
+        if len(value) > 0:
+          self.content.append('export %s=${%s:+${%s}:}%s'%(name, name, name, DELIMITER.join(value)))
+        else:
+          self.content.append('export %s=${%s:+${%s}}'%(name, name, name))
+      else:
+        self.content.append('export %s=%s'%(name, value))
 
     def done(self):
       with open('%s/.sbrc'%LINUX_HOME, 'wb') as tempf:
