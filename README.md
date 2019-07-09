@@ -81,14 +81,14 @@ This installation uses this directory structures:
     * Check other configurations
     * Append the following code (please modify `<home dir> and <root dir>`) to `~/.bashrc`
 ```bash
-        export HOMEDIR=<home dir>
-        export ROOTDIR=<root dir>
+export HOMEDIR=<home dir>
+export ROOTDIR=<root dir>
 
-        if [ -f ~/.sbrc ]; then
-         . ~/.sbrc
-        fi
+if [ -f ~/.sbrc ]; then
+ . ~/.sbrc
+fi
 
-        export PATH=$DEVPATH${PATH:+:$PATH}
+export PATH=$DEVPATH${PATH:+:$PATH}
 ```
 
   * Install
