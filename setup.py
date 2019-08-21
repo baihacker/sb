@@ -240,6 +240,7 @@ def setup_environment_variables():
     add_if_exists('C:\\Python27', dev_paths)
     add_if_exists('C:\\python\\Python27', dev_paths)
     add_if_exists('C:\\python\\Python33', dev_paths)
+    add_if_exists('C:\\python\\Python37_64', dev_paths)
     add_if_exists('C:\\python\\Python27_64', dev_paths)
     add_if_exists('C:\\python\\Python33_64', dev_paths)
     add_if_exists('C:\\python\\pypy2', dev_paths)
