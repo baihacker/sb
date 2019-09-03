@@ -3,5 +3,7 @@
     "*.c": "cpp",
     "pe_*": "cpp",
     "*.tcc": "cpp",
+    "pe": "cpp",
+    "pe_fft": "cpp"
   }
 }
