@@ -232,7 +232,7 @@ def setup_environment_variables():
 
   if util.IS_WIN:
     add_if_exists(
-        os.path.join(ROOTDIR, 'app\\DevSoft\\MinGW-x86_64-8.1.0-posix-seh-rt_v6-rev0\\mingw64\\bin'), dev_paths)
+        os.path.join(ROOTDIR, 'app\\DevSoft\\MinGW-x86_64_9.2.0-msys2\\bin'), dev_paths)
     add_if_exists(
         os.path.join(ROOTDIR, 'app\\DevSoft\\LLVM_7.0.0\\bin'), dev_paths)
     add_if_exists(os.path.join(ROOTDIR, 'app\\MathsSoft\\mma'), dev_paths)

@@ -37,7 +37,7 @@
       #
       "CLANG_X64_MINGW64_DIR": "$(ROOTDIR)\\app\\DevSoft\\LLVM_7.0.0",
       #"CLANG_X64_MINGW64_DIR": "D:\\LLVM",
-      "MINGW64_DIR": "$(ROOTDIR)\\app\\DevSoft\\MinGW-x86_64-8.1.0-posix-seh-rt_v6-rev0\\mingw64",
+      "MINGW64_DIR": "$(ROOTDIR)\\app\\DevSoft\\MinGW-x86_64_9.2.0-msys2",
       "PYTHON27_X86_DIR": "C:\\python\\Python27",
     }
   },
