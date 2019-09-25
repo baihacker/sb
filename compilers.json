@@ -267,6 +267,7 @@
           "$(SOURCE_FILES)",
           "-o",
           "$(OUTPUT_FILE)",
+          "-target x86_64-pc-windows-gnu",
           "$(EXTRA_COMPILE_ARGS)"
         ],
         "default_output_file": "a.exe",
