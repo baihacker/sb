@@ -232,7 +232,7 @@ def setup_environment_variables():
 
   if util.IS_WIN:
     add_if_exists(
-        os.path.join(ROOTDIR, 'app\\DevSoft\\LLVM_8.0.1\\bin'), dev_paths)
+        os.path.join(ROOTDIR, 'app\\DevSoft\\LLVM_9.0.0\\bin'), dev_paths)
     add_if_exists(os.path.join(ROOTDIR, 'app\\MathsSoft\\mma'), dev_paths)
 
     add_if_exists('C:\\Python27', dev_paths)
