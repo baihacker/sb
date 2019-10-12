@@ -111,10 +111,10 @@
       "cpp": {
         "default_output_file": "a.exe",
         "debug_flags": [
-          "-g -fopenmp -lbf -lgmpxx -lflint -lgmp -lmpfr -lmpir"
+          "-g -fopenmp -lbf -lgmpxx -lflint -lgmp -lmpfr -lmpir -lntl"
         ],
         "release_flags": [
-          "-O3 -march=native -mtune=native -fopenmp -Wl,--stack,268435456 -static -s -lbf -lgmpxx -lflint -lgmp -lmpfr -lmpir"
+          "-O3 -march=native -mtune=native -fopenmp -Wl,--stack,268435456 -static -s -lbf -lgmpxx -lflint -lgmp -lmpfr -lmpir -lntl"
         ],
       },
     },
@@ -142,10 +142,10 @@
         "default_output_file": "a.out",
         "running_binary": "./a.out",
         "debug_flags": [
-          "-g -fopenmp -lgmpxx -lgmp"
+          "-g -fopenmp -lgmpxx -lgmp -lntl"
         ],
         "release_flags": [
-          "-O3 -march=native -mtune=native -fopenmp -lgmpxx -lgmp"
+          "-O3 -march=native -mtune=native -fopenmp -lgmpxx -lgmp -lntl"
         ],
       },
     },
