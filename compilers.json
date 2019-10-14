@@ -142,10 +142,10 @@
         "default_output_file": "a.out",
         "running_binary": "./a.out",
         "debug_flags": [
-          "-g -fopenmp -lgmpxx -lntl -lgmp"
+          "-g -fopenmp -lgmpxx -lgmp"
         ],
         "release_flags": [
-          "-O3 -march=native -mtune=native -fopenmp -lgmpxx -lntl -lgmp"
+          "-O3 -march=native -mtune=native -fopenmp -lgmpxx -lgmp"
         ],
       },
     },
