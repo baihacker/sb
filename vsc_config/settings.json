@@ -9,4 +9,6 @@
     "editor.fontFamily": "Consolas, 微软雅黑",
     "files.trimTrailingWhitespace": true,
     "editor.minimap.enabled": false,
+    "C_Cpp.default.cppStandard": "c++17",
+    "C_Cpp.default.cStandard": "c11",
 }
