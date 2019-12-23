@@ -246,7 +246,7 @@ def setup_environment_variables():
     add_if_exists('C:\\Program Files (x86)\\Notepad++', dev_paths)
     add_if_exists('C:\\Program Files\\Notepad++', dev_paths)
     add_if_exists('C:\\Program Files (x86)\\Pari64-2-9-5', dev_paths)
-    add_if_exists('C:\\Program Files (x86)\\Vim\\vim81', dev_paths)
+    add_if_exists('C:\\Program Files (x86)\\Vim\\vim82', dev_paths)
 
     add_if_exists('C:\\Program Files\\TortoiseSVN\\bin', dev_paths)
 
