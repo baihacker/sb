@@ -118,14 +118,16 @@
     "C_Cpp.default.cStandard": "c11",
     "C_Cpp.clang_format_fallbackStyle": "Google",
     "C_Cpp.default.includePath": [
-        "${workspaceFolder}",
+        "${workspaceFolder}/*",
         "${HOMEDIR}/usr/include",
         "${HOMEDIR}/usr/include/pe",
         "${HOMEDIR}/usr/include/flint",
-        "${ROOTDIR}/app/DevSoft/MinGW-x86_64-8.1.0-posix-seh-rt_v6-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include",
-        "${ROOTDIR}/app/DevSoft/MinGW-x86_64-8.1.0-posix-seh-rt_v6-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++",
-        "${ROOTDIR}/app/DevSoft/MinGW-x86_64-8.1.0-posix-seh-rt_v6-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/x86_64-w64-mingw32",
-        "${ROOTDIR}/app/DevSoft/MinGW-x86_64-8.1.0-posix-seh-rt_v6-rev0/mingw64/x86_64-w64-mingw32/include"
+        "${ROOTDIR}/app/DevSoft/MinGW-x86_64_9.2.0-msys2/include/c++/9.2.0",
+        "${ROOTDIR}/app/DevSoft/MinGW-x86_64_9.2.0-msys2/include/c++/9.2.0/x86_64-w64-mingw32",
+        "${ROOTDIR}/app/DevSoft/MinGW-x86_64_9.2.0-msys2/include/c++/9.2.0/backward",
+        "${ROOTDIR}/app/DevSoft/MinGW-x86_64_9.2.0-msys2/include",
+        "${ROOTDIR}/app/DevSoft/MinGW-x86_64_9.2.0-msys2/lib/gcc/x86_64-w64-mingw32/9.2.0/include-fixed",
+        "${ROOTDIR}/app/DevSoft/MinGW-x86_64_9.2.0-msys2/86_64-w64-mingw32/include"
     ],
     "C_Cpp.default.defines": [
         "_DEBUG",
@@ -137,16 +139,20 @@
     ],
     "C_Cpp.default.intelliSenseMode": "clang-x64",
     "C_Cpp.default.browse.path": [
+        "${workspaceFolder}/*",
         "${HOMEDIR}/usr/include",
         "${HOMEDIR}/usr/include/pe",
         "${HOMEDIR}/usr/include/flint",
-        "${ROOTDIR}/app/DevSoft/MinGW-x86_64-8.1.0-posix-seh-rt_v6-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include",
-        "${ROOTDIR}/app/DevSoft/MinGW-x86_64-8.1.0-posix-seh-rt_v6-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++",
-        "${ROOTDIR}/app/DevSoft/MinGW-x86_64-8.1.0-posix-seh-rt_v6-rev0/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/x86_64-w64-mingw32",
-        "${ROOTDIR}/app/DevSoft/MinGW-x86_64-8.1.0-posix-seh-rt_v6-rev0/mingw64/x86_64-w64-mingw32/include"
+        "${ROOTDIR}/app/DevSoft/MinGW-x86_64_9.2.0-msys2/include/c++/9.2.0",
+        "${ROOTDIR}/app/DevSoft/MinGW-x86_64_9.2.0-msys2/include/c++/9.2.0/x86_64-w64-mingw32",
+        "${ROOTDIR}/app/DevSoft/MinGW-x86_64_9.2.0-msys2/include/c++/9.2.0/backward",
+        "${ROOTDIR}/app/DevSoft/MinGW-x86_64_9.2.0-msys2/include",
+        "${ROOTDIR}/app/DevSoft/MinGW-x86_64_9.2.0-msys2/lib/gcc/x86_64-w64-mingw32/9.2.0/include-fixed",
+        "${ROOTDIR}/app/DevSoft/MinGW-x86_64_9.2.0-msys2/86_64-w64-mingw32/include"
     ],
     "C_Cpp.default.browse.limitSymbolsToIncludedHeaders": false,
     "C_Cpp.default.browse.databaseFilename": "${ROOTDIR}/data/vscode.db",
+    "C_Cpp.default.compilerPath": "${ROOTDIR}/app/DevSoft/MinGW-x86_64_9.2.0-msys2/bin/g++.exe",
     "[cpp]": {},
     // python configurations
     // https://code.visualstudio.com/docs/python/editing#_formatting
