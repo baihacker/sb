@@ -146,7 +146,7 @@
         "${ROOTDIR}/app/DevSoft/MinGW-x86_64-8.1.0-posix-seh-rt_v6-rev0/mingw64/x86_64-w64-mingw32/include"
     ],
     "C_Cpp.default.browse.limitSymbolsToIncludedHeaders": false,
-    "C_Cpp.default.browse.databaseFilename": "${ROOTDIR}/data/vscode",
+    "C_Cpp.default.browse.databaseFilename": "${ROOTDIR}/data/vscode.db",
     "[cpp]": {},
     // python configurations
     // https://code.visualstudio.com/docs/python/editing#_formatting
