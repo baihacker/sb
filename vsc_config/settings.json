@@ -138,6 +138,7 @@
         "__cplusplus=201703"
     ],
     "C_Cpp.default.intelliSenseMode": "clang-x64",
+    "C_Cpp.intelliSenseCachePath": "${ROOTDIR}/TEMP/vscode-cpptools",
     "C_Cpp.default.browse.path": [
         "${workspaceFolder}/*",
         "${HOMEDIR}/usr/include",
