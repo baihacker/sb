@@ -239,7 +239,7 @@
           "-x c++",
           "-o",
           "$(OUTPUT_FILE)",
-          "--std=c++14",
+          "--std=c++17",
           "-target x86_64-pc-windows-gnu",
           "$(EXTRA_COMPILE_ARGS)"
         ],
@@ -284,7 +284,7 @@
           "-x c++",
           "-o",
           "$(OUTPUT_FILE)",
-          "--std=c++14",
+          "--std=c++17",
           "-target x86_64-pc-windows-gnu",
           "$(EXTRA_COMPILE_ARGS)"
         ],
