@@ -37,7 +37,7 @@
       #
       "CLANG_X64_MINGW64_DIR": "$(ROOTDIR)\\app\\DevSoft\\LLVM_9.0.0",
       #"CLANG_X64_MINGW64_DIR": "D:\\LLVM",
-      "MINGW64_DIR": "$(ROOTDIR)\\app\\DevSoft\\MinGW-x86_64_9.2.0-msys2",
+      "MINGW64_DIR": "$(ROOTDIR)\\app\\DevSoft\\MinGW-x86_64_9.3.0-msys2",
       "PYTHON27_X86_DIR": "C:\\python\\Python27",
     }
   },
@@ -45,7 +45,7 @@
     "name": "mingw64",
     "type": "compiler",
     "arch": "x64",
-    "version": "9.2.0",
+    "version": "9.3.0",
     "variables": {},
     "env_var_keep": {},
     "env_var_merge": {},
@@ -96,7 +96,7 @@
     "name": "mingw64-pe",
     "type": "compiler",
     "arch": "x64",
-    "version": "9.2.0",
+    "version": "9.3.0",
     "base": "mingw64",
     "language_detail": {
       "c": {
@@ -123,7 +123,7 @@
     "name": "gcc-pe",
     "type": "compiler",
     "arch": "x64",
-    "version": "9.2.0",
+    "version": "9.3.0",
     "base": "mingw64",
     "language_detail": {
       "c": {
