@@ -246,31 +246,38 @@ def parse_and_run(argv, config):
   n = len(argv)
   i = 1
   while i < n:
-    if argv[i].lower() == '-o':
-      output = argv[i+1]
-      i += 2
-    elif argv[i].lower() == '-debug':
-      is_debug = True
-      i += 1
-    elif argv[i].lower() == '-release':
-      is_debug = False
-      i += 1
-    elif argv[i].lower() == '-l':
-      language = argv[i+1].lower()
-      i += 2
-    elif argv[i].lower() == '-n':
-      name = argv[i+1].lower()
-      i += 2
-    elif argv[i].lower() == '-a':
-      arch = argv[i+1].lower()
-      i += 2
-    elif argv[i].lower() == '-r':
-      run = True
-      i += 1
-    elif argv[i].lower() == '--':
+    handled = False
+    if argv[i].lower() == '--':
       extra_options = argv[i+1:]
+      handled = True
       break
-    else:
+    elif argv[i][0] == '-':
+      tmp = argv[i].lstrip('-').lower()
+      handled = True
+      if tmp == 'o':
+        output = argv[i+1]
+        i += 2
+      elif tmp == 'debug':
+        is_debug = True
+        i += 1
+      elif tmp == 'release':
+        is_debug = False
+        i += 1
+      elif tmp == 'l':
+        language = argv[i+1].lower()
+        i += 2
+      elif tmp == 'n':
+        name = argv[i+1].lower()
+        i += 2
+      elif tmp == 'a':
+        arch = argv[i+1].lower()
+        i += 2
+      elif tmp == 'r':
+        run = True
+        i += 1
+      else:
+        handled = False
+    if not handled:
       files.append(argv[i])
       i += 1
 
