@@ -34,7 +34,6 @@
     "$(ROOTDIR)\\app\\MathsSoft",
     "$(ROOTDIR)\\projects",
     "$(ROOTDIR)\\projects\\.vscode",
-    "D:\\test",
   ],
   "ENV": {
     "DEVPATH": [
