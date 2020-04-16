@@ -21,24 +21,6 @@
   {
     "name": "__compiler_base",
     "variables": {
-      "DEV_SOFT_PATH": "$(ROOTDIR)\\app\\DevSoft",
-      "USR_PATH": "$(HOMEDIR)\\usr",
-      # Dir name convention
-      # PROD[[_]VERSION][_ARCH][_SPECIFICATIONS]_DIR
-      #
-      # CLANG_X64_MINGW64_DIR:
-      # CLANG, we don't care the version, they are x64 build, built by MINGW64
-      #
-      # MINGW64_DIR:
-      # MINGW64 is a prod name, we don't care the version, no need for arch since it is in prod name
-      #
-      # PYTHON27_X86_DIR:
-      # PYTHON, version 2.7 (we always concern the python version), x86 build
-      #
-      "CLANG_X64_MINGW64_DIR": "$(ROOTDIR)\\app\\DevSoft\\LLVM_10.0.0",
-      #"CLANG_X64_MINGW64_DIR": "D:\\LLVM",
-      "MINGW64_DIR": "$(ROOTDIR)\\app\\DevSoft\\MinGW-x86_64_9.3.0-msys2",
-      "PYTHON27_X86_DIR": "C:\\python\\Python27",
     }
   },
   {

@@ -3,12 +3,10 @@ import util
 import os
 import sys
 
-CURRENT_DIRECTORY = os.path.dirname(os.path.realpath(__file__))
+SCRIPT_DIRECTORY = os.path.dirname(os.path.realpath(__file__))
 
-def find_config_file():
-  compiler_file_name = 'compilers.json'
-
-  dirs = [CURRENT_DIRECTORY]
+def make_search_dirs():
+  dirs = [SCRIPT_DIRECTORY]
 
   # HOMEDIR
   HOMEDIR = os.environ.get('HOMEDIR', '')
@@ -31,8 +29,29 @@ def find_config_file():
 
   # path
   dirs.extend(os.environ['PATH'].split(util.DELIMITER))
+  
+  return dirs
 
-  for dir in dirs:
+def load_global_variables():
+  file_name = 'config.json'
+
+  variables = dict(os.environ)
+
+  for dir in make_search_dirs():
+    path = os.path.join(util.trans_path(dir), file_name)
+    if os.path.exists(path):
+      with open(path, 'r') as tempf:
+        CONFIG = eval(tempf.read())
+      for k, v in CONFIG['variables'].items():
+        variables[k] = expand_variable(v, os.environ)
+      return variables
+
+  return variables
+  
+def find_config_file():
+  compiler_file_name = 'compilers.json'
+
+  for dir in make_search_dirs():
     path = os.path.join(util.trans_path(dir), compiler_file_name)
     if os.path.exists(path):
       return path
@@ -143,9 +162,10 @@ def create_commands(config):
   is_debug = config['is_debug']
 
   # compute variable base based on environment variables
-  variable_base = dict(os.environ)
+  global_variables = load_global_variables()
+  variable_base = dict(global_variables)
   for (k, v) in compiler_base.get('variables', {}).items():
-    variable_base[k] = expand_variable(v, os.environ)
+    variable_base[k] = expand_variable(v, global_variables)
 
   # compute variable base based on base variables
   variables = dict(variable_base)

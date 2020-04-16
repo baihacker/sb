@@ -1,0 +1,82 @@
+{
+  "variables": {
+    "USRDIR": "$(HOMEDIR)\\usr",
+    "DEV_SOFT_PATH": "$(ROOTDIR)\\app\\DevSoft",
+    # Dir name convention
+    # PROD[[_]VERSION][_ARCH][_SPECIFICATIONS]_DIR
+    #
+    # CLANG_X64_MINGW64_DIR:
+    # CLANG, we don't care the version, they are x64 build, built by MINGW64
+    #
+    # MINGW64_DIR:
+    # MINGW64 is a prod name, we don't care the version, no need for arch since it is in prod name
+    #
+    # PYTHON27_X86_DIR:
+    # PYTHON, version 2.7 (we always concern the python version), x86 build
+    #
+    "CLANG_X64_MINGW64_DIR": "$(ROOTDIR)\\app\\DevSoft\\LLVM_10.0.0",
+    #"CLANG_X64_MINGW64_DIR": "D:\\LLVM",
+    "MINGW64_DIR": "$(ROOTDIR)\\app\\DevSoft\\MinGW-x86_64_9.3.0-msys2",
+    "PYTHON27_X86_DIR": "C:\\python\\Python27",
+  },
+  "CREATE_DIR": [
+    "$(HOMEDIR)\\usr",
+    "$(HOMEDIR)\\usr\\bin",
+    "$(HOMEDIR)\\usr\\bin\\sb",
+    "$(HOMEDIR)\\usr\\include",
+    "$(HOMEDIR)\\usr\\include\\pe",
+    "$(HOMEDIR)\\usr\\lib",
+    "$(HOMEDIR)\\usr\\config",
+    "$(HOMEDIR)\\usr\\config\\vsc_config",
+    "$(HOMEDIR)\\config\\vsc_config\\.vscode",
+    "$(ROOTDIR)\\app",
+    "$(ROOTDIR)\\app\\DevSoft",
+    "$(ROOTDIR)\\app\\MathsSoft",
+    "$(ROOTDIR)\\projects",
+    "$(ROOTDIR)\\projects\\.vscode",
+    "D:\\test",
+  ],
+  "ENV": {
+    "DEVPATH": [
+      "$(USRDIR)\\bin",
+      "$(USRDIR)\\bin\\sb",
+      "$(JAVA_HOME)\\bin",
+    ],
+    "CPLUS_INCLUDE_PATH": [
+      "$(USRDIR)\\include",
+      "$(USRDIR)\\include\\pe",
+      "$(USRDIR)\\include\\flint",
+    ],
+    "C_INCLUDE_PATH": [
+      "$(USRDIR)\\include",
+      "$(USRDIR)\\include\\pe",
+      "$(USRDIR)\\include\\flint",
+    ],
+    "LIBRARY_PATH": [
+      "$(USRDIR)\\lib",
+    ]
+  },
+  "ENV_WIN": {
+    "DEVPATH": [
+      "$(USRDIR)\\dll",
+      "$(USRDIR)\\dll\\vc12_x86",
+      "$(USRDIR)\\dll\\vc12_x64",
+      "$(CLANG_X64_MINGW64_DIR)\\bin",
+      "$(ROOTDIR)\\app\\MathsSoft\\mma",
+      "C:\\Python27",
+      "C:\\python\\Python27",
+      "C:\\python\\Python33",
+      "C:\\python\\Python37_64",
+      "C:\\python\\Python27_64",
+      "C:\\python\\Python33_64",
+      "C:\\python\\pypy2",
+      "C:\\python\\pypy3",
+      "C:\\Program Files (x86)\\Notepad++",
+      "C:\\Program Files\\Notepad++",
+      "C:\\Program Files (x86)\\Pari64-2-9-5",
+      "C:\\Program Files (x86)\\Vim\\vim82",
+      "C:\\Program Files\\TortoiseSVN\\bin",
+      "$(MINGW64_DIR)\\bin",
+    ]
+  }
+}

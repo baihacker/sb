@@ -29,19 +29,19 @@ testRun = False
 if testRun:
   HOMEDIR = 'D:\\test\\home'
   ROOTDIR = 'D:\\test\\root'
-  #DEVICENAME = 'device'
 else:
   HOMEDIR = os.environ.get('HOMEDIR', '')
   ROOTDIR = os.environ.get('ROOTDIR', '')
-  #DEVICENAME = os.environ.get('DEVICENAME', '')
 
-CURRENT_DIRECTORY = os.path.dirname(os.path.realpath(__file__))
-
+SCRIPT_DIRECTORY = os.path.dirname(os.path.realpath(__file__))
 RUN_FROM_GIT_REPOSITORY = os.path.exists(
-    os.path.join(CURRENT_DIRECTORY, '.git'))
+    os.path.join(SCRIPT_DIRECTORY, '.git'))
+CONFIG_JSON = os.path.join(SCRIPT_DIRECTORY, 'config.json')
 
 PRIVATE_INSTALL = False
 UPDATE_VIM = False
+
+CONFIG = {}
 
 if util.IS_WIN:
   HAS_GIT = os.system('git --help 1>NUL 2>NUL') == 0
@@ -126,7 +126,13 @@ def ready_to_create_dir_symbol_link(path):
   return False
 
 
-def validate_environment_variables():
+def expand_variable(s, variables):
+  for k, v in variables.items():
+    s = s.replace('$(%s)'%k, v)
+  return s
+
+
+def prepare_variables():
   if len(ROOTDIR) == 0:
     print('Please set ROOTDIR')
     os._exit(-1)
@@ -135,6 +141,28 @@ def validate_environment_variables():
     print('Please set HOMEDIR')
     os._exit(-1)
 
+  if not os.path.exists(CONFIG_JSON):
+    print('can not file config.json.')
+    os._exit(-1)
+
+  global CONFIG
+
+  with open(CONFIG_JSON, 'r') as tempf:
+    CONFIG = eval(tempf.read())
+  
+  if not 'variables' in CONFIG:
+    CONFIG['variables'] = {}
+
+  variables = dict(os.environ)
+  for k, v in CONFIG['variables'].items():
+    variables[k] = expand_variable(v, os.environ)
+  
+  CONFIG['variables'] = variables
+
+  if not 'CREATE_DIR' in CONFIG:
+    CONFIG['CREATE_DIR'] = []
+
+
 
 def create_dirs():
   print('Creating directories...')
@@ -142,33 +170,18 @@ def create_dirs():
     os.makedirs(ROOTDIR)
   if not os.path.exists(HOMEDIR):
     os.makedirs(HOMEDIR)
-  create_dir_if_absent(os.path.join(HOMEDIR, 'usr'))
-  create_dir_if_absent(os.path.join(HOMEDIR, 'usr\\bin'))
-  create_dir_if_absent(os.path.join(HOMEDIR, 'usr\\bin\\sb'))
-  create_dir_if_absent(os.path.join(HOMEDIR, 'usr\\include'))
-  create_dir_if_absent(os.path.join(HOMEDIR, 'usr\\include\\pe'))
-  create_dir_if_absent(os.path.join(HOMEDIR, 'usr\\lib'))
-  create_dir_if_absent(os.path.join(HOMEDIR, 'config'))
-  create_dir_if_absent(os.path.join(HOMEDIR, 'config\\vsc_config'))
-  create_dir_if_absent(
-      os.path.join(HOMEDIR, 'config\\vsc_config\\.vscode'))
 
-  create_dir_if_absent(os.path.join(ROOTDIR, 'app'))
-  create_dir_if_absent(os.path.join(ROOTDIR, 'app\\DevSoft'))
-  create_dir_if_absent(os.path.join(ROOTDIR, 'app\\MathsSoft'))
-  create_dir_if_absent(os.path.join(ROOTDIR, 'projects'))
-  create_dir_if_absent(os.path.join(ROOTDIR, 'projects\\.vscode'))
-  #if len(DEVICENAME) > 0:
-  #  create_dir_if_absent(os.path.join(ROOTDIR, 'devices'))
-  #  create_dir_if_absent(os.path.join(ROOTDIR, 'devices\\%s'%DEVICENAME))
-  #  create_dir_if_absent(os.path.join(ROOTDIR, 'devices\\%s\\Chromium'%DEVICENAME))
+  for item in CONFIG['CREATE_DIR']:
+    target = expand_variable(item, CONFIG['variables'])
+    create_dir_if_absent(target)
+
   print('Directories are created.')
 
 
 # If the current directory is a sb repository, set up the simple build environment.
 def setup_sb():
   print('\nSetting up sb...')
-  if not os.path.exists(os.path.join(CURRENT_DIRECTORY, '.git')):
+  if not os.path.exists(os.path.join(SCRIPT_DIRECTORY, '.git')):
     print('Skip setting up simple build environment. Not a git repository!\n')
     return
 
@@ -176,10 +189,10 @@ def setup_sb():
   target_bin_dir = os.path.join(HOMEDIR, 'usr\\bin\\sb')
   files = [
       'dcj.py', 'dcj.bat', 'jr.py', 'jr.bat', 'pe++.py', 'pe++.bat', 'pe.bat',
-      'sb.py', 'vc++.py', 'vc++.bat', 'clang++.py', 'util.py', 'pe++'
+      'sb.py', 'vc++.py', 'vc++.bat', 'clang++.py', 'util.py', 'pe++', 
   ]
   for f in files:
-    src_file = os.path.join(CURRENT_DIRECTORY, f)
+    src_file = os.path.join(SCRIPT_DIRECTORY, f)
     dest_file = os.path.join(target_bin_dir, f)
     force_copy(src_file, dest_file)
     if util.IS_LINUX:
@@ -187,9 +200,9 @@ def setup_sb():
 
   # Copy compilers.json and setup.py to config directory.
   target_config_dir = os.path.join(HOMEDIR, 'config')
-  files = ['compilers.json', 'setup.py', '_vimrc']
+  files = ['compilers.json', 'setup.py', 'config.json', '_vimrc']
   for f in files:
-    src_file = os.path.join(CURRENT_DIRECTORY, f)
+    src_file = os.path.join(SCRIPT_DIRECTORY, f)
     dest_file = os.path.join(target_config_dir, f)
     force_copy(src_file, dest_file)
 
@@ -219,65 +232,28 @@ def setup_environment_variables():
       print("%s doesn't exists." % path)
 
   USRDIR = os.path.join(HOMEDIR, 'usr')
-  JAVAHOME = os.environ.get('JAVA_HOME', '')
+  variables = CONFIG['variables']
 
   # dev_paths
-  dev_paths = []
-  add_if_exists(os.path.join(USRDIR, 'bin'), dev_paths)
-  add_if_exists(os.path.join(USRDIR, 'bin\\sb'), dev_paths)
-  if util.IS_WIN:
-    add_if_exists(os.path.join(USRDIR, 'dll'), dev_paths)
-    add_if_exists(os.path.join(USRDIR, 'dll\\vc12_x86'), dev_paths)
-    add_if_exists(os.path.join(USRDIR, 'dll\\vc12_x64'), dev_paths)
+  for k, v in CONFIG['ENV'].items():
+    value = []
+    for path in v:
+      realpath = expand_variable(path, variables)
+      add_if_exists(realpath, value)
+    if k in CONFIG['ENV_WIN']:
+      for path in CONFIG['ENV_WIN'][k]:
+        realpath = expand_variable(path, variables)
+        add_if_exists(realpath, value)
+    env_setter.setenv(k, value)
 
-  if util.IS_WIN:
-    add_if_exists(
-        os.path.join(ROOTDIR, 'app\\DevSoft\\LLVM_10.0.0\\bin'), dev_paths)
-    add_if_exists(os.path.join(ROOTDIR, 'app\\MathsSoft\\mma'), dev_paths)
-
-    add_if_exists('C:\\Python27', dev_paths)
-    add_if_exists('C:\\python\\Python27', dev_paths)
-    add_if_exists('C:\\python\\Python33', dev_paths)
-    add_if_exists('C:\\python\\Python37_64', dev_paths)
-    add_if_exists('C:\\python\\Python27_64', dev_paths)
-    add_if_exists('C:\\python\\Python33_64', dev_paths)
-    add_if_exists('C:\\python\\pypy2', dev_paths)
-    add_if_exists('C:\\python\\pypy3', dev_paths)
-    add_if_exists('C:\\Program Files (x86)\\Notepad++', dev_paths)
-    add_if_exists('C:\\Program Files\\Notepad++', dev_paths)
-    add_if_exists('C:\\Program Files (x86)\\Pari64-2-9-5', dev_paths)
-    add_if_exists('C:\\Program Files (x86)\\Vim\\vim82', dev_paths)
-
-    add_if_exists('C:\\Program Files\\TortoiseSVN\\bin', dev_paths)
-
-    add_if_exists(
-        os.path.join(ROOTDIR, 'app\\DevSoft\\MinGW-x86_64_9.3.0-msys2\\bin'), dev_paths)
-
-  if len(JAVAHOME) > 0:
-    add_if_exists(os.path.join(JAVAHOME, 'bin'), dev_paths)
-
-  env_setter.setenv('DEVPATH', dev_paths)
-
-  # class_paths
+  # Update java class path
+  JAVAHOME = os.environ.get('JAVA_HOME', '')
   class_paths = []
   if len(JAVAHOME) > 0:
     add_if_exists('.', class_paths)
     add_if_exists(os.path.join(JAVAHOME, 'lib\\dt.jar'), class_paths)
     add_if_exists(os.path.join(JAVAHOME, 'lib\\tools.jar'), class_paths)
     env_setter.setenv('CLASSPATH', class_paths)
-
-  # cpp_include_path
-  cpp_include_paths = []
-  add_if_exists(os.path.join(USRDIR, 'include'), cpp_include_paths)
-  add_if_exists(os.path.join(USRDIR, 'include\\pe'), cpp_include_paths)
-  add_if_exists(os.path.join(USRDIR, 'include\\flint'), cpp_include_paths)
-  env_setter.setenv('CPLUS_INCLUDE_PATH', cpp_include_paths)
-  env_setter.setenv('C_INCLUDE_PATH', cpp_include_paths)
-
-  # lib path
-  lib_paths = []
-  add_if_exists(os.path.join(USRDIR, 'lib'), lib_paths)
-  env_setter.setenv('LIBRARY_PATH', lib_paths)
 
   env_setter.done()
 
@@ -293,7 +269,7 @@ def setup_vim():
     vim_prefix = [util.LINUX_HOME]
     FILE_NAME = '.vimrc'
 
-  src = os.path.join(CURRENT_DIRECTORY, FILE_NAME)
+  src = os.path.join(SCRIPT_DIRECTORY, FILE_NAME)
   done = 0
   for dir in vim_prefix:
     target_path = os.path.join(dir, FILE_NAME)
@@ -310,7 +286,7 @@ def setup_vim():
 def setup_vscode():
   print('\nSetting up vscode configurations...')
   # copy user configurations
-  src_dir = os.path.join(CURRENT_DIRECTORY, 'vsc_config')
+  src_dir = os.path.join(SCRIPT_DIRECTORY, 'vsc_config')
   if not os.path.exists(src_dir):
     print('There is no vsc_config in current directory: %s' % src_dir)
     print('Failed to set up visual studio code!')
@@ -442,7 +418,7 @@ def main(argv):
       UPDATE_VIM = True
     i += 1
 
-  validate_environment_variables()
+  prepare_variables()
   create_dirs()
   setup_sb()
   setup_pe()
