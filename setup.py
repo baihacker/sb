@@ -12,13 +12,13 @@ import util
 
   This script:
     1. Check environment variables.
-    2. Create directories if necessary.
+    2. Create directories according to config.json.
     3. Copy sb files to destination dirs.
     4. Setup pe if 'git' is available.
-    5. Generates DEVPATH which includes a list of path added to PATH.
+    5. Create environment variables according to config.json
     6. If JAVAHOME exists, setup the corresponding JAVA class path.
-    7. Generates CPLUS_INCLUDE_PATH and LIBRARY_PATH.
-    8. [Windows] Copies vscode user configurations from CURRENT_DIR\\vsc_config to %APPDATA%\\code\\User, %APPDATA%\\Code - Insiders\\User and %HOMEDIR%\\config\\vsc_config. Copy vscode directory configurations from CURRENT_DIR\\vsc_config\\.vscode to %HOMEDIR%\\config\\vsc_config\\.vscode, %ROOTDIR%\\projects\\.vscode.
+    7. [Windows] Copies vscode user configurations from CURRENT_DIR\\vsc_config to %APPDATA%\\code\\User, %APPDATA%\\Code - Insiders\\User and %HOMEDIR%\\config\\vsc_config.
+    8. [Windows] Copy vscode directory configurations from CURRENT_DIR\\vsc_config\\.vscode to %HOMEDIR%\\config\\vsc_config\\.vscode, %ROOTDIR%\\projects\\.vscode.
     9. [Windows] Checks whether notepad++ is setup. (Also check whether npp.exe (a copy of notepad++.exe) exist.)
     10. Copy _vimrc to vim's dir or copy .vimrc to ~/ for linux.
 """
