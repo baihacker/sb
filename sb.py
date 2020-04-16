@@ -5,6 +5,7 @@ import sys
 
 SCRIPT_DIRECTORY = os.path.dirname(os.path.realpath(__file__))
 
+
 def make_search_dirs():
   dirs = [SCRIPT_DIRECTORY]
 
@@ -20,7 +21,8 @@ def make_search_dirs():
 
   # dcfpe dir
   if util.IS_WIN:
-    dcfpe_dir = os.path.join(os.path.dirname(os.environ['APPDATA']), 'LocalLow\\dcfpe')
+    dcfpe_dir = os.path.join(
+        os.path.dirname(os.environ['APPDATA']), 'LocalLow\\dcfpe')
     dirs.append(dcfpe_dir)
 
   # app data
@@ -29,8 +31,9 @@ def make_search_dirs():
 
   # path
   dirs.extend(os.environ['PATH'].split(util.DELIMITER))
-  
+
   return dirs
+
 
 def load_global_variables():
   file_name = 'config.json'
@@ -47,7 +50,8 @@ def load_global_variables():
       return variables
 
   return variables
-  
+
+
 def find_config_file():
   compiler_file_name = 'compilers.json'
 
@@ -57,6 +61,7 @@ def find_config_file():
       return path
 
   return ''
+
 
 def load_compilers():
   compiler_file = find_config_file()
@@ -69,11 +74,13 @@ def load_compilers():
 
   return compilers
 
+
 def find_compiler_base(compilers):
   for c in compilers:
     if c['name'] == '__compiler_base':
       return c
   return {}
+
 
 def merge_object(src, dest):
   result = dict(dest)
@@ -84,16 +91,19 @@ def merge_object(src, dest):
       result[k] = v
   return result
 
+
 def resolve_compiler(internal_name, compilers):
   for item in compilers:
     ok = 'internal_name' in item and item['internal_name'] == internal_name
-    ok = ok or (not 'internal_name' in item and 'name' in item and item['name'] == internal_name)
+    ok = ok or (not 'internal_name' in item and 'name' in item and
+                item['name'] == internal_name)
     if ok:
       ret = dict(item)
       if 'base' in ret:
         ret = merge_object(ret, resolve_compiler(ret['base'], compilers))
       return ret
   return {}
+
 
 def find_compiler(compilers, kv):
   language = kv['language']
@@ -112,10 +122,12 @@ def find_compiler(compilers, kv):
       continue
     if len(arch) > 0 and (not 'arch' in c or c['arch'].lower() != arch):
       continue
-    if version >= 0 and (not 'version' in c or int(c['version'].split('.')[0]) != version):
+    if version >= 0 and (not 'version' in c or
+                         int(c['version'].split('.')[0]) != version):
       continue
 
-    compiler = merge_object(c, resolve_compiler(c['base'], compilers)) if 'base' in c else dict(c)
+    compiler = merge_object(c, resolve_compiler(
+        c['base'], compilers)) if 'base' in c else dict(c)
     if not 'language_detail' in compiler:
       continue
     if language in compiler['language_detail']:
@@ -123,10 +135,12 @@ def find_compiler(compilers, kv):
 
   return None, None
 
+
 def expand_variable(s, variables):
   for k, v in variables.items():
-    s = s.replace('$(%s)'%k, v)
+    s = s.replace('$(%s)' % k, v)
   return s
+
 
 def set_up_environment(compiler):
   variables = compiler['variables']
@@ -149,6 +163,7 @@ def set_up_environment(compiler):
       realv = expand_variable(v, variables)
       os.environ[k] = realv
 
+
 def create_commands(config):
   compilers = load_compilers()
   compiler, instruction = find_compiler(compilers, config['compiler_spec'])
@@ -156,7 +171,7 @@ def create_commands(config):
 
   if compiler == None:
     raise Exception, 'no suitable compiler'
-    
+
   files = config['files']
   output = config['output']
   is_debug = config['is_debug']
@@ -169,24 +184,26 @@ def create_commands(config):
 
   # compute variable base based on base variables
   variables = dict(variable_base)
-  for (k,v) in compiler.get('variables', {}).items():
+  for (k, v) in compiler.get('variables', {}).items():
     variables[k] = expand_variable(v, variable_base)
   compiler['variables'] = variables
 
-  clean_files = (os.path.splitext(x)[0]+'.obj' for x in files)
+  clean_files = (os.path.splitext(x)[0] + '.obj' for x in files)
 
   #soure files
-  variables['SOURCE_FILES'] = ' '.join('"%s"'%x for x in files)
+  variables['SOURCE_FILES'] = ' '.join('"%s"' % x for x in files)
   variables['SOURCE_FILE_PATH'] = files[0]
   variables['SOURCE_FILE_PATH_NO_EXT'] = os.path.splitext(files[0])[0]
   variables['SOURCE_FILE_BASENAME'] = os.path.basename(files[0])
-  variables['SOURCE_FILE_BASENAME_NO_EXT'] = os.path.splitext(os.path.basename(files[0]))[0]
+  variables['SOURCE_FILE_BASENAME_NO_EXT'] = os.path.splitext(
+      os.path.basename(files[0]))[0]
   variables['SOURCE_FILE_DIRNAME'] = os.path.dirname(os.path.abspath(files[0]))
 
   #output file
   if len(output) == 0:
     if 'default_output_file' in instruction:
-      variables['OUTPUT_FILE'] = expand_variable(instruction['default_output_file'], variables)
+      variables['OUTPUT_FILE'] = expand_variable(
+          instruction['default_output_file'], variables)
     else:
       variables['OUTPUT_FILE'] = 'a.exe'
   else:
@@ -204,7 +221,8 @@ def create_commands(config):
   if 'compile_binary' in instruction:
     compile_args = ['"' + instruction['compile_binary'] + '"']
     compile_args.extend(instruction['compile_args'])
-    compile_args[0] = util.trans_path(expand_variable(compile_args[0], variables))
+    compile_args[0] = util.trans_path(
+        expand_variable(compile_args[0], variables))
     compile_cmd = ' '.join(expand_variable(y, variables) for y in compile_args)
   else:
     compile_cmd = None
@@ -223,7 +241,7 @@ def create_commands(config):
     for x in clean_files:
       if os.path.exists(x):
         os.remove(x)
-    os.environ = env;
+    os.environ = env
     return ret
 
   def run():
@@ -232,21 +250,30 @@ def create_commands(config):
 
   return compile, run
 
+
 def detect_language(files):
   ext2language = {
-  '.c':'c',
-  '.cpp':'cpp','.cc':'cpp','.hpp':'cpp','.hxx':'cpp','.cxx':'cpp',
-  '.py':'python','.pyw':'python',
-  '.java':'java',
-  '.hs':'haskell','.lhs':'haskell','.las':'haskell',
-  '.go':'go',
-  '.scala':'scala'
+      '.c': 'c',
+      '.cpp': 'cpp',
+      '.cc': 'cpp',
+      '.hpp': 'cpp',
+      '.hxx': 'cpp',
+      '.cxx': 'cpp',
+      '.py': 'python',
+      '.pyw': 'python',
+      '.java': 'java',
+      '.hs': 'haskell',
+      '.lhs': 'haskell',
+      '.las': 'haskell',
+      '.go': 'go',
+      '.scala': 'scala'
   }
   for f in files:
     ext = os.path.splitext(f)[1]
     if ext in ext2language:
       return ext2language[ext]
   return ''
+
 
 def parse_and_run(argv, config):
   # parse cmdline
@@ -268,14 +295,14 @@ def parse_and_run(argv, config):
   while i < n:
     handled = False
     if argv[i].lower() == '--':
-      extra_options = argv[i+1:]
+      extra_options = argv[i + 1:]
       handled = True
       break
     elif argv[i][0] == '-':
       tmp = argv[i].lstrip('-').lower()
       handled = True
       if tmp == 'o':
-        output = argv[i+1]
+        output = argv[i + 1]
         i += 2
       elif tmp == 'debug':
         is_debug = True
@@ -284,13 +311,13 @@ def parse_and_run(argv, config):
         is_debug = False
         i += 1
       elif tmp == 'l':
-        language = argv[i+1].lower()
+        language = argv[i + 1].lower()
         i += 2
       elif tmp == 'n':
-        name = argv[i+1].lower()
+        name = argv[i + 1].lower()
         i += 2
       elif tmp == 'a':
-        arch = argv[i+1].lower()
+        arch = argv[i + 1].lower()
         i += 2
       elif tmp == 'r':
         run = True
@@ -324,8 +351,10 @@ def parse_and_run(argv, config):
   if compile_cmd() == 0 and run == True:
     run_cmd()
 
+
 def main(argv):
-  parse_and_run(argv, {});
+  parse_and_run(argv, {})
+
 
 if __name__ == '__main__':
   main(sys.argv)

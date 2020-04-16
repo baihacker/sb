@@ -3,8 +3,10 @@ import os
 import sys
 import sb
 
+
 def main(argv):
-  sb.parse_and_run(argv, {'compiler_spec': {'language':'java'}})
+  sb.parse_and_run(argv, {'compiler_spec': {'language': 'java'}})
+
 
 if __name__ == '__main__':
   if os.name == 'nt':

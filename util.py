@@ -16,15 +16,18 @@ else:
   TEMP_DIR = '/tmp'
   LINUX_HOME = os.path.expanduser("~")
 
+
 def trans_path(path):
-  if IS_LINUX: 
+  if IS_LINUX:
     return path.replace('\\', PATH_SLASH)
   return path
 
+
 def trans_path_list(paths):
-  if IS_LINUX: 
+  if IS_LINUX:
     return [trans_path(path) for path in paths]
   return paths
+
 
 if IS_WIN:
   if sys.hexversion > 0x03000000:
@@ -75,6 +78,7 @@ if IS_WIN:
     def done(self):
       pass
 else:
+
   def execute_cmd(cmd):
     return os.system(cmd)
 
@@ -90,12 +94,13 @@ else:
     def setenv(self, name, value):
       if isinstance(value, list):
         if len(value) > 0:
-          self.content.append('export %s=${%s:+${%s}:}%s'%(name, name, name, DELIMITER.join(value)))
+          self.content.append('export %s=${%s:+${%s}:}%s' %
+                              (name, name, name, DELIMITER.join(value)))
         else:
-          self.content.append('export %s=${%s:+${%s}}'%(name, name, name))
+          self.content.append('export %s=${%s:+${%s}}' % (name, name, name))
       else:
-        self.content.append('export %s=%s'%(name, value))
+        self.content.append('export %s=%s' % (name, value))
 
     def done(self):
-      with open('%s/.sbrc'%LINUX_HOME, 'wb') as tempf:
+      with open('%s/.sbrc' % LINUX_HOME, 'wb') as tempf:
         tempf.write('\n'.join(self.content))

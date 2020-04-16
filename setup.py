@@ -6,7 +6,6 @@ import ctypes
 import random
 import stat
 import util
-
 """
   Set up basic development environment.
   Please see README.md for how to install sb.
@@ -34,8 +33,7 @@ else:
   ROOTDIR = os.environ.get('ROOTDIR', '')
 
 SCRIPT_DIRECTORY = os.path.dirname(os.path.realpath(__file__))
-RUN_FROM_GIT_REPOSITORY = os.path.exists(
-    os.path.join(SCRIPT_DIRECTORY, '.git'))
+RUN_FROM_GIT_REPOSITORY = os.path.exists(os.path.join(SCRIPT_DIRECTORY, '.git'))
 CONFIG_JSON = os.path.join(SCRIPT_DIRECTORY, 'config.json')
 
 PRIVATE_INSTALL = False
@@ -48,9 +46,10 @@ if util.IS_WIN:
 else:
   HAS_GIT = os.system('git --help > /dev/null 2>&1') == 0
 
+
 def remove_dir(dir):
   if os.path.exists(dir):
-    for root,dirs,files in os.walk(dir):
+    for root, dirs, files in os.walk(dir):
       for d in dirs:
         os.chmod(os.path.join(root, d), stat.S_IWRITE)
       for f in files:
@@ -94,9 +93,9 @@ def copy_dir_to(src, dest):
 
 
 def pull_git(git, target):
-  tmp_dir = os.path.join(util.TEMP_DIR, 'sb'+str(random.random())+'.tmp')
+  tmp_dir = os.path.join(util.TEMP_DIR, 'sb' + str(random.random()) + '.tmp')
   try:
-    os.system('git clone %s "%s"'%(git, tmp_dir))
+    os.system('git clone %s "%s"' % (git, tmp_dir))
     copy_dir_to(tmp_dir, target)
   finally:
     remove_dir(tmp_dir)
@@ -128,7 +127,7 @@ def ready_to_create_dir_symbol_link(path):
 
 def expand_variable(s, variables):
   for k, v in variables.items():
-    s = s.replace('$(%s)'%k, v)
+    s = s.replace('$(%s)' % k, v)
   return s
 
 
@@ -149,19 +148,18 @@ def prepare_variables():
 
   with open(CONFIG_JSON, 'r') as tempf:
     CONFIG = eval(tempf.read())
-  
+
   if not 'variables' in CONFIG:
     CONFIG['variables'] = {}
 
   variables = dict(os.environ)
   for k, v in CONFIG['variables'].items():
     variables[k] = expand_variable(v, os.environ)
-  
+
   CONFIG['variables'] = variables
 
   if not 'CREATE_DIR' in CONFIG:
     CONFIG['CREATE_DIR'] = []
-
 
 
 def create_dirs():
@@ -188,8 +186,19 @@ def setup_sb():
   # Copy binaries to bin directory.
   target_bin_dir = os.path.join(HOMEDIR, 'usr\\bin\\sb')
   files = [
-      'dcj.py', 'dcj.bat', 'jr.py', 'jr.bat', 'pe++.py', 'pe++.bat', 'pe.bat',
-      'sb.py', 'vc++.py', 'vc++.bat', 'clang++.py', 'util.py', 'pe++', 
+      'dcj.py',
+      'dcj.bat',
+      'jr.py',
+      'jr.bat',
+      'pe++.py',
+      'pe++.bat',
+      'pe.bat',
+      'sb.py',
+      'vc++.py',
+      'vc++.bat',
+      'clang++.py',
+      'util.py',
+      'pe++',
   ]
   for f in files:
     src_file = os.path.join(SCRIPT_DIRECTORY, f)
@@ -216,7 +225,7 @@ def setup_pe():
     return
   PE_DIR = util.trans_path(os.path.join(HOMEDIR, 'usr\\include\\pe'))
   pull_git('https://github.com/baihacker/pe.git', PE_DIR)
-  util.execute_cmd('python "%s"'%os.path.join(PE_DIR, 'gen_config.py'))
+  util.execute_cmd('python "%s"' % os.path.join(PE_DIR, 'gen_config.py'))
   print('pe is set up.')
 
 
@@ -275,7 +284,7 @@ def setup_vim():
     target_path = os.path.join(dir, FILE_NAME)
     if os.path.exists(target_path):
       shutil.copyfile(util.trans_path(src), util.trans_path(target_path))
-      print('%s is updated.'%target_path)
+      print('%s is updated.' % target_path)
       done = done + 1
   if done > 0:
     print('Vim is set up.')
@@ -314,7 +323,8 @@ def setup_vscode():
   dest_config_dirs = [os.path.join(HOMEDIR, 'config\\vsc_config\\.vscode')]
   dest_config_dirs.append(os.path.join(ROOTDIR, 'projects\\.vscode'))
   if PRIVATE_INSTALL:
-    dest_config_dirs.append(os.path.join(ROOTDIR, 'OneDrive\\projects\\.vscode'))
+    dest_config_dirs.append(
+        os.path.join(ROOTDIR, 'OneDrive\\projects\\.vscode'))
 
   for f in os.listdir(src_config_dir):
     for dest_config_dir in dest_config_dirs:
@@ -392,9 +402,9 @@ def setup_private_symlinks():
   src_dir = os.path.join(HOMEDIR, 'projects')
   dest_dir = os.path.join(ROOTDIR, 'OneDrive\\projects')
   if ready_to_create_dir_symbol_link(src_dir):
-    os.system('mklink /D "%s" "%s"'%(src_dir, dest_dir))
+    os.system('mklink /D "%s" "%s"' % (src_dir, dest_dir))
   else:
-    print('Cannot setup symbol link from %s to %s'%(src_dir, dest_dir))
+    print('Cannot setup symbol link from %s to %s' % (src_dir, dest_dir))
 
   # Redirect dev_docs
   # src_dir = os.path.join(HOMEDIR, 'dev_docs')
