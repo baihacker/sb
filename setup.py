@@ -243,7 +243,7 @@ def setup_environment_variables():
   USRDIR = os.path.join(HOMEDIR, 'usr')
   variables = CONFIG['variables']
 
-  # dev_paths
+  # Environment variables.
   for k, v in CONFIG['ENV'].items():
     value = []
     for path in v:
