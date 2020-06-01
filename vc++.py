@@ -17,6 +17,6 @@ def main(argv):
 
 
 if __name__ == '__main__':
-  if os.name == 'nt':
-    os.system('COLOR 0A')
+  #if os.name == 'nt':
+  #  os.system('COLOR 0A')
   main(sys.argv)
