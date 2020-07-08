@@ -18,6 +18,7 @@
     #"CLANG_X64_MINGW64_DIR": "D:\\LLVM",
     "MINGW64_DIR": "$(ROOTDIR)\\app\\DevSoft\\MinGW-x86_64_10.1.0-msys2",
     "PYTHON27_X86_DIR": "C:\\python\\Python27",
+    "CMAKE_DIR": "$(ROOTDIR)\\app\\DevSoft\\cmake-3.18.0-rc3-win64-x64",
   },
   "CREATE_DIR": [
     "$(HOMEDIR)\\usr",
@@ -61,6 +62,7 @@
       "$(USRDIR)\\dll\\vc12_x86",
       "$(USRDIR)\\dll\\vc12_x64",
       "$(CLANG_X64_MINGW64_DIR)\\bin",
+      "$(CMAKE_DIR)\\bin",
       "$(ROOTDIR)\\app\\MathsSoft\\mma",
       "C:\\Python27",
       "C:\\python\\Python27",
