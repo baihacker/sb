@@ -2,6 +2,7 @@
     // https://code.visualstudio.com/docs/getstarted/settings
     "files.associations": {
         "*.c": "cpp",
+        "*.txt": "cpp",
         "pe*": "cpp",
         "pe_*": "cpp",
         "*.tcc": "cpp",

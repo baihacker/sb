@@ -439,7 +439,7 @@ def main(argv):
 
   if util.IS_WIN:
     setup_vscode()
-    check_npp()
+    # check_npp()
 
     if is_admin():
       setup_symlinks()
