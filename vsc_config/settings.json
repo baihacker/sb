@@ -136,7 +136,8 @@
         "_UNICODE",
         "__GNUC__",
         "VSCODE_EDITOR",
-        "__cplusplus=201703"
+        "__cplusplus=201703",
+        "_OPENMP"
     ],
     "C_Cpp.default.intelliSenseMode": "clang-x64",
     "C_Cpp.intelliSenseCachePath": "${ROOTDIR}/TEMP/vscode-cpptools",
