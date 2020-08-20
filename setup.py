@@ -355,6 +355,26 @@ def check_npp():
   else:
     print('Notepad++ is set up!')
 
+def check_np3():
+  print('\nCheck notepad3 installtion...')
+  found_np3 = False
+  for pf_path in ['C:\\Program Files (x86)', 'C:\\Program Files']:
+    np3_dir = os.path.join(pf_path, 'Notepad3')
+    src_exe_path = os.path.join(np3_dir, 'Notepad3.exe')
+
+    if not os.path.exists(src_exe_path):
+      continue
+    found_np3 = True
+
+    dest_exe_path = os.path.join(np3_dir, 'np3.exe')
+    if not os.path.exists(dest_exe_path):
+      print('Need to set up np3.exe manually for %s' % src_exe_path)
+
+  if not found_np3:
+    print('Notepad3 is not set up!')
+  else:
+    print('Notepad3 is set up!')
+
 
 def setup_symlinks():
   # print('\nSetting up symlinks...')
@@ -439,7 +459,7 @@ def main(argv):
 
   if util.IS_WIN:
     setup_vscode()
-    # check_npp()
+    check_np3()
 
     if is_admin():
       setup_symlinks()
