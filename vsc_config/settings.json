@@ -94,6 +94,11 @@
         "pe_poly_algo": "cpp"
     },
     "files.trimTrailingWhitespace": true,
+    "window.zoomLevel": 0,
+    "editor.accessibilitySupport": "off",
+    "editor.autoClosingBrackets": "never",
+    "editor.autoClosingOvertype": "never",
+    "editor.autoClosingQuotes": "never",
     "editor.tabSize": 2,
     "editor.insertSpaces": true,
     "editor.fontFamily": "Consolas, 微软雅黑",
@@ -118,6 +123,7 @@
     "C_Cpp.default.cppStandard": "c++17",
     "C_Cpp.default.cStandard": "c11",
     "C_Cpp.clang_format_fallbackStyle": "Google",
+    "C_Cpp.clang_format_sortIncludes": false,
     "C_Cpp.default.includePath": [
         "${workspaceFolder}/*",
         "${HOMEDIR}/usr/include",
