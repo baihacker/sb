@@ -11,5 +11,17 @@
   {
     "key": "ctrl+b",
     "command": "workbench.action.tasks.terminate"
+  },
+  {
+    "key": "ctrl+shift+down",
+    "command": "workbench.action.positionPanelBottom"
+  },
+  {
+    "key": "ctrl+shift+left",
+    "command": "workbench.action.positionPanelLeft"
+  },
+  {
+    "key": "ctrl+shift+right",
+    "command": "workbench.action.positionPanelRight"
   }
 ]
