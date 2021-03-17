@@ -19,7 +19,7 @@ import util
     6. If JAVAHOME exists, setup the corresponding JAVA class path.
     7. [Windows] Copies vscode user configurations from CURRENT_DIR\\vsc_config to %APPDATA%\\code\\User, %APPDATA%\\Code - Insiders\\User and %HOMEDIR%\\config\\vsc_config.
     8. [Windows] Copy vscode directory configurations from CURRENT_DIR\\vsc_config\\.vscode to %HOMEDIR%\\config\\vsc_config\\.vscode, %ROOTDIR%\\projects\\.vscode.
-    9. [Windows] Checks whether notepad++ is setup. (Also check whether npp.exe (a copy of notepad++.exe) exist.)
+    9. [Windows] Checks whether notepad3 is setup. (Also check whether np3.exe (a copy ofnotepad3.exe) exist.)
     10. Copy _vimrc to vim's dir or copy .vimrc to ~/ for linux.
 """
 
@@ -355,6 +355,7 @@ def check_npp():
   else:
     print('Notepad++ is set up!')
 
+
 def check_np3():
   print('\nCheck notepad3 installtion...')
   found_np3 = False
@@ -374,23 +375,6 @@ def check_np3():
     print('Notepad3 is not set up!')
   else:
     print('Notepad3 is set up!')
-
-
-def setup_symlinks():
-  # print('\nSetting up symlinks...')
-  # Redirect chromium
-  # if len(DEVICENAME) > 0:
-  # src_dir = os.path.join(os.path.dirname(os.environ['APPDATA']), 'Local\\Chromium')
-  #  dest_dir = os.path.join(ROOTDIR, 'devices\\%s\\Chromium'%DEVICENAME)
-  #  if ready_to_create_dir_symbol_link(src_dir):
-  #    os.system('mklink /D "%s" "%s"'%(src_dir, dest_dir))
-  #  else:
-  #    print('Cannot setup symbol link from %s to %s'%(src_dir, dest_dir))
-  # else:
-  #  print('Skip setup symbol from Chromium since the device name is unknown')
-  # print('Symlinks are set up.')
-  pass
-
 
 def setup_private_symlinks():
   print('\nSetting up private symlinks...')
@@ -419,12 +403,12 @@ def setup_private_symlinks():
   #   print('Cannot setup symbol link from %s to %s'%(src_dir, dest_dir))
 
   # Redirect projects
-  src_dir = os.path.join(HOMEDIR, 'projects')
-  dest_dir = os.path.join(ROOTDIR, 'OneDrive\\projects')
-  if ready_to_create_dir_symbol_link(src_dir):
-    os.system('mklink /D "%s" "%s"' % (src_dir, dest_dir))
-  else:
-    print('Cannot setup symbol link from %s to %s' % (src_dir, dest_dir))
+  # src_dir = os.path.join(HOMEDIR, 'projects')
+  # dest_dir = os.path.join(ROOTDIR, 'OneDrive\\projects')
+  # if ready_to_create_dir_symbol_link(src_dir):
+  #  os.system('mklink /D "%s" "%s"' % (src_dir, dest_dir))
+  # else:
+  #  print('Cannot setup symbol link from %s to %s' % (src_dir, dest_dir))
 
   # Redirect dev_docs
   # src_dir = os.path.join(HOMEDIR, 'dev_docs')
@@ -433,8 +417,24 @@ def setup_private_symlinks():
   #   os.system('mklink /D "%s" "%s"'%(src_dir, dest_dir))
   # else:
   #   print('Cannot setup symbol link from %s to %s'%(src_dir, dest_dir))
-  print('Private symlinks are set up.')
+  # print('Private symlinks are set up.')
+  pass
 
+def setup_symlinks():
+  # print('\nSetting up symlinks...')
+  # Redirect chromium
+  # if len(DEVICENAME) > 0:
+  # src_dir = os.path.join(os.path.dirname(os.environ['APPDATA']), 'Local\\Chromium')
+  #  dest_dir = os.path.join(ROOTDIR, 'devices\\%s\\Chromium'%DEVICENAME)
+  #  if ready_to_create_dir_symbol_link(src_dir):
+  #    os.system('mklink /D "%s" "%s"'%(src_dir, dest_dir))
+  #  else:
+  #    print('Cannot setup symbol link from %s to %s'%(src_dir, dest_dir))
+  # else:
+  #  print('Skip setup symbol from Chromium since the device name is unknown')
+  # print('Symlinks are set up.')
+  if PRIVATE_INSTALL:
+    setup_private_symlinks()
 
 def main(argv):
   global PRIVATE_INSTALL
@@ -463,8 +463,6 @@ def main(argv):
 
     if is_admin():
       setup_symlinks()
-      if PRIVATE_INSTALL:
-        setup_private_symlinks()
 
 
 if __name__ == '__main__':
