@@ -240,7 +240,6 @@ def setup_environment_variables():
     else:
       print("%s doesn't exists." % path)
 
-  USRDIR = os.path.join(HOMEDIR, 'usr')
   variables = CONFIG['variables']
 
   # Environment variables.
@@ -312,7 +311,9 @@ def setup_vscode():
   for dest_dir in dest_dirs:
     if not os.path.exists(dest_dir):
       continue
-    for f in ['settings.json', 'keybindings.json']:
+    for f in [  # 'settings.json', don't copy settings.json
+        'keybindings.json'
+    ]:
       src_file = os.path.join(src_dir, f)
       dest_file = os.path.join(dest_dir, f)
       if os.path.exists(src_file):
@@ -376,6 +377,7 @@ def check_np3():
   else:
     print('Notepad3 is set up!')
 
+
 def setup_private_symlinks():
   print('\nSetting up private symlinks...')
   # Redirect home
@@ -420,6 +422,7 @@ def setup_private_symlinks():
   # print('Private symlinks are set up.')
   pass
 
+
 def setup_symlinks():
   # print('\nSetting up symlinks...')
   # Redirect chromium
@@ -435,6 +438,7 @@ def setup_symlinks():
   # print('Symlinks are set up.')
   if PRIVATE_INSTALL:
     setup_private_symlinks()
+
 
 def main(argv):
   global PRIVATE_INSTALL

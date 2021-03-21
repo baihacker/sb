@@ -132,7 +132,7 @@
         "${ROOTDIR}/app/DevSoft/MinGW-x86_64_10.2.0-msys2/include/c++/10.2.0/backward",
         "${ROOTDIR}/app/DevSoft/MinGW-x86_64_10.2.0-msys2/include",
         "${ROOTDIR}/app/DevSoft/MinGW-x86_64_10.2.0-msys2/lib/gcc/x86_64-w64-mingw32/10.2.0/include-fixed",
-        "${ROOTDIR}/app/DevSoft/MinGW-x86_64_10.2.0-msys2/86_64-w64-mingw32/include"
+        "${ROOTDIR}/app/DevSoft/MinGW-x86_64_10.2.0-msys2/x86_64-w64-mingw32/include"
     ],
     "C_Cpp.default.defines": [
         "_DEBUG",
@@ -143,7 +143,7 @@
         "__cplusplus=201703",
         "_OPENMP"
     ],
-    "C_Cpp.default.intelliSenseMode": "clang-x64",
+    "C_Cpp.default.intelliSenseMode": "windows-gcc-x64",
     "C_Cpp.intelliSenseCachePath": "${ROOTDIR}/TEMP/vscode-cpptools",
     "C_Cpp.default.browse.path": [
         "${workspaceFolder}/*",
@@ -155,7 +155,7 @@
         "${ROOTDIR}/app/DevSoft/MinGW-x86_64_10.2.0-msys2/include/c++/10.2.0/backward",
         "${ROOTDIR}/app/DevSoft/MinGW-x86_64_10.2.0-msys2/include",
         "${ROOTDIR}/app/DevSoft/MinGW-x86_64_10.2.0-msys2/lib/gcc/x86_64-w64-mingw32/10.2.0/include-fixed",
-        "${ROOTDIR}/app/DevSoft/MinGW-x86_64_10.2.0-msys2/86_64-w64-mingw32/include"
+        "${ROOTDIR}/app/DevSoft/MinGW-x86_64_10.2.0-msys2/x86_64-w64-mingw32/include"
     ],
     "C_Cpp.default.browse.limitSymbolsToIncludedHeaders": false,
     "C_Cpp.default.browse.databaseFilename": "${ROOTDIR}/data/vscode.db",
