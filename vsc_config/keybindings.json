@@ -23,5 +23,9 @@
   {
     "key": "ctrl+shift+right",
     "command": "workbench.action.positionPanelRight"
+  },
+  {
+    "key": "shift+alt+r shift+alt+d",
+    "command": "C_Cpp.ResetDatabase"
   }
 ]
