@@ -33,8 +33,7 @@ else:
   ROOTDIR = os.environ.get('ROOTDIR', '')
 
 SCRIPT_DIRECTORY = os.path.dirname(os.path.realpath(__file__))
-RUN_FROM_GIT_REPOSITORY = os.path.exists(os.path.join(SCRIPT_DIRECTORY,
-                                                      '.git'))
+RUN_FROM_GIT_REPOSITORY = os.path.exists(os.path.join(SCRIPT_DIRECTORY, '.git'))
 CONFIG_JSON = os.path.join(SCRIPT_DIRECTORY, 'config.json')
 
 PRIVATE_INSTALL = False
@@ -325,8 +324,8 @@ def setup_vscode():
   dest_config_dirs = [os.path.join(HOMEDIR, 'config\\vsc_config\\.vscode')]
   dest_config_dirs.append(os.path.join(ROOTDIR, 'projects\\.vscode'))
   if PRIVATE_INSTALL:
-    dest_config_dirs.append(
-        os.path.join(ROOTDIR, 'OneDrive\\projects\\.vscode'))
+    dest_config_dirs.append(os.path.join(ROOTDIR,
+                                         'OneDrive\\projects\\.vscode'))
 
   for f in os.listdir(src_config_dir):
     for dest_config_dir in dest_config_dirs:

@@ -42,6 +42,7 @@ if IS_WIN:
 
   class EnvironmentWriter:
     """Utility class to get/set windows environment variable"""
+
     def __init__(self):
       scope = 'user'
       assert scope in ('user', 'system')
@@ -83,6 +84,7 @@ else:
 
   class EnvironmentWriter:
     """Utility class to set ~/.sbrc"""
+
     def __init__(self):
       self.content = []
 
