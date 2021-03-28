@@ -21,8 +21,8 @@ def make_search_dirs():
 
   # dcfpe dir
   if util.IS_WIN:
-    dcfpe_dir = os.path.join(
-        os.path.dirname(os.environ['APPDATA']), 'LocalLow\\dcfpe')
+    dcfpe_dir = os.path.join(os.path.dirname(os.environ['APPDATA']),
+                             'LocalLow\\dcfpe')
     dirs.append(dcfpe_dir)
 
   # app data
@@ -95,8 +95,8 @@ def merge_object(src, dest):
 def resolve_compiler(internal_name, compilers):
   for item in compilers:
     ok = 'internal_name' in item and item['internal_name'] == internal_name
-    ok = ok or (not 'internal_name' in item and 'name' in item and
-                item['name'] == internal_name)
+    ok = ok or (not 'internal_name' in item and 'name' in item
+                and item['name'] == internal_name)
     if ok:
       ret = dict(item)
       if 'base' in ret:
@@ -122,8 +122,8 @@ def find_compiler(compilers, kv):
       continue
     if len(arch) > 0 and (not 'arch' in c or c['arch'].lower() != arch):
       continue
-    if version >= 0 and (not 'version' in c or
-                         int(c['version'].split('.')[0]) != version):
+    if version >= 0 and (not 'version' in c
+                         or int(c['version'].split('.')[0]) != version):
       continue
 
     compiler = merge_object(c, resolve_compiler(

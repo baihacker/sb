@@ -33,7 +33,8 @@ else:
   ROOTDIR = os.environ.get('ROOTDIR', '')
 
 SCRIPT_DIRECTORY = os.path.dirname(os.path.realpath(__file__))
-RUN_FROM_GIT_REPOSITORY = os.path.exists(os.path.join(SCRIPT_DIRECTORY, '.git'))
+RUN_FROM_GIT_REPOSITORY = os.path.exists(os.path.join(SCRIPT_DIRECTORY,
+                                                      '.git'))
 CONFIG_JSON = os.path.join(SCRIPT_DIRECTORY, 'config.json')
 
 PRIVATE_INSTALL = False
