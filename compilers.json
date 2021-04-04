@@ -20,7 +20,8 @@
 [
   {
     "name": "__compiler_base",
-    "variables": {}
+    "variables": {
+    }
   },
   {
     "name": "mingw64",
@@ -666,12 +667,7 @@
     "variables": {
       "HOST": "x86",
       "TARGET": "x86",
-      "OTHER_TARGET": "x64", # {OTHER_TARGET
-      } = {
-        "x86",
-        "x64"
-      } - {TARGET
-      }
+      "OTHER_TARGET": "x64", # {OTHER_TARGET} = {"x86", "x64"} - {TARGET}
     },
   },
   {
@@ -684,12 +680,7 @@
     "variables": {
       "HOST": "x64",
       "TARGET": "x64",
-      "OTHER_TARGET": "x86", # {OTHER_TARGET
-      } = {
-        "x86",
-        "x64"
-      } - {TARGET
-      }
+      "OTHER_TARGET": "x86", # {OTHER_TARGET} = {"x86", "x64"} - {TARGET}
     },
   },
 ]
