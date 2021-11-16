@@ -93,10 +93,10 @@
       "cpp": {
         "default_output_file": "a.exe",
         "debug_flags": [
-          "-g -fopenmp -lquadmath -lbf -lgmpxx -lflint -lmpfr -lntl -lgmp"
+          "-g -fopenmp -lquadmath -lbf -lgmpxx -lflint -lmpfr -lntl -lgmp -lprimesieve -lprimecount"
         ],
         "release_flags": [
-          "-O3 -march=native -mtune=native -fopenmp -lquadmath -Wl,--stack,268435456 -static -lbf -lgmpxx -lflint -lmpfr -lntl -lgmp"
+          "-O3 -march=native -mtune=native -fopenmp -lquadmath -Wl,--stack,268435456 -static -lbf -lgmpxx -lflint -lmpfr -lntl -lgmp -lprimesieve -lprimecount"
         ],
       },
     },
