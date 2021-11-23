@@ -272,10 +272,10 @@
         ],
         "default_output_file": "a.exe",
         "debug_flags": [
-          "-g -pthread -lbf -lgmpxx -lflint -lmpfr -lntl -lgmp",
+          "-g -pthread -lbf -lgmpxx -lflint -lmpfr -lntl -lgmp -lprimesieve -lprimecount",
         ],
         "release_flags": [
-          "-O3 -march=native -mtune=native -Wl,--stack,268435456 -pthread -lbf -lgmpxx -lflint -lmpfr -lntl -lgmp"
+          "-O3 -march=native -mtune=native -Wl,--stack,268435456 -pthread -lbf -lgmpxx -lflint -lmpfr -lntl -lgmp -lprimesieve -lprimecount"
         ],
       },
     },
