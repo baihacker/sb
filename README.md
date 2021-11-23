@@ -98,7 +98,7 @@ export PATH=$DEVPATH${PATH:+:${PATH}}
 
 #### Install on mac
 Nearly the same as that on linux.
-  * Append toe code to `~/.bash_profile` instead of `~/.bashrc`.
+  * Append the codes to `~/.bash_profile` instead of `~/.bashrc`.
   * Remove `-fopenmp` from your compiler option.
 
 #### Other configurations
