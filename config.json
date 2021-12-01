@@ -24,7 +24,9 @@
     "$(HOMEDIR)\\usr",
     "$(HOMEDIR)\\usr\\bin",
     "$(HOMEDIR)\\usr\\bin\\sb",
-    "$(HOMEDIR)\\usr\\bin\\dpe",
+    #"$(HOMEDIR)\\usr\\bin\\dpe",
+    "$(HOMEDIR)\\usr\\bin\\third_party",
+    "$(HOMEDIR)\\usr\\bin\\third_party\\ms",
     "$(HOMEDIR)\\usr\\include",
     "$(HOMEDIR)\\usr\\include\\pe",
     "$(HOMEDIR)\\usr\\lib",
@@ -41,7 +43,9 @@
     "DEVPATH": [
       "$(USRDIR)\\bin",
       "$(USRDIR)\\bin\\sb",
-      "$(USRDIR)\\bin\\dpe",
+      #"$(USRDIR)\\bin\\dpe",
+      "$(USRDIR)\\bin\\third_party",
+      "$(USRDIR)\\bin\\third_party\\ms",
       "$(JAVA_HOME)\\bin",
     ],
     "CPLUS_INCLUDE_PATH": [
