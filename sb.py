@@ -348,13 +348,19 @@ def parse_and_run(argv, config):
 
   compile_cmd, run_cmd = create_commands(config)
 
-  if compile_cmd() == 0 and run == True:
-    run_cmd()
+  compile_ret = compile_cmd()
+  if compile_ret != 0:
+    return compile_ret
+
+  if run == True:
+    return run_cmd()
+
+  return 0
 
 
 def main(argv):
-  parse_and_run(argv, {})
+  return parse_and_run(argv, {})
 
 
 if __name__ == '__main__':
-  main(sys.argv)
+  sys.exit(main(sys.argv))
