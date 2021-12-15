@@ -34,12 +34,13 @@ else:
 
 SCRIPT_DIRECTORY = os.path.dirname(os.path.realpath(__file__))
 RUN_FROM_GIT_REPOSITORY = os.path.exists(os.path.join(SCRIPT_DIRECTORY, '.git'))
-CONFIG_JSON = os.path.join(SCRIPT_DIRECTORY, 'config.json')
+CONFIG_JSON_PATH = os.path.join(SCRIPT_DIRECTORY, 'config.json')
 
-PRIVATE_INSTALL = False
-UPDATE_VIM = False
+flag_private_install = False
+flag_update_vim = False
+flag_setup_pe = False
 
-CONFIG = {}
+config = {}
 
 if util.IS_WIN:
   HAS_GIT = os.system('git --help 1>NUL 2>NUL') == 0
@@ -140,26 +141,26 @@ def prepare_variables():
     print('Please set HOMEDIR')
     os._exit(-1)
 
-  if not os.path.exists(CONFIG_JSON):
+  if not os.path.exists(CONFIG_JSON_PATH):
     print('can not file config.json.')
     os._exit(-1)
 
-  global CONFIG
+  global config
 
-  with open(CONFIG_JSON, 'r') as tempf:
-    CONFIG = eval(tempf.read())
+  with open(CONFIG_JSON_PATH, 'r') as tempf:
+    config = eval(tempf.read())
 
-  if not 'variables' in CONFIG:
-    CONFIG['variables'] = {}
+  if not 'variables' in config:
+    config['variables'] = {}
 
   variables = dict(os.environ)
-  for k, v in CONFIG['variables'].items():
+  for k, v in config['variables'].items():
     variables[k] = expand_variable(v, os.environ)
 
-  CONFIG['variables'] = variables
+  config['variables'] = variables
 
-  if not 'CREATE_DIR' in CONFIG:
-    CONFIG['CREATE_DIR'] = []
+  if not 'CREATE_DIR' in config:
+    config['CREATE_DIR'] = []
 
 
 def create_dirs():
@@ -169,8 +170,8 @@ def create_dirs():
   if not os.path.exists(HOMEDIR):
     os.makedirs(HOMEDIR)
 
-  for item in CONFIG['CREATE_DIR']:
-    target = expand_variable(item, CONFIG['variables'])
+  for item in config['CREATE_DIR']:
+    target = expand_variable(item, config['variables'])
     create_dir_if_absent(target)
 
   print('Directories are created.')
@@ -240,16 +241,16 @@ def setup_environment_variables():
     else:
       print("%s doesn't exists." % path)
 
-  variables = CONFIG['variables']
+  variables = config['variables']
 
   # Environment variables.
-  for k, v in CONFIG['ENV'].items():
+  for k, v in config['ENV'].items():
     value = []
     for path in v:
       realpath = expand_variable(path, variables)
       add_if_exists(realpath, value)
-    if k in CONFIG['ENV_WIN']:
-      for path in CONFIG['ENV_WIN'][k]:
+    if k in config['ENV_WIN']:
+      for path in config['ENV_WIN'][k]:
         realpath = expand_variable(path, variables)
         add_if_exists(realpath, value)
     env_setter.setenv(k, value)
@@ -323,7 +324,7 @@ def setup_vscode():
   src_config_dir = os.path.join(src_dir, '.vscode')
   dest_config_dirs = [os.path.join(HOMEDIR, 'config\\vsc_config\\.vscode')]
   dest_config_dirs.append(os.path.join(ROOTDIR, 'projects\\.vscode'))
-  if PRIVATE_INSTALL:
+  if flag_private_install:
     dest_config_dirs.append(os.path.join(ROOTDIR,
                                          'OneDrive\\projects\\.vscode'))
 
@@ -436,30 +437,41 @@ def setup_symlinks():
   # else:
   #  print('Skip setup symbol from Chromium since the device name is unknown')
   # print('Symlinks are set up.')
-  if PRIVATE_INSTALL:
+  if flag_private_install:
     setup_private_symlinks()
 
 
 def main(argv):
-  global PRIVATE_INSTALL
-  global UPDATE_VIM
+  global flag_private_install
+  global flag_update_vim
+  global flag_setup_pe
   n = len(argv)
   i = 1
   while i < n:
-    if argv[i].lower() == '-b':
-      PRIVATE_INSTALL = True
-    elif argv[i].lower() == '-v':
-      UPDATE_VIM = True
+    tmp = argv[i].lstrip('-').lower()
+    if tmp == 'b':
+      flag_private_install = True
+    elif tmp == 'v':
+      flag_update_vim = True
+    elif tmp == 'pe':
+      flag_setup_pe = True
     i += 1
 
   prepare_variables()
   create_dirs()
   setup_sb()
-  setup_pe()
+
+  if flag_setup_pe:
+    setup_pe()
+  else:
+    print '\nSkip setting up pe'
+
   setup_environment_variables()
 
-  if UPDATE_VIM:
+  if flag_update_vim:
     setup_vim()
+  else:
+    print '\nSkip updating vim'
 
   if util.IS_WIN:
     setup_vscode()

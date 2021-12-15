@@ -231,12 +231,16 @@ def create_commands(config):
   run_args.extend(instruction['running_args'])
   run_cmd = ' '.join(expand_variable(y, variables) for y in run_args)
 
+  show_compile_cmd = config['show_compile_cmd']
+  show_run_cmd = config['show_run_cmd']
+
   def compile():
     if compile_cmd == None:
       return 0
     env = dict(os.environ)
     set_up_environment(compiler)
-    print(compile_cmd)
+    if show_compile_cmd:
+      print(compile_cmd)
     ret = util.execute_cmd(compile_cmd)
     for x in clean_files:
       if os.path.exists(x):
@@ -245,7 +249,8 @@ def create_commands(config):
     return ret
 
   def run():
-    print(run_cmd)
+    if show_run_cmd:
+      print(run_cmd)
     return util.execute_cmd(run_cmd)
 
   return compile, run
@@ -281,6 +286,8 @@ def parse_and_run(argv, config):
   files = config.get('files', [])
   is_debug = config.get('files', False)
   run = config.get('run', False)
+  show_compile_cmd = config.get('show_compile_cmd', True)
+  show_run_cmd = config.get('show_run_cmd', True)
   extra_options = config.get('extra_options', [])
 
   compiler_spec = config.get('compiler_spec', {})
@@ -322,6 +329,18 @@ def parse_and_run(argv, config):
       elif tmp == 'r':
         run = True
         i += 1
+      elif tmp == 'sc':
+        show_compile_cmd = True
+        i += 1
+      elif tmp == 'hc':
+        show_compile_cmd = False
+        i += 1
+      elif tmp == 'sr':
+        show_run_cmd = True
+        i += 1
+      elif tmp == 'hr':
+        show_run_cmd = False
+        i += 1
       else:
         handled = False
     if not handled:
@@ -344,6 +363,8 @@ def parse_and_run(argv, config):
   config['is_debug'] = is_debug
   config['compiler_spec'] = compiler_spec
   config['run'] = run
+  config['show_compile_cmd'] = show_compile_cmd
+  config['show_run_cmd'] = show_run_cmd
   config['extra_options'] = extra_options
 
   compile_cmd, run_cmd = create_commands(config)
