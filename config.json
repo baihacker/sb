@@ -65,8 +65,8 @@
   "ENV_WIN": {
     "DEVPATH": [
       "$(USRDIR)\\dll",
-      "$(USRDIR)\\dll\\vc12_x86",
-      "$(USRDIR)\\dll\\vc12_x64",
+      #"$(USRDIR)\\dll\\vc12_x86",
+      #"$(USRDIR)\\dll\\vc12_x64",
       "$(CLANG_X64_MINGW64_DIR)\\bin",
       "$(CMAKE_DIR)\\bin",
       "$(ROOTDIR)\\app\\MathsSoft\\mma",
