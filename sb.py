@@ -4,6 +4,8 @@ import os
 import sys
 
 SCRIPT_DIRECTORY = os.path.dirname(os.path.realpath(__file__))
+CURRENT_DIRECTORY = os.getcwd()
+CURRENT_SBRC = os.path.join(CURRENT_DIRECTORY, '.sbrc')
 
 
 def make_search_dirs():
@@ -198,6 +200,8 @@ def create_commands(config):
   variables['SOURCE_FILE_BASENAME_NO_EXT'] = os.path.splitext(
       os.path.basename(files[0]))[0]
   variables['SOURCE_FILE_DIRNAME'] = os.path.dirname(os.path.abspath(files[0]))
+  variables['TEMP'] = os.getenv('TEMP')
+  variables['TMP'] = os.getenv('TMP')
 
   #output file
   if len(output) == 0:
@@ -207,7 +211,7 @@ def create_commands(config):
     else:
       variables['OUTPUT_FILE'] = 'a.exe'
   else:
-    variables['OUTPUT_FILE'] = output
+    variables['OUTPUT_FILE'] = expand_variable(output, variables)
 
   #extra args
   extra_options = []
@@ -281,6 +285,14 @@ def detect_language(files):
 
 
 def parse_and_run(argv, config):
+  if os.path.exists(CURRENT_SBRC):
+    with open(CURRENT_SBRC, 'rb') as tempf:
+      default_config = eval(tempf.read().decode(encoding='utf8',
+                                                errors='ignore'))
+      for k, v in default_config.iteritems():
+        if k not in config:
+          config[k] = v
+
   # parse cmdline
   output = config.get('output', '')
   files = config.get('files', [])
