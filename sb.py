@@ -298,6 +298,7 @@ def parse_and_run(argv, config):
   files = config.get('files', [])
   is_debug = config.get('files', False)
   run = config.get('run', False)
+  execute = config.get('execute', False)
   show_compile_cmd = config.get('show_compile_cmd', True)
   show_run_cmd = config.get('show_run_cmd', True)
   extra_options = config.get('extra_options', [])
@@ -341,6 +342,9 @@ def parse_and_run(argv, config):
       elif tmp == 'r':
         run = True
         i += 1
+      elif tmp == 'e':
+        execute = True
+        i += 1
       elif tmp == 'sc':
         show_compile_cmd = True
         i += 1
@@ -375,11 +379,15 @@ def parse_and_run(argv, config):
   config['is_debug'] = is_debug
   config['compiler_spec'] = compiler_spec
   config['run'] = run
+  config['execute'] = execute
   config['show_compile_cmd'] = show_compile_cmd
   config['show_run_cmd'] = show_run_cmd
   config['extra_options'] = extra_options
 
   compile_cmd, run_cmd = create_commands(config)
+
+  if execute:
+    return run_cmd()
 
   compile_ret = compile_cmd()
   if compile_ret != 0:
