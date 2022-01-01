@@ -175,7 +175,8 @@ def create_commands(config):
     raise Exception, 'no suitable compiler'
 
   files = config['files']
-  output = config['output']
+  output_dir = config['output_dir']
+  output_name = config['output_name']
   is_debug = config['is_debug']
 
   # compute variable base based on environment variables
@@ -203,15 +204,22 @@ def create_commands(config):
   variables['TEMP'] = os.getenv('TEMP')
   variables['TMP'] = os.getenv('TMP')
 
+  output_dir = expand_variable(output_dir, variables)
+
   #output file
-  if len(output) == 0:
+  if len(output_name) == 0:
     if 'default_output_file' in instruction:
-      variables['OUTPUT_FILE'] = expand_variable(
-          instruction['default_output_file'], variables)
+      output_name = expand_variable(instruction['default_output_file'],
+                                    variables)
     else:
-      variables['OUTPUT_FILE'] = 'a.exe'
+      output_name = 'a.exe'
   else:
-    variables['OUTPUT_FILE'] = expand_variable(output, variables)
+    output_name = expand_variable(output_name, variables)
+
+  if os.path.isabs(output_name) or len(output_dir) == 0:
+    variables['OUTPUT_FILE'] = output_name
+  else:
+    variables['OUTPUT_FILE'] = os.path.join(output_dir, output_name)
 
   #extra args
   extra_options = []
@@ -294,11 +302,12 @@ def parse_and_run(argv, config):
           config[k] = v
 
   # parse cmdline
-  output = config.get('output', '')
+  output_dir = config.get('output_dir', '')
+  output_name = config.get('output_name', '')
   files = config.get('files', [])
-  is_debug = config.get('files', False)
+  is_debug = config.get('is_debug', False)
+  compile = config.get('compile', True)
   run = config.get('run', False)
-  execute = config.get('execute', False)
   show_compile_cmd = config.get('show_compile_cmd', True)
   show_run_cmd = config.get('show_run_cmd', True)
   extra_options = config.get('extra_options', [])
@@ -322,7 +331,7 @@ def parse_and_run(argv, config):
       tmp = argv[i].lstrip('-').lower()
       handled = True
       if tmp == 'o':
-        output = argv[i + 1]
+        output_name = argv[i + 1]
         i += 2
       elif tmp == 'debug':
         is_debug = True
@@ -339,11 +348,11 @@ def parse_and_run(argv, config):
       elif tmp == 'a':
         arch = argv[i + 1].lower()
         i += 2
+      elif tmp == 'nc':
+        compile = False
+        i += 1
       elif tmp == 'r':
         run = True
-        i += 1
-      elif tmp == 'e':
-        execute = True
         i += 1
       elif tmp == 'sc':
         show_compile_cmd = True
@@ -365,6 +374,7 @@ def parse_and_run(argv, config):
 
   if len(language) == 0:
     language = detect_language(files)
+
   if len(language) == 0:
     raise Exception, 'unknown language'
 
@@ -374,26 +384,25 @@ def parse_and_run(argv, config):
   compiler_spec['arch'] = arch
   compiler_spec['version'] = version
 
-  config['output'] = output
+  config['output_dir'] = output_dir
+  config['output_name'] = output_name
   config['files'] = files
   config['is_debug'] = is_debug
   config['compiler_spec'] = compiler_spec
+  config['compile'] = compile
   config['run'] = run
-  config['execute'] = execute
   config['show_compile_cmd'] = show_compile_cmd
   config['show_run_cmd'] = show_run_cmd
   config['extra_options'] = extra_options
 
   compile_cmd, run_cmd = create_commands(config)
 
-  if execute:
-    return run_cmd()
+  if compile:
+    compile_ret = compile_cmd()
+    if compile_ret != 0:
+      return compile_ret
 
-  compile_ret = compile_cmd()
-  if compile_ret != 0:
-    return compile_ret
-
-  if run == True:
+  if run:
     return run_cmd()
 
   return 0

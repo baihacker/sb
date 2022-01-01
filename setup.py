@@ -189,6 +189,8 @@ def setup_sb():
   files = [
       'dcj.py',
       'dcj.bat',
+      "e.py",
+      "e.bat",
       'jr.py',
       'jr.bat',
       'pe++.py',
