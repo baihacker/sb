@@ -194,6 +194,8 @@ def create_commands(config):
   clean_files = (os.path.splitext(x)[0] + '.obj' for x in files)
 
   #soure files
+  if len(files) == 0:
+    raise Exception, 'The source file list is empty.'
   variables['SOURCE_FILES'] = ' '.join('"%s"' % x for x in files)
   variables['SOURCE_FILE_PATH'] = files[0]
   variables['SOURCE_FILE_PATH_NO_EXT'] = os.path.splitext(files[0])[0]
