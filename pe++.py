@@ -15,5 +15,4 @@ def main(argv):
 if __name__ == '__main__':
   #if os.name == 'nt':
   #  os.system('COLOR 0A')
-  print (sys.version_info)
   sys.exit(main(sys.argv))
