@@ -69,7 +69,7 @@ def load_compilers():
   compiler_file = find_config_file()
 
   if not os.path.exists(compiler_file):
-    raise Exception, 'can not file configuration file.'
+    raise Exception, 'Can not find configuration file.'
 
   with open(compiler_file, 'r') as tempf:
     compilers = eval(tempf.read())
@@ -172,7 +172,7 @@ def create_commands(config):
   compiler_base = find_compiler_base(compilers)
 
   if compiler == None:
-    raise Exception, 'no suitable compiler'
+    raise Exception, 'Cannot find a suitable compiler.'
 
   files = config['files']
   output_dir = config['output_dir']
@@ -378,7 +378,7 @@ def parse_and_run(argv, config):
     language = detect_language(files)
 
   if len(language) == 0:
-    raise Exception, 'unknown language'
+    raise Exception, 'Unknown language.'
 
   compiler_spec['language'] = language
   compiler_spec['name'] = name
