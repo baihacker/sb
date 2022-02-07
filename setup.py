@@ -187,21 +187,21 @@ def setup_sb():
   # Copy binaries to bin directory.
   target_bin_dir = os.path.join(HOMEDIR, 'usr\\bin\\sb')
   files = [
-      'dcj.py',
-      'dcj.bat',
-      "e.py",
-      "e.bat",
-      'jr.py',
-      'jr.bat',
-      'pe++.py',
-      'pe++.bat',
-      'pe.bat',
-      'sb.py',
-      'vc++.py',
-      'vc++.bat',
       'clang++.py',
-      'util.py',
+      'dcj.bat',
+      'dcj.py',
+      "e.bat",
+      "e.py",
+      'jr.bat',
+      'jr.py',
+      'pe.bat',
       'pe++',
+      'pe++.bat',
+      'pe++.py',
+      'sb.py',
+      'util.py',
+      'vc++.bat',
+      'vc++.py',
   ]
   for f in files:
     src_file = os.path.join(SCRIPT_DIRECTORY, f)
@@ -210,8 +210,8 @@ def setup_sb():
     if util.IS_LINUX:
       os.chmod(util.trans_path(dest_file), 0777)
 
-  # Copy compilers.json and setup.py to config directory.
-  target_config_dir = os.path.join(HOMEDIR, 'config')
+  # Copy compilers.json, setup.py, config.json, _vimrc to sb config directory.
+  target_config_dir = os.path.join(HOMEDIR, 'config\\sb')
   files = ['compilers.json', 'setup.py', 'config.json', '_vimrc']
   for f in files:
     src_file = os.path.join(SCRIPT_DIRECTORY, f)
@@ -296,6 +296,7 @@ def setup_vim():
 
 def setup_vscode():
   print('\nSetting up vscode configurations...')
+
   # copy user configurations
   src_dir = os.path.join(SCRIPT_DIRECTORY, 'vsc_config')
   if not os.path.exists(src_dir):

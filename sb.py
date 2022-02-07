@@ -14,6 +14,7 @@ def make_search_dirs():
   # HOMEDIR
   HOMEDIR = os.environ.get('HOMEDIR', '')
   if len(HOMEDIR) > 0:
+    dirs.append(os.path.join(HOMEDIR, 'config\\sb'))
     dirs.append(os.path.join(HOMEDIR, 'config'))
 
   # RootDir

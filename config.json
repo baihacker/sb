@@ -31,6 +31,7 @@
     "$(HOMEDIR)\\usr\\include\\pe",
     "$(HOMEDIR)\\usr\\lib",
     "$(HOMEDIR)\\config",
+    "$(HOMEDIR)\\config\\sb",
     "$(HOMEDIR)\\config\\vsc_config",
     "$(HOMEDIR)\\config\\vsc_config\\.vscode",
     "$(ROOTDIR)\\app",
