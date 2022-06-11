@@ -16,7 +16,7 @@
     #
     "CLANG_X64_MINGW64_DIR": "$(ROOTDIR)\\app\\DevSoft\\LLVM_14.0.0",
     #"CLANG_X64_MINGW64_DIR": "D:\\LLVM",
-    "MINGW64_DIR": "$(ROOTDIR)\\app\\DevSoft\\MinGW-x86_64_11.2.0-msys2",
+    "MINGW64_DIR": "$(ROOTDIR)\\app\\DevSoft\\MinGW-x86_64_12.1.0-msys2",
     "PYTHON27_X86_DIR": "C:\\python\\Python27",
     "CMAKE_DIR": "$(ROOTDIR)\\app\\DevSoft\\cmake-3.18.0-rc3-win64-x64",
   },
