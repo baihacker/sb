@@ -247,15 +247,22 @@ def setup_environment_variables():
 
   # Environment variables.
   for k, v in config['ENV'].items():
-    value = []
-    for path in v:
-      realpath = expand_variable(path, variables)
-      add_if_exists(realpath, value)
+    values = []
+    is_path = k.lower().endswith("path")
+    for value in v:
+      realvalue = expand_variable(value, variables)
+      if is_path:
+        add_if_exists(realvalue, values)
+      else:
+        values.append(realvalue)
     if k in config['ENV_WIN']:
-      for path in config['ENV_WIN'][k]:
-        realpath = expand_variable(path, variables)
-        add_if_exists(realpath, value)
-    env_setter.setenv(k, value)
+      for value in config['ENV_WIN'][k]:
+        realvalue = expand_variable(value, variables)
+        if is_path:
+          add_if_exists(realvalue, values)
+        else:
+          values.append(realvalue)
+    env_setter.setenv(k, values)
 
   # Update java class path
   JAVAHOME = os.environ.get('JAVA_HOME', '')
