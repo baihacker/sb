@@ -246,22 +246,19 @@ def setup_environment_variables():
   variables = config['variables']
 
   # Environment variables.
+  path_vars = set(config['PATH_VARS'])
   for k, v in config['ENV'].items():
     values = []
-    is_path = k.lower().endswith("path")
-    for value in v:
+    is_path = k in path_vars
+    raw_values = list(v)
+    if k in config['ENV_WIN']:
+      raw_values.extend(config['ENV_WIN'][k])
+    for value in raw_values:
       realvalue = expand_variable(value, variables)
       if is_path:
         add_if_exists(realvalue, values)
       else:
         values.append(realvalue)
-    if k in config['ENV_WIN']:
-      for value in config['ENV_WIN'][k]:
-        realvalue = expand_variable(value, variables)
-        if is_path:
-          add_if_exists(realvalue, values)
-        else:
-          values.append(realvalue)
     env_setter.setenv(k, values)
 
   # Update java class path
