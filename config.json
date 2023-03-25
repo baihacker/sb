@@ -14,8 +14,8 @@
     # PYTHON27_X86_DIR:
     # PYTHON, version 2.7 (we always concern the python version), x86 build
     #
-    "CLANG_VERSION": "15.0.1",
-    "CLANG_X64_MINGW64_DIR": "$(ROOTDIR)\\app\\DevSoft\\LLVM_15.0.1",
+    "CLANG_VERSION": "16.0.0",
+    "CLANG_X64_MINGW64_DIR": "$(ROOTDIR)\\app\\DevSoft\\LLVM_16.0.0",
     #"CLANG_X64_MINGW64_DIR": "D:\\LLVM",
     "MINGW_VERSION": "12.1.0",
     "MINGW64_DIR": "$(ROOTDIR)\\app\\DevSoft\\MinGW-x86_64_12.1.0-msys2",
