@@ -21,6 +21,7 @@
     "MINGW64_DIR": "$(ROOTDIR)\\app\\DevSoft\\MinGW-x86_64_14.1.0-msys2",
     "PYTHON27_X86_DIR": "C:\\python\\Python27",
     "CMAKE_DIR": "$(ROOTDIR)\\app\\DevSoft\\cmake-3.18.0-rc3-win64-x64",
+    "BAZEL_DIR": "$(ROOTDIR)\\app\\DevSoft\\bazel-7.1.2-windows-x86_64",
   },
   "CREATE_DIR": [
     "$(HOMEDIR)\\usr",
@@ -85,6 +86,7 @@
       "$(CLANG_X64_MINGW64_DIR)\\bin",
       "$(CMAKE_DIR)\\bin",
       "$(ROOTDIR)\\app\\MathsSoft\\mma",
+      "$(BAZEL_DIR)",
       "C:\\Python27",
       "C:\\python\\Python27",
       "C:\\python\\pypy2",
