@@ -87,16 +87,16 @@
           "-g -fopenmp -lquadmath"
         ],
         "release_flags": [
-          "-O3 -march=native -mtune=native -fopenmp -lquadmath -Wl,--stack,268435456 -static"
+          "-O3 -march=native -mtune=native -fopenmp -static -Wl,--stack,268435456 -lquadmath "
         ],
       },
       "cpp": {
         "default_output_file": "a.exe",
         "debug_flags": [
-          "-g -fopenmp -lquadmath -lbf -lgmpxx -lflint -lmpfr -lntl -lgmp -lprimesieve -lprimecount"
+          "-g -fopenmp -lbf -lgmpxx -lflint -lmpfr -lntl -lgmp -lprimesieve -lprimecount -lzmq -lquadmath"
         ],
         "release_flags": [
-          "-O3 -march=native -mtune=native -fopenmp -lquadmath -Wl,--stack,268435456 -static -lbf -lgmpxx -lflint -lmpfr -lntl -lgmp -lprimesieve -lprimecount -lzmq"
+          "-O3 -march=native -mtune=native -fopenmp -static -Wl,--stack,268435456 -lbf -lgmpxx -lflint -lmpfr -lntl -lgmp -lprimesieve -lprimecount -lzmq -lquadmath"
         ],
       },
     },
