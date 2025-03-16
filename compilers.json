@@ -167,8 +167,8 @@
       "cpp": {
         "compile_binary": "$(CLANG_X64_MINGW64_DIR)\\bin\\clang++.exe",
         "compile_args": [
-          "$(SOURCE_FILES)",
           "-x c++",
+          "$(SOURCE_FILES)",
           "-o",
           "$(OUTPUT_FILE)",
           "--std=c++17",
@@ -212,8 +212,8 @@
       },
       "cpp": {
         "compile_args": [
-          "$(SOURCE_FILES)",
           "-x c++",
+          "$(SOURCE_FILES)",
           "-o",
           "$(OUTPUT_FILE)",
           "--std=c++20",
