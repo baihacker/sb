@@ -93,10 +93,10 @@
       "cpp": {
         "default_output_file": "a.exe",
         "debug_flags": [
-          "-g -fopenmp -lbf -lgmpxx -lflint -lmpfr -lntl -lgmp -lprimesieve -lprimecount -lzmq -lquadmath"
+          "-g -fopenmp -lbf -lflint -lmpfr -lntl -lgmp -lprimesieve -lprimecount -lzmq -lquadmath"
         ],
         "release_flags": [
-          "-O3 -march=native -mtune=native -fopenmp -static -Wl,--stack,268435456 -lbf -lgmpxx -lflint -lmpfr -lntl -lgmp -lprimesieve -lprimecount -lzmq -lquadmath"
+          "-O3 -march=native -mtune=native -fopenmp -static -Wl,--stack,268435456 -lbf -lflint -lmpfr -lntl -lgmp -lprimesieve -lprimecount -lzmq -lquadmath"
         ],
       },
     },
@@ -124,10 +124,10 @@
         "default_output_file": "a.out",
         "running_binary": "./a.out",
         "debug_flags": [
-          "-g -fopenmp -lgmpxx -lgmp"
+          "-g -fopenmp -lgmp"
         ],
         "release_flags": [
-          "-O3 -march=native -mtune=native -fopenmp -lgmpxx -lgmp"
+          "-O3 -march=native -mtune=native -fopenmp -lgmp"
         ],
       },
     },
@@ -222,10 +222,10 @@
         ],
         "default_output_file": "a.exe",
         "debug_flags": [
-          "-g -pthread -lbf -lgmpxx -lflint -lmpfr -lntl -lgmp -lprimesieve -lprimecount",
+          "-g -pthread -lbf -lflint -lmpfr -lntl -lgmp -lprimesieve -lprimecount",
         ],
         "release_flags": [
-          "-O3 -march=native -mtune=native -Wl,--stack,268435456 -pthread -lbf -lgmpxx -lflint -lmpfr -lntl -lgmp -lprimesieve -lprimecount -lzmq"
+          "-O3 -march=native -mtune=native -Wl,--stack,268435456 -pthread -lbf -lflint -lmpfr -lntl -lgmp -lprimesieve -lprimecount -lzmq"
         ],
       },
     },
