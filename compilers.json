@@ -20,8 +20,7 @@
 [
   {
     "name": "__compiler_base",
-    "variables": {
-    }
+    "variables": {}
   },
   {
     "name": "mingw64",
@@ -87,7 +86,7 @@
           "-g -fopenmp -lquadmath"
         ],
         "release_flags": [
-          "-O3 -march=native -mtune=native -fopenmp -static -Wl,--stack,268435456 -Wl,--strip-all -lquadmath"
+          "-O3 -march=native -mtune=native -fopenmp -static -Wl,--stack,268435456 -lquadmath"
         ],
       },
       "cpp": {
@@ -96,7 +95,7 @@
           "-g -fopenmp -lbf -lflint -lmpfr -lntl -lgmp -lprimesieve -lprimecount -lzmq -lquadmath"
         ],
         "release_flags": [
-          "-O3 -march=native -mtune=native -fopenmp -static -Wl,--stack,268435456 -Wl,--strip-all -lbf -lflint -lmpfr -lntl -lgmp -lprimesieve -lprimecount -lzmq -lquadmath"
+          "-O3 -march=native -mtune=native -fopenmp -static -Wl,--stack,268435456 -lbf -lflint -lmpfr -lntl -lgmp -lprimesieve -lprimecount -lzmq -lquadmath"
         ],
       },
     },
@@ -116,7 +115,7 @@
           "-g -fopenmp"
         ],
         "release_flags": [
-          "-O3 -march=native -mtune=native -fopenmp -Wl,--stack,268435456 -Wl,--strip-all"
+          "-O3 -march=native -mtune=native -fopenmp -Wl,--stack,268435456"
         ],
       },
       "cpp": {
@@ -207,7 +206,7 @@
           "-g",
         ],
         "release_flags": [
-          "-O3 -march=native -mtune=native -Wl,--stack,268435456 -Wl,--strip-all",
+          "-O3 -march=native -mtune=native -Wl,--stack,268435456",
         ],
       },
       "cpp": {
@@ -225,7 +224,7 @@
           "-g -pthread -lbf -lflint -lmpfr -lntl -lgmp -lprimesieve -lprimecount",
         ],
         "release_flags": [
-          "-O3 -march=native -mtune=native -Wl,--stack,268435456 -Wl,--strip-all -pthread -lbf -lflint -lmpfr -lntl -lgmp -lprimesieve -lprimecount -lzmq"
+          "-O3 -march=native -mtune=native -Wl,--stack,268435456 -pthread -lbf -lflint -lmpfr -lntl -lgmp -lprimesieve -lprimecount -lzmq"
         ],
       },
     },
@@ -617,7 +616,12 @@
     "variables": {
       "HOST": "x86",
       "TARGET": "x86",
-      "OTHER_TARGET": "x64", # {OTHER_TARGET} = {"x86", "x64"} - {TARGET}
+      "OTHER_TARGET": "x64", # {OTHER_TARGET
+      } = {
+        "x86",
+        "x64"
+      } - {TARGET
+      }
     },
   },
   {
@@ -630,7 +634,12 @@
     "variables": {
       "HOST": "x64",
       "TARGET": "x64",
-      "OTHER_TARGET": "x86", # {OTHER_TARGET} = {"x86", "x64"} - {TARGET}
+      "OTHER_TARGET": "x86", # {OTHER_TARGET
+      } = {
+        "x86",
+        "x64"
+      } - {TARGET
+      }
     },
   },
   {
@@ -649,8 +658,7 @@
           "$(SOURCE_FILES)",
           "-o",
           "$(OUTPUT_FILE)",
-          "/TC"
-          "$(EXTRA_COMPILE_ARGS)"
+          "/TC""$(EXTRA_COMPILE_ARGS)"
         ],
         "default_output_file": "$(SOURCE_FILE_BASENAME_NO_EXT).exe",
         "running_binary": "$(OUTPUT_FILE)",
