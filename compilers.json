@@ -87,7 +87,7 @@
           "-g -fopenmp -lquadmath"
         ],
         "release_flags": [
-          "-O3 -march=native -mtune=native -fopenmp -static -Wl,--stack,268435456 -lquadmath "
+          "-O3 -march=native -mtune=native -fopenmp -static -Wl,--stack,268435456 -Wl,--strip-all -lquadmath"
         ],
       },
       "cpp": {
@@ -96,7 +96,7 @@
           "-g -fopenmp -lbf -lflint -lmpfr -lntl -lgmp -lprimesieve -lprimecount -lzmq -lquadmath"
         ],
         "release_flags": [
-          "-O3 -march=native -mtune=native -fopenmp -static -Wl,--stack,268435456 -lbf -lflint -lmpfr -lntl -lgmp -lprimesieve -lprimecount -lzmq -lquadmath"
+          "-O3 -march=native -mtune=native -fopenmp -static -Wl,--stack,268435456 -Wl,--strip-all -lbf -lflint -lmpfr -lntl -lgmp -lprimesieve -lprimecount -lzmq -lquadmath"
         ],
       },
     },
@@ -116,7 +116,7 @@
           "-g -fopenmp"
         ],
         "release_flags": [
-          "-O3 -march=native -mtune=native -fopenmp -Wl,--stack,268435456"
+          "-O3 -march=native -mtune=native -fopenmp -Wl,--stack,268435456 -Wl,--strip-all"
         ],
       },
       "cpp": {
@@ -207,7 +207,7 @@
           "-g",
         ],
         "release_flags": [
-          "-O3 -march=native -mtune=native -Wl,--stack,268435456",
+          "-O3 -march=native -mtune=native -Wl,--stack,268435456 -Wl,--strip-all",
         ],
       },
       "cpp": {
@@ -225,7 +225,7 @@
           "-g -pthread -lbf -lflint -lmpfr -lntl -lgmp -lprimesieve -lprimecount",
         ],
         "release_flags": [
-          "-O3 -march=native -mtune=native -Wl,--stack,268435456 -pthread -lbf -lflint -lmpfr -lntl -lgmp -lprimesieve -lprimecount -lzmq"
+          "-O3 -march=native -mtune=native -Wl,--stack,268435456 -Wl,--strip-all -pthread -lbf -lflint -lmpfr -lntl -lgmp -lprimesieve -lprimecount -lzmq"
         ],
       },
     },
