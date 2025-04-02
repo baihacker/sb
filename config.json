@@ -49,6 +49,9 @@
     "C_INCLUDE_PATH",
     "LIBRARY_PATH"
   ],
+  "NO_PATH_CHECK": [
+    "LIBRARY_PATH"
+  ],
   "ENV": {
     "DEVPATH": [
       "$(USRDIR)\\bin",
@@ -69,6 +72,7 @@
       "$(USRDIR)\\include\\flint",
     ],
     "LIBRARY_PATH": [
+      "$(USRDIR)\\lib_$(LIBRARY_ARCH)",
       "$(USRDIR)\\lib",
     ],
     "CLANG_VERSION": [

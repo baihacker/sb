@@ -247,15 +247,16 @@ def setup_environment_variables():
 
   # Environment variables.
   path_vars = set(config['PATH_VARS'])
+  no_path_check_vars = set(config['NO_PATH_CHECK'])
   for k, v in config['ENV'].items():
     values = []
-    is_path = k in path_vars
+    check_path = (k in path_vars) and (k not in no_path_check_vars)
     raw_values = list(v)
     if k in config['ENV_WIN']:
       raw_values.extend(config['ENV_WIN'][k])
     for value in raw_values:
       realvalue = expand_variable(value, variables)
-      if is_path:
+      if check_path:
         add_if_exists(realvalue, values)
       else:
         values.append(realvalue)
