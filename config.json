@@ -3,12 +3,7 @@
     "USRDIR": "$(HOMEDIR)\\usr",
     "DEV_SOFT_PATH": "$(ROOTDIR)\\app\\DevSoft",
     # Dir name convention
-    # PROD[
-      [_
-      ]VERSION
-    ][_ARCH
-    ][_SPECIFICATIONS
-    ]_DIR
+    # PROD[[_]VERSION][_ARCH][_SPECIFICATIONS]_DIR
     #
     # CLANG_X64_MINGW64_DIR:
     # CLANG, we don't care the version, they are x64 build, built by MINGW64
