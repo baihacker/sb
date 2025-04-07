@@ -49,7 +49,7 @@
           "-g -fopenmp"
         ],
         "release_flags": [
-          "-O3 -mtune=native -fopenmp -pthread"
+          "-O2 -mtune=native -fopenmp -pthread"
         ],
       },
       "cpp": {
@@ -69,7 +69,7 @@
           "-g -fopenmp"
         ],
         "release_flags": [
-          "-O3 -mtune=native -fopenmp -pthread"
+          "-O2 -mtune=native -fopenmp -pthread"
         ],
       },
     },
@@ -87,7 +87,7 @@
           "-g -fopenmp -lquadmath"
         ],
         "release_flags": [
-          "-O3 -march=native -mtune=native -fopenmp -static -Wl,--stack,268435456 -lquadmath"
+          "-O2 -march=native -mtune=native -fopenmp -static -Wl,--stack,268435456 -lquadmath"
         ],
       },
       "cpp": {
@@ -96,7 +96,7 @@
           "-g -fopenmp -lbf -lflint -lmpfr -lntl -lgmp -lprimesieve -lprimecount -lzmq -lquadmath"
         ],
         "release_flags": [
-          "-O3 -march=native -mtune=native -fopenmp -static -Wl,--stack,268435456 -lbf -lflint -lmpfr -lntl -lgmp -lprimesieve -lprimecount -lzmq -lquadmath"
+          "-O2 -march=native -mtune=native -fopenmp -static -Wl,--stack,268435456 -lbf -lflint -lmpfr -lntl -lgmp -lprimesieve -lprimecount -lzmq -lquadmath"
         ],
       },
     },
@@ -116,7 +116,7 @@
           "-g -fopenmp"
         ],
         "release_flags": [
-          "-O3 -march=native -mtune=native -fopenmp -Wl,--stack,268435456"
+          "-O2 -march=native -mtune=native -fopenmp -Wl,--stack,268435456"
         ],
       },
       "cpp": {
@@ -127,7 +127,7 @@
           "-g -fopenmp -lgmp"
         ],
         "release_flags": [
-          "-O3 -march=native -mtune=native -fopenmp -lgmp"
+          "-O2 -march=native -mtune=native -fopenmp -lgmp"
         ],
       },
     },
@@ -161,7 +161,7 @@
           "-g",
         ],
         "release_flags": [
-          "-O3 -mtune=native -pthread",
+          "-O2 -mtune=native -pthread",
         ],
       },
       "cpp": {
@@ -182,7 +182,7 @@
           "-g",
         ],
         "release_flags": [
-          "-O3 -mtune=native -pthread"
+          "-O2 -mtune=native -pthread"
         ],
       },
     },
@@ -207,7 +207,7 @@
           "-g",
         ],
         "release_flags": [
-          "-O3 -march=native -mtune=native -Wl,--stack,268435456",
+          "-O2 -march=native -mtune=native -Wl,--stack,268435456",
         ],
       },
       "cpp": {
@@ -225,7 +225,7 @@
           "-g -pthread -lbf -lflint -lmpfr -lntl -lgmp -lprimesieve -lprimecount",
         ],
         "release_flags": [
-          "-O3 -march=native -mtune=native -Wl,--stack,268435456 -pthread -lbf -lflint -lmpfr -lntl -lgmp -lprimesieve -lprimecount -lzmq"
+          "-O2 -march=native -mtune=native -Wl,--stack,268435456 -pthread -lbf -lflint -lmpfr -lntl -lgmp -lprimesieve -lprimecount -lzmq"
         ],
       },
     },
@@ -257,7 +257,7 @@
           "-g -fopenmp"
         ],
         "release_flags": [
-          "-O3 -march=native -fopenmp"
+          "-O2 -march=native -fopenmp"
         ],
       },
       "cpp": {
@@ -276,7 +276,7 @@
           "-g -fopenmp"
         ],
         "release_flags": [
-          "-O3 -march=native -fopenmp"
+          "-O2 -march=native -fopenmp"
         ],
       },
     },
